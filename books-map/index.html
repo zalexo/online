@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Books Map</title>
+  <meta
+    name="description"
+    content="Интерактивная карта книг в формате skill tree."
+  >
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="stylesheet" href="./style.css">
+  <script
+    defer
+    src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"
+  ></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Books Map</p>
+        <h1>Карта маршрутов чтения</h1>
+      </div>
+      <div class="status-chip" id="status-chip">Bootstrap UI готов</div>
+    </header>
+
+    <main class="workspace">
+      <section class="map-panel" aria-labelledby="map-title">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker">US-01</p>
+            <h2 id="map-title">Interactive graph canvas</h2>
+          </div>
+          <p class="panel-note">Цветовые ветки, drag, zoom и направленные связи уже готовы для graph.json.</p>
+        </div>
+
+        <div class="map-meta">
+          <div class="legend" id="branch-legend" aria-label="Легенда веток" hidden></div>
+          <p class="interaction-hint">Drag nodes, scroll to zoom, drag canvas to pan.</p>
+        </div>
+
+        <div class="network-frame">
+          <div id="network-graph" aria-label="Интерактивная карта книг"></div>
+          <div class="empty-overlay" id="empty-overlay">
+            <strong>Основа интерфейса готова</strong>
+            <span>`vis-network` подключен через CDN, контейнер карты инициализирован.</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
