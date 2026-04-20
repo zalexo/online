@@ -50,6 +50,65 @@
         </div>
       </section>
     </main>
+
+    <div
+      class="drawer-backdrop"
+      id="drawer-backdrop"
+      aria-hidden="true"
+      hidden
+    ></div>
+
+    <aside
+      class="book-drawer"
+      id="book-drawer"
+      aria-labelledby="book-drawer-title"
+      aria-hidden="true"
+      hidden
+    >
+      <div class="book-drawer__header">
+        <h2 id="book-drawer-title">Карточка книги</h2>
+        <button
+          class="book-drawer__close"
+          id="book-drawer-close"
+          type="button"
+          aria-label="Закрыть карточку книги"
+        >
+          ×
+        </button>
+      </div>
+
+      <div class="book-drawer__content">
+        <p class="book-drawer__author" id="book-drawer-author">Автор появится после выбора книги</p>
+        <span class="book-drawer__branch" id="book-drawer-branch" hidden>Ветка</span>
+        <div class="book-drawer__bridge" id="book-drawer-bridge" hidden></div>
+        <div class="book-drawer__status">
+          <span class="book-drawer__status-label">Мой статус</span>
+          <div class="book-drawer__status-buttons" role="group" aria-label="Статус книги">
+            <button
+              class="book-drawer__status-button"
+              id="book-status-reading"
+              type="button"
+              data-status="reading"
+              aria-pressed="false"
+            >
+              Читаю
+            </button>
+            <button
+              class="book-drawer__status-button"
+              id="book-status-read"
+              type="button"
+              data-status="read"
+              aria-pressed="false"
+            >
+              Прочитал
+            </button>
+          </div>
+        </div>
+        <article class="book-drawer__article" id="book-drawer-content">
+          Выберите узел на карте, чтобы открыть карточку.
+        </article>
+      </div>
+    </aside>
   </div>
 </body>
 </html>

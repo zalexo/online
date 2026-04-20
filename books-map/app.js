@@ -38,6 +38,39 @@ function setStatus(message) {
   }
 }
 
+function normalizeBridgeText(value) {
+  if (typeof value !== "string") {
+    return "";
+  }
+
+  // YAML folded scalars may leak ">-" into runtime text.
+  const cleaned = value.replace(/\s*>\-\s*/g, " ").replace(/\s+/g, " ").trim();
+  return cleaned;
+}
+
+function getRelevantIncomingEdge(edgesList, targetNodeId, progress) {
+  const incomingEdges = Array.isArray(edgesList)
+    ? edgesList.filter((edge) => edge && edge.target === targetNodeId)
+    : [];
+
+  if (!incomingEdges.length) {
+    return null;
+  }
+
+  const readIds = Array.isArray(progress?.read) ? progress.read : [];
+  const readOrder = new Map(readIds.map((id, index) => [id, index]));
+  const readLinkedEdges = incomingEdges
+    .filter((edge) => readOrder.has(edge.source))
+    .sort((left, right) => readOrder.get(right.source) - readOrder.get(left.source));
+
+  if (readLinkedEdges.length) {
+    return readLinkedEdges[0];
+  }
+
+  const withBridgeText = incomingEdges.find((edge) => normalizeBridgeText(edge.bridge_text));
+  return withBridgeText || incomingEdges[0];
+}
+
 function getDefaultProgress() {
   return {
     read: [],
@@ -47,6 +80,14 @@ function getDefaultProgress() {
   };
 }
 
+function sanitizeStringList(value) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return [...new Set(value.filter((item) => typeof item === "string"))];
+}
+
 function normalizeProgress(raw) {
   const fallback = getDefaultProgress();
 
@@ -54,17 +95,28 @@ function normalizeProgress(raw) {
     return fallback;
   }
 
-  const read = Array.isArray(raw.read) ? raw.read.filter((item) => typeof item === "string") : [];
-  const reading = Array.isArray(raw.reading)
-    ? raw.reading.filter((item) => typeof item === "string")
-    : [];
+  if (raw.version !== PROGRESS_VERSION) {
+    return fallback;
+  }
+
+  const read = sanitizeStringList(raw.read);
+  const reading = sanitizeStringList(raw.reading).filter((id) => !read.includes(id));
+  const updatedAt = typeof raw.updatedAt === "string" ? raw.updatedAt : null;
 
   return {
-    read: [...new Set(read)],
-    reading: [...new Set(reading)],
-    updatedAt: typeof raw.updatedAt === "string" ? raw.updatedAt : null,
+    read,
+    reading,
+    updatedAt,
     version: PROGRESS_VERSION
   };
+}
+
+function saveProgress(progress) {
+  try {
+    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(progress));
+  } catch (error) {
+    console.warn("Unable to persist books progress:", error);
+  }
 }
 
 function loadProgress() {
@@ -76,13 +128,72 @@ function loadProgress() {
 
     const parsed = JSON.parse(raw);
     const normalized = normalizeProgress(parsed);
-    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(normalized));
+    saveProgress(normalized);
     return normalized;
   } catch (error) {
     const fallback = getDefaultProgress();
-    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(fallback));
+    saveProgress(fallback);
     return fallback;
   }
+}
+
+function getBookProgressStatus(bookId, progress) {
+  if (!bookId || !progress) {
+    return null;
+  }
+
+  if (Array.isArray(progress.read) && progress.read.includes(bookId)) {
+    return "read";
+  }
+
+  if (Array.isArray(progress.reading) && progress.reading.includes(bookId)) {
+    return "reading";
+  }
+
+  return null;
+}
+
+function toggleBookProgressStatus(progress, bookId, targetStatus) {
+  if (!bookId || (targetStatus !== "read" && targetStatus !== "reading")) {
+    return progress;
+  }
+
+  const readSet = new Set(progress.read);
+  const readingSet = new Set(progress.reading);
+  const currentStatus = getBookProgressStatus(bookId, progress);
+
+  if (targetStatus === "read") {
+    if (currentStatus === "read") {
+      readSet.delete(bookId);
+    } else {
+      readSet.add(bookId);
+      readingSet.delete(bookId);
+    }
+  } else if (currentStatus === "reading") {
+    readingSet.delete(bookId);
+  } else {
+    readingSet.add(bookId);
+    readSet.delete(bookId);
+  }
+
+  const nextRead = [...readSet];
+  const nextReading = [...readingSet].filter((id) => !readSet.has(id));
+  const didChange =
+    nextRead.length !== progress.read.length ||
+    nextReading.length !== progress.reading.length ||
+    nextRead.some((id) => !progress.read.includes(id)) ||
+    nextReading.some((id) => !progress.reading.includes(id));
+
+  if (!didChange) {
+    return progress;
+  }
+
+  return {
+    read: nextRead,
+    reading: nextReading,
+    updatedAt: new Date().toISOString(),
+    version: PROGRESS_VERSION
+  };
 }
 
 function setOverlay(title, message) {
@@ -102,6 +213,131 @@ function hideOverlay() {
   if (overlay) {
     overlay.hidden = true;
   }
+}
+
+function createDrawerController({ getBookStatus, onBookStatusToggle } = {}) {
+  const drawer = document.getElementById("book-drawer");
+  const backdrop = document.getElementById("drawer-backdrop");
+  const closeButton = document.getElementById("book-drawer-close");
+  const drawerTitle = document.getElementById("book-drawer-title");
+  const drawerAuthor = document.getElementById("book-drawer-author");
+  const drawerBranch = document.getElementById("book-drawer-branch");
+  const drawerContent = document.getElementById("book-drawer-content");
+  const drawerBridge = document.getElementById("book-drawer-bridge");
+  const statusReadingButton = document.getElementById("book-status-reading");
+  const statusReadButton = document.getElementById("book-status-read");
+  const statusButtons = [statusReadingButton, statusReadButton].filter(Boolean);
+  let selectedBookId = null;
+
+  if (!drawer || !backdrop || !closeButton || !drawerTitle || !drawerAuthor || !drawerBranch || !drawerContent) {
+    return {
+      open() {},
+      close() {}
+    };
+  }
+
+  const setStatusButtonsState = (activeStatus) => {
+    statusButtons.forEach((button) => {
+      const isActive = button.dataset.status === activeStatus;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+  };
+
+  const open = (payload = {}) => {
+    const title = typeof payload.title === "string" ? payload.title : "Карточка книги";
+    const author = typeof payload.author === "string" ? payload.author : "Автор будет добавлен на следующем шаге";
+    const branch = typeof payload.branch === "string" ? payload.branch.trim() : "";
+    const contentHtml =
+      typeof payload.contentHtml === "string"
+        ? payload.contentHtml
+        : "<p>Выберите узел на карте, чтобы открыть карточку книги.</p>";
+    selectedBookId = typeof payload.nodeId === "string" ? payload.nodeId : null;
+    const activeStatus =
+      selectedBookId && typeof getBookStatus === "function"
+        ? getBookStatus(selectedBookId)
+        : null;
+
+    drawerTitle.textContent = title;
+    drawerAuthor.textContent = author;
+    drawerContent.innerHTML = contentHtml;
+    setStatusButtonsState(activeStatus);
+
+    if (drawerBridge) {
+      const bridgeText = normalizeBridgeText(payload.bridgeText);
+      if (bridgeText) {
+        drawerBridge.textContent = `Переход от предыдущей книги: ${bridgeText}`;
+        drawerBridge.hidden = false;
+      } else {
+        drawerBridge.textContent = "";
+        drawerBridge.hidden = true;
+      }
+    }
+
+    if (branch) {
+      drawerBranch.hidden = false;
+      drawerBranch.textContent = branch;
+      const colors = getBranchColors(branch);
+      drawerBranch.style.borderColor = `${colors.border}80`;
+      drawerBranch.style.background = `${colors.fill}24`;
+      drawerBranch.style.color = "#eaf2ff";
+    } else {
+      drawerBranch.hidden = true;
+      drawerBranch.textContent = "";
+      drawerBranch.removeAttribute("style");
+    }
+
+    backdrop.hidden = false;
+    drawer.hidden = false;
+    requestAnimationFrame(() => {
+      backdrop.classList.add("is-open");
+      drawer.classList.add("is-open");
+    });
+
+    drawer.setAttribute("aria-hidden", "false");
+    backdrop.setAttribute("aria-hidden", "false");
+    document.body.classList.add("drawer-open");
+  };
+
+  const close = () => {
+    selectedBookId = null;
+    backdrop.classList.remove("is-open");
+    drawer.classList.remove("is-open");
+    drawer.setAttribute("aria-hidden", "true");
+    backdrop.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("drawer-open");
+
+    window.setTimeout(() => {
+      if (!drawer.classList.contains("is-open")) {
+        drawer.hidden = true;
+      }
+      if (!backdrop.classList.contains("is-open")) {
+        backdrop.hidden = true;
+      }
+    }, 260);
+  };
+
+  statusButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!selectedBookId || typeof onBookStatusToggle !== "function") {
+        return;
+      }
+
+      const status = button.dataset.status;
+      const nextStatus = onBookStatusToggle(selectedBookId, status);
+      setStatusButtonsState(nextStatus);
+    });
+  });
+
+  closeButton.addEventListener("click", close);
+  backdrop.addEventListener("click", close);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && drawer.classList.contains("is-open")) {
+      close();
+    }
+  });
+
+  return { open, close };
 }
 
 function renderLegend(branches) {
@@ -227,12 +463,16 @@ function computeDeclarativePositions(rawNodes) {
   return positions;
 }
 
-function getNodeState(node, readSet) {
+function getNodeState(node, readSet, readingSet) {
   const requires = Array.isArray(node.requires) ? node.requires : [];
   const unlockMode = node.unlock_mode === "any" ? "any" : "all";
 
   if (readSet.has(node.id)) {
     return "read";
+  }
+
+  if (readingSet.has(node.id)) {
+    return "reading";
   }
 
   if (requires.length === 0) {
@@ -271,6 +511,14 @@ function decorateNodeByState(node, state, colors) {
         border: "#ffffff"
       }
     },
+    reading: {
+      size: 20,
+      borderWidth: 3,
+      color: {
+        background: `${colors.fill}bb`,
+        border: "#f2f8ff"
+      }
+    },
     locked: {
       size: 17,
       borderWidth: 2,
@@ -294,13 +542,14 @@ function decorateNodeByState(node, state, colors) {
 function prepareNodes(rawNodes, progress) {
   const positions = computeDeclarativePositions(rawNodes);
   const readSet = new Set(progress.read);
+  const readingSet = new Set(progress.reading);
 
   return rawNodes.map((node) => {
     const colors = getBranchColors(node.branch);
-    const state = getNodeState(node, readSet);
+    const state = getNodeState(node, readSet, readingSet);
     const visNode = {
       id: node.id,
-      label: state === "read" ? `${node.title}\n✓` : node.title,
+      label: state === "read" ? `${node.title}\n✓` : state === "reading" ? `${node.title}\n…` : node.title,
       title: `${node.title}\n${node.author}`,
       branch: node.branch,
       shape: "dot",
@@ -470,8 +719,36 @@ function createOptions() {
   };
 }
 
+function buildStatusChipMessage(totalNodes, progress) {
+  const readCount = Array.isArray(progress?.read) ? progress.read.length : 0;
+  const readingCount = Array.isArray(progress?.reading) ? progress.reading.length : 0;
+  return `Книг: ${totalNodes}, прочитал: ${readCount}, читаю: ${readingCount}`;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const graphElement = document.getElementById("network-graph");
+  let currentGraph = null;
+  let currentProgress = getDefaultProgress();
+  const drawerController = createDrawerController({
+    getBookStatus: (bookId) => getBookProgressStatus(bookId, currentProgress),
+    onBookStatusToggle: (bookId, status) => {
+      if (!currentGraph) {
+        return getBookProgressStatus(bookId, currentProgress);
+      }
+
+      const nextProgress = toggleBookProgressStatus(currentProgress, bookId, status);
+      if (nextProgress === currentProgress) {
+        return getBookProgressStatus(bookId, currentProgress);
+      }
+
+      currentProgress = nextProgress;
+      saveProgress(currentProgress);
+      const nextNodes = prepareNodes(currentGraph.raw.nodes, currentProgress);
+      nodes.update(nextNodes);
+      setStatus(buildStatusChipMessage(currentGraph.raw.nodes.length, currentProgress));
+      return getBookProgressStatus(bookId, currentProgress);
+    }
+  });
 
   if (!graphElement) {
     return;
@@ -496,6 +773,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadGraph()
     .then((graph) => {
+      currentGraph = graph;
+      currentProgress = graph.progress;
       const branches = [
         ...new Set(graph.raw.nodes.map((node) => node.branch).filter(Boolean))
       ].sort((a, b) => a.localeCompare(b, "ru"));
@@ -507,16 +786,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
       renderLegend(branches);
       hideOverlay();
-      const readCount = graph.progress.read.length;
-      setStatus(
-        `Загружено: ${graph.nodes.length} книг, ${graph.edges.length} связей, read ${readCount}`
-      );
+      setStatus(buildStatusChipMessage(graph.nodes.length, currentProgress));
 
       network.fit({
         animation: {
           duration: 450,
           easingFunction: "easeInOutQuad"
         }
+      });
+
+      network.on("click", (params) => {
+        if (!params.nodes.length) {
+          return;
+        }
+
+        const nodeId = params.nodes[0];
+        const selectedNode = nodes.get(nodeId);
+        if (!selectedNode || !selectedNode.raw) {
+          return;
+        }
+
+        const incomingEdge = getRelevantIncomingEdge(graph.raw.edges, nodeId, currentProgress);
+        const bridgeText = incomingEdge?.bridge_text || "";
+
+        drawerController.open({
+          nodeId: selectedNode.raw.id,
+          title: selectedNode.raw.title,
+          author: selectedNode.raw.author,
+          branch: selectedNode.raw.branch,
+          contentHtml: selectedNode.raw.content_html,
+          bridgeText: bridgeText
+        });
       });
     })
     .catch((error) => {

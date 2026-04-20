@@ -31,6 +31,10 @@ body {
     linear-gradient(180deg, #091321 0%, #050b15 100%);
 }
 
+body.drawer-open {
+  overflow: hidden;
+}
+
 body::before {
   content: "";
   position: fixed;
@@ -200,6 +204,182 @@ h2 {
   color: var(--text);
 }
 
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 8, 16, 0.58);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 220ms ease;
+  z-index: 20;
+}
+
+.book-drawer {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  bottom: 16px;
+  width: min(35vw, 520px);
+  min-width: 360px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(146, 187, 255, 0.24);
+  border-radius: 24px;
+  background: rgba(6, 16, 30, 0.92);
+  box-shadow: 0 28px 84px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(18px);
+  opacity: 0;
+  transform: translateX(24px);
+  transition:
+    transform 250ms ease,
+    opacity 250ms ease;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.drawer-backdrop.is-open {
+  opacity: 1;
+}
+
+.book-drawer.is-open {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.book-drawer__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 22px 0;
+}
+
+.book-drawer__close {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(146, 187, 255, 0.34);
+  border-radius: 999px;
+  background: rgba(11, 25, 43, 0.78);
+  color: var(--text);
+  font-size: 1.45rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.book-drawer__close:hover {
+  border-color: rgba(125, 224, 182, 0.64);
+  background: rgba(17, 38, 63, 0.95);
+}
+
+.book-drawer__content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  padding: 16px 22px 24px;
+}
+
+.book-drawer__author {
+  margin: 0;
+  color: var(--muted);
+}
+
+.book-drawer__branch {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(146, 187, 255, 0.28);
+  background: rgba(63, 140, 255, 0.14);
+  color: #dbe9ff;
+  font-size: 0.86rem;
+  line-height: 1;
+}
+
+.book-drawer__bridge {
+  padding: 12px 14px;
+  border-left: 3px solid var(--accent-2);
+  border-radius: 0 12px 12px 0;
+  background: rgba(125, 224, 182, 0.1);
+  color: #d7f8e7;
+  font-size: 0.94rem;
+  line-height: 1.4;
+}
+
+.book-drawer__status {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.book-drawer__status-label {
+  color: var(--muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.book-drawer__status-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.book-drawer__status-button {
+  padding: 8px 12px;
+  border: 1px solid rgba(146, 187, 255, 0.3);
+  border-radius: 999px;
+  background: rgba(11, 25, 43, 0.72);
+  color: var(--text);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 120ms ease;
+}
+
+.book-drawer__status-button:hover {
+  border-color: rgba(125, 224, 182, 0.62);
+  background: rgba(20, 42, 68, 0.9);
+}
+
+.book-drawer__status-button:active {
+  transform: translateY(1px);
+}
+
+.book-drawer__status-button.is-active {
+  border-color: rgba(125, 224, 182, 0.8);
+  background: rgba(125, 224, 182, 0.2);
+  color: #e5fff4;
+}
+
+.book-drawer__article {
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.book-drawer__article h3,
+.book-drawer__article h4 {
+  margin-top: 1.1em;
+  margin-bottom: 0.5em;
+}
+
+.book-drawer__article p {
+  margin-top: 0;
+  margin-bottom: 0.9em;
+}
+
+.book-drawer__article ul {
+  margin-top: 0;
+}
+
 @media (max-width: 820px) {
   .app-shell {
     padding: 16px;
@@ -234,5 +414,21 @@ h2 {
     right: 16px;
     bottom: 16px;
     max-width: none;
+  }
+
+  .book-drawer {
+    top: auto;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    min-width: 0;
+    max-height: min(92vh, 720px);
+    border-radius: 18px 18px 0 0;
+    transform: translateY(24px);
+  }
+
+  .book-drawer.is-open {
+    transform: translateY(0);
   }
 }
