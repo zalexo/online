@@ -3,15 +3,14 @@ const edges = new vis.DataSet([]);
 const PROGRESS_STORAGE_KEY = "books-map:progress";
 const PROGRESS_VERSION = 1;
 const BRANCH_PALETTE = [
-  { fill: "#3f8cff", border: "#8ec5ff" },
-  { fill: "#06b6d4", border: "#67e8f9" },
-  { fill: "#10b981", border: "#6ee7b7" },
-  { fill: "#84cc16", border: "#bef264" },
-  { fill: "#f59e0b", border: "#fcd34d" },
-  { fill: "#f97316", border: "#fdba74" },
-  { fill: "#ef4444", border: "#fca5a5" },
-  { fill: "#ec4899", border: "#f9a8d4" },
-  { fill: "#8b5cf6", border: "#c4b5fd" }
+  { fill: "#2f9e83", border: "#7af0cc" },
+  { fill: "#d4952f", border: "#ffd985" },
+  { fill: "#d95d4f", border: "#ffad9f" },
+  { fill: "#4b9fbd", border: "#9ee8ff" },
+  { fill: "#6ca342", border: "#bdec80" },
+  { fill: "#c05f92", border: "#ffb0d6" },
+  { fill: "#a9864b", border: "#edcf8f" },
+  { fill: "#5d82c4", border: "#b4ccff" }
 ];
 
 function hashString(value) {
@@ -213,6 +212,18 @@ function hideOverlay() {
   if (overlay) {
     overlay.hidden = true;
   }
+}
+
+function buildNodeStateMap(rawNodes, progress) {
+  const readSet = new Set(progress.read);
+  const readingSet = new Set(progress.reading);
+  const stateMap = new Map();
+
+  rawNodes.forEach((node) => {
+    stateMap.set(node.id, getNodeState(node, readSet, readingSet));
+  });
+
+  return stateMap;
 }
 
 function createDrawerController({ getBookStatus, onBookStatusToggle } = {}) {
@@ -488,15 +499,15 @@ function getNodeState(node, readSet, readingSet) {
 function decorateNodeByState(node, state, colors) {
   const stateStyles = {
     start: {
-      size: 22,
-      borderWidth: 4,
+      size: 25,
+      borderWidth: 5,
       color: {
         background: colors.fill,
-        border: "#ffffff"
+        border: "#fff7df"
       }
     },
     unlocked: {
-      size: 19,
+      size: 22,
       borderWidth: 3,
       color: {
         background: colors.fill,
@@ -504,30 +515,30 @@ function decorateNodeByState(node, state, colors) {
       }
     },
     read: {
-      size: 21,
+      size: 24,
       borderWidth: 4,
       color: {
         background: colors.border,
-        border: "#ffffff"
+        border: "#fff7df"
       }
     },
     reading: {
-      size: 20,
+      size: 23,
       borderWidth: 3,
       color: {
         background: `${colors.fill}bb`,
-        border: "#f2f8ff"
+        border: "#fff0bd"
       }
     },
     locked: {
-      size: 17,
+      size: 18,
       borderWidth: 2,
       color: {
-        background: "rgba(53, 66, 85, 0.45)",
-        border: "rgba(155, 171, 193, 0.5)"
+        background: "rgba(57, 66, 62, 0.48)",
+        border: "rgba(176, 188, 178, 0.42)"
       },
       font: {
-        color: "#8ca0bb"
+        color: "#89968b"
       }
     }
   };
@@ -541,15 +552,14 @@ function decorateNodeByState(node, state, colors) {
 
 function prepareNodes(rawNodes, progress) {
   const positions = computeDeclarativePositions(rawNodes);
-  const readSet = new Set(progress.read);
-  const readingSet = new Set(progress.reading);
+  const stateMap = buildNodeStateMap(rawNodes, progress);
 
   return rawNodes.map((node) => {
     const colors = getBranchColors(node.branch);
-    const state = getNodeState(node, readSet, readingSet);
+    const state = stateMap.get(node.id);
     const visNode = {
       id: node.id,
-      label: state === "read" ? `${node.title}\n✓` : state === "reading" ? `${node.title}\n…` : node.title,
+      label: state === "read" ? `${node.title}\nread` : state === "reading" ? `${node.title}\nreading` : node.title,
       title: `${node.title}\n${node.author}`,
       branch: node.branch,
       shape: "dot",
@@ -567,10 +577,11 @@ function prepareNodes(rawNodes, progress) {
         }
       },
       font: {
-        color: "#f4f8ff",
-        face: "Segoe UI",
+        color: "#f1f5ed",
+        face: "IBM Plex Sans",
         size: 16,
-        strokeWidth: 0
+        strokeWidth: 5,
+        strokeColor: "rgba(8, 12, 12, 0.9)"
       },
       unlockMode: node.unlock_mode === "any" ? "any" : "all",
       raw: node
@@ -588,24 +599,41 @@ function prepareNodes(rawNodes, progress) {
   });
 }
 
-function prepareEdges(rawEdges) {
-  return rawEdges.map((edge) => ({
-    id: edge.id,
-    from: edge.source,
-    to: edge.target,
-    color: {
-      color: getBranchColors(edge.color_theme || "").edge,
-      highlight: "#ffffff",
-      hover: "#ffffff"
-    },
-    arrows: {
-      to: {
-        enabled: true,
-        scaleFactor: 0.9
-      }
-    },
-    raw: edge
-  }));
+function prepareEdges(rawEdges, stateMap = new Map()) {
+  return rawEdges.map((edge) => {
+    const sourceState = stateMap.get(edge.source);
+    const targetState = stateMap.get(edge.target);
+    const isActivated = sourceState === "read" || targetState === "read" || targetState === "reading";
+    const isLocked = targetState === "locked";
+    const colors = getBranchColors(edge.color_theme || "");
+
+    return {
+      id: edge.id,
+      from: edge.source,
+      to: edge.target,
+      width: isActivated ? 4 : 2,
+      dashes: isLocked ? [8, 10] : false,
+      color: {
+        color: isLocked ? "rgba(150, 160, 150, 0.22)" : colors.edge,
+        highlight: "#fff7df",
+        hover: colors.border
+      },
+      arrows: {
+        to: {
+          enabled: true,
+          scaleFactor: isActivated ? 1 : 0.78
+        }
+      },
+      shadow: {
+        enabled: isActivated,
+        color: `${colors.border}66`,
+        size: 16,
+        x: 0,
+        y: 0
+      },
+      raw: edge
+    };
+  });
 }
 
 async function loadGraph() {
@@ -622,12 +650,13 @@ async function loadGraph() {
   const graph = await response.json();
   validateGraph(graph);
   const progress = loadProgress();
+  const stateMap = buildNodeStateMap(graph.nodes, progress);
 
   return {
     raw: graph,
     progress,
     nodes: prepareNodes(graph.nodes, progress),
-    edges: prepareEdges(graph.edges)
+    edges: prepareEdges(graph.edges, stateMap)
   };
 }
 
@@ -649,17 +678,19 @@ function createOptions() {
         maximum: 240
       },
       font: {
-        color: "#eaf2ff",
-        face: "Segoe UI",
+        color: "#f1f5ed",
+        face: "IBM Plex Sans",
         size: 16,
-        multi: "html"
+        multi: "html",
+        strokeWidth: 5,
+        strokeColor: "rgba(8, 12, 12, 0.9)"
       },
       shadow: {
         enabled: true,
-        color: "rgba(0, 0, 0, 0.28)",
-        size: 16,
+        color: "rgba(61, 214, 179, 0.2)",
+        size: 22,
         x: 0,
-        y: 10
+        y: 0
       }
     },
     edges: {
@@ -670,21 +701,22 @@ function createOptions() {
         }
       },
       color: {
-        color: "rgba(125, 160, 210, 0.45)",
-        highlight: "#7de0b6",
-        hover: "#54c6eb"
+        color: "rgba(178, 196, 181, 0.34)",
+        highlight: "#fff7df",
+        hover: "#3dd6b3"
       },
       smooth: {
         enabled: true,
-        type: "dynamic",
-        roundness: 0.28
+        type: "cubicBezier",
+        forceDirection: "horizontal",
+        roundness: 0.34
       },
       width: 2.5,
       selectionWidth: 4,
       shadow: {
         enabled: true,
-        color: "rgba(84, 198, 235, 0.14)",
-        size: 10,
+        color: "rgba(61, 214, 179, 0.16)",
+        size: 14,
         x: 0,
         y: 0
       }
@@ -744,7 +776,10 @@ document.addEventListener("DOMContentLoaded", () => {
       currentProgress = nextProgress;
       saveProgress(currentProgress);
       const nextNodes = prepareNodes(currentGraph.raw.nodes, currentProgress);
+      const nextStateMap = buildNodeStateMap(currentGraph.raw.nodes, currentProgress);
+      const nextEdges = prepareEdges(currentGraph.raw.edges, nextStateMap);
       nodes.update(nextNodes);
+      edges.update(nextEdges);
       setStatus(buildStatusChipMessage(currentGraph.raw.nodes.length, currentProgress));
       return getBookProgressStatus(bookId, currentProgress);
     }

@@ -8,6 +8,12 @@
     name="description"
     content="Интерактивная карта книг в формате skill tree."
   >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
   <link rel="preconnect" href="https://unpkg.com">
   <link rel="stylesheet" href="./style.css">
   <script
@@ -21,31 +27,35 @@
     <header class="topbar">
       <div>
         <p class="eyebrow">Books Map</p>
-        <h1>Карта маршрутов чтения</h1>
+        <h1>Карта путей чтения</h1>
       </div>
-      <div class="status-chip" id="status-chip">Bootstrap UI готов</div>
+      <div class="topbar__right">
+        <div class="reference-chip">Path of Exile inspired</div>
+        <div class="status-chip" id="status-chip">Карта готовится</div>
+      </div>
     </header>
 
     <main class="workspace">
       <section class="map-panel" aria-labelledby="map-title">
         <div class="panel-header">
           <div>
-            <p class="panel-kicker">US-01</p>
-            <h2 id="map-title">Interactive graph canvas</h2>
+            <p class="panel-kicker">Skill tree reading path</p>
+            <h2 id="map-title">Выбери следующую книгу по маршруту</h2>
           </div>
-          <p class="panel-note">Цветовые ветки, drag, zoom и направленные связи уже готовы для graph.json.</p>
+          <p class="panel-note">Книги проявляются как узлы маршрута: старт, текущий путь, прочитанные точки и закрытые направления.</p>
         </div>
 
         <div class="map-meta">
           <div class="legend" id="branch-legend" aria-label="Легенда веток" hidden></div>
-          <p class="interaction-hint">Drag nodes, scroll to zoom, drag canvas to pan.</p>
+          <p class="interaction-hint">Перетаскивай карту, приближай колесом, кликай по книге.</p>
         </div>
 
         <div class="network-frame">
+          <div class="network-frame__aura" aria-hidden="true"></div>
           <div id="network-graph" aria-label="Интерактивная карта книг"></div>
           <div class="empty-overlay" id="empty-overlay">
-            <strong>Основа интерфейса готова</strong>
-            <span>`vis-network` подключен через CDN, контейнер карты инициализирован.</span>
+            <strong>Карта загружается</strong>
+            <span>Сейчас проявим маршруты и связи между книгами.</span>
           </div>
         </div>
       </section>
