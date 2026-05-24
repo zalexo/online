@@ -130,55 +130,40 @@
       align-items: flex-end;
       justify-content: center;
       text-align: center;
-      background: url('images/hero-bg.jpg') center 32% / cover no-repeat;
+      background: var(--primary-dark);
       overflow: hidden;
-      padding: 140px 24px 52px;
+      padding: 120px 24px 64px;
+    }
+
+    .hero-photo {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: url('images/hero-bg.jpg') center 42% / cover no-repeat;
     }
 
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
+      z-index: 1;
       background:
-        linear-gradient(180deg, rgba(8, 20, 44, 0.12) 0%, rgba(8, 20, 44, 0.04) 20%, rgba(8, 20, 44, 0) 45%, rgba(8, 20, 44, 0.18) 100%);
+        linear-gradient(0deg, rgba(8, 20, 44, 0.6) 0%, rgba(8, 20, 44, 0.2) 26%, rgba(8, 20, 44, 0) 50%);
     }
 
     .hero-content {
       position: relative;
       z-index: 2;
       color: #fff;
-      padding: 28px 30px;
       width: min(100%, 760px);
-      background: linear-gradient(180deg, rgba(11, 28, 59, 0.4) 0%, rgba(11, 28, 59, 0.22) 100%);
-      border: 1px solid rgba(255,255,255,0.16);
-      border-radius: 28px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 18px 42px rgba(0,0,0,0.18);
-    }
-
-    .hero-phone {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.85);
-      margin-bottom: 14px;
-      letter-spacing: 0.3px;
     }
 
     .hero h1 {
       font-size: clamp(2.3rem, 5vw, 4.2rem);
       font-weight: 700;
       line-height: 1.2;
-      margin-bottom: 14px;
-      text-shadow: 0 3px 18px rgba(0,0,0,0.28);
-    }
-
-    .hero-subtitle {
-      font-size: 1.05rem;
-      font-weight: 400;
-      color: rgba(255,255,255,0.94);
-      max-width: 620px;
-      margin: 0 auto 36px;
-      line-height: 1.8;
+      margin-bottom: 24px;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.55);
     }
 
     .btn-primary {
@@ -200,26 +185,6 @@
       box-shadow: 0 8px 28px rgba(0,173,181,0.5);
     }
 
-    .scroll-indicator {
-      position: absolute;
-      bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      animation: bounce 2s infinite;
-      opacity: 0.7;
-      z-index: 2;
-    }
-
-    .scroll-indicator svg {
-      width: 28px;
-      height: 28px;
-      fill: #fff;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(10px); }
-    }
 
     /* ========== SECTIONS ========== */
     section {
@@ -350,23 +315,6 @@
       margin-bottom: 10px;
       color: var(--text-dark);
       line-height: 1.4;
-    }
-
-    .service-price {
-      margin-top: auto;
-      padding-top: 16px;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--primary);
-      display: flex;
-      align-items: baseline;
-      gap: 4px;
-    }
-
-    .service-price span {
-      font-size: 0.88rem;
-      color: var(--text-light);
-      font-weight: 400;
     }
 
     /* ========== CONTACT SECTION ========== */
@@ -542,23 +490,32 @@
       }
 
       .hero {
-        min-height: 84vh;
-        background-position: center 28%;
-        padding: 120px 16px 44px;
+        display: block;
+        min-height: auto;
+        padding: 0 0 44px;
+        background: var(--primary-dark);
+      }
+
+      .hero-photo {
+        position: static;
+        width: 100%;
+        aspect-ratio: 2000 / 662;
+        margin-top: 64px;
+        background-position: center;
+      }
+
+      .hero::before {
+        display: none;
       }
 
       .hero-content {
-        padding: 22px 18px;
-        border-radius: 22px;
+        width: 100%;
+        padding: 32px 22px 0;
       }
 
       .hero h1 {
         font-size: clamp(2rem, 9vw, 2.8rem);
-      }
-
-      .hero-subtitle {
-        font-size: 1rem;
-        margin-bottom: 28px;
+        margin-bottom: 22px;
       }
     }
   </style>
@@ -585,19 +542,10 @@
 
   <!-- HERO -->
   <section class="hero" id="home">
+    <div class="hero-photo"></div>
     <div class="hero-content">
-      <p class="hero-phone">טל: 054-233-4403</p>
       <h1>לך בעקבות החלומות שלך</h1>
-      <p class="hero-subtitle">
-        אני מלווה אנשים במסע חייהם, עוזר לזהות את שורש הקשיים ולבנות בסיס לצמיחה —
-        בדרך יעילה, מועילה ומהנה
-      </p>
       <a href="#contact" class="btn-primary">צור קשר עכשיו</a>
-    </div>
-    <div class="scroll-indicator">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 16.5L3 7.5h18z"/>
-      </svg>
     </div>
   </section>
 
@@ -689,7 +637,6 @@
           <div class="service-card-body">
             <h3>ייעוץ / טיפול אישי פגישה בודדת</h3>
             <p>פגישה אחת אישית לייעוץ וטיפול מותאם אישית.</p>
-            <div class="service-price">₪250 <span>לפגישה</span></div>
           </div>
         </div>
 
@@ -698,7 +645,6 @@
           <div class="service-card-body">
             <h3>למי שרוצה להתנסות – 2 פגישות לחודש</h3>
             <p>מסלול היכרות מושלם לאלה שרוצים לנסות את התהליך לפני התחייבות מלאה.</p>
-            <div class="service-price">₪200 <span>לפגישה</span></div>
           </div>
         </div>
 
@@ -707,7 +653,6 @@
           <div class="service-card-body">
             <h3>להתקדמות הדרגנית – פגישה אחת בשבוע בחודש</h3>
             <p>תהליך עמוק ומתמשך לצמיחה הדרגנית ויציבה.</p>
-            <div class="service-price">₪800 <span>לחודש</span></div>
           </div>
         </div>
 
@@ -716,7 +661,6 @@
           <div class="service-card-body">
             <h3>חבילת פריצת דרך – 2 מפגשים בשבוע בחודש</h3>
             <p>האופציה המאיצה ביותר לאלה שרוצים שינוי מהיר ומשמעותי.</p>
-            <div class="service-price">₪1200 <span>לחודש</span></div>
           </div>
         </div>
 
