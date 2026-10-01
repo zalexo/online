@@ -522,6 +522,10 @@ section {
   }
 
   .nav {
+    flex-shrink: 0;
+  }
+
+  .nav a:not(.nav__social) {
     display: none;
   }
 
