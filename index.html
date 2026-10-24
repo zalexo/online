@@ -7,8 +7,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>לך בעקבות החלומות שלך | אלכסיי ירילובץ - מאמן אישי ומטפל</title>
-  <meta name="description" content="אלכסיי ירילובץ - מאמן חיים ומטפל אישי בחיפה. ייעוץ אישי לחיילים משוחררים, זוגות, בעלי עסקים ואנשים עם ADHD. פגישות אישיות וקורסים בקבוצות קטנות.">
+  <title>לך בעקבות החלומות שלך | אלכסיי ירילובץ - מהנדס תודעה</title>
+  <meta name="description" content="אלכסיי ירילובץ, מהנדס תודעה בחיפה. פגישות אישיות לזיהוי אמונות ודפוסים שחוזרים בחיים, קורסים וסדנאות, וסדנאות זוגיות עם קרן.">
   <link rel="canonical" href="https://www.mind-tech.info/">
   <script type="application/ld+json">
     {
@@ -18,10 +18,11 @@
           "@type": "Person",
           "@id": "https://www.mind-tech.info/#alexei",
           "name": "אלכסיי ירילובץ",
+          "jobTitle": "מהנדס תודעה",
           "url": "https://www.mind-tech.info/",
           "image": "https://www.mind-tech.info/images/alex-profile.jpg",
           "telephone": "+972542334403",
-          "sameAs": ["https://www.facebook.com/Alexei.Yarilovets.Wellness/"]
+          "sameAs": ["https://www.facebook.com/alexei.mindengineer"]
         },
         {
           "@type": "WebSite",
@@ -35,7 +36,7 @@
           "@type": "WebPage",
           "@id": "https://www.mind-tech.info/#webpage",
           "url": "https://www.mind-tech.info/",
-          "name": "לך בעקבות החלומות שלך | אלכסיי ירילובץ - מאמן אישי ומטפל",
+          "name": "לך בעקבות החלומות שלך | אלכסיי ירילובץ - מהנדס תודעה",
           "inLanguage": "he-IL",
           "isPartOf": {"@id": "https://www.mind-tech.info/#website"},
           "mainEntity": {"@id": "https://www.mind-tech.info/#alexei"}
@@ -205,6 +206,21 @@
       text-shadow: 0 2px 16px rgba(0,0,0,0.55);
     }
 
+    .hero-lead {
+      max-width: 640px;
+      margin: 0 auto 28px;
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      line-height: 1.7;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+    }
+
+    .hero-doors {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
     .btn-primary {
       display: inline-block;
       background: var(--primary);
@@ -224,38 +240,28 @@
       box-shadow: 0 8px 28px rgba(0,173,181,0.5);
     }
 
+    .btn-secondary {
+      display: inline-block;
+      background: var(--white);
+      color: var(--primary-dark);
+      padding: 12px 28px;
+      border-radius: 50px;
+      border: 1px solid rgba(0,173,181,0.45);
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0,173,181,0.08);
+      border-color: var(--primary);
+    }
 
     /* ========== SECTIONS ========== */
     section {
       padding: 90px 24px;
       scroll-margin-top: 80px;
-    }
-
-    .seminar-banner {
-      background: var(--section-alt);
-      padding: 40px 24px;
-    }
-
-    .seminar-banner-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 24px;
-    }
-
-    .seminar-banner h2 {
-      font-size: clamp(1.4rem, 3vw, 1.9rem);
-      margin: 8px 0;
-    }
-
-    .seminar-banner p {
-      color: var(--text-mid);
-      line-height: 1.7;
-    }
-
-    .seminar-banner .btn-primary {
-      flex-shrink: 0;
     }
 
     .container {
@@ -279,8 +285,148 @@
       border-radius: 2px;
     }
 
-    /* ========== STORY SECTION ========== */
-    #story {
+    .section-lead {
+      max-width: 720px;
+      margin: -28px auto 48px;
+      text-align: center;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text-mid);
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 44px;
+    }
+
+    .cta-note {
+      color: var(--text-mid);
+    }
+
+    .cta-note a {
+      color: var(--primary-dark);
+    }
+
+    /* ========== SESSION SECTION ========== */
+    #session {
+      background: var(--section-alt);
+    }
+
+    .session-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .panel {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 26px;
+    }
+
+    .panel h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text-dark);
+    }
+
+    .panel ul,
+    .panel ol {
+      padding-inline-start: 20px;
+    }
+
+    .panel li {
+      line-height: 1.75;
+      color: var(--text-mid);
+      margin-bottom: 10px;
+    }
+
+    .panel li b {
+      color: var(--text-dark);
+    }
+
+    .panel-note {
+      margin-top: 14px;
+      line-height: 1.75;
+      color: var(--text-mid);
+    }
+
+    /* ========== COURSES SECTION ========== */
+    #courses {
+      background: var(--white);
+    }
+
+    .courses-box {
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .courses-box p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text-mid);
+      margin-bottom: 12px;
+    }
+
+    .courses-box a:not([class]) {
+      color: var(--primary-dark);
+    }
+
+    /* ========== RELATIONSHIPS SECTION ========== */
+    #relationships {
+      background: var(--section-alt);
+    }
+
+    .relationships-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .relationships-grid img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      color: var(--primary-dark);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .relationships-text h2 {
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .relationships-text p {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--text-mid);
+      margin-bottom: 14px;
+    }
+
+    .link-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    /* ========== ABOUT SECTION ========== */
+    #about {
       background: var(--white);
     }
 
@@ -319,74 +465,13 @@
       margin-bottom: 16px;
     }
 
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 24px;
-    }
-
-    .tag {
-      background: rgba(0,173,181,0.12);
+    .story-text a {
       color: var(--primary-dark);
-      padding: 6px 16px;
-      border-radius: 50px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      border: 1px solid rgba(0,173,181,0.25);
-    }
-
-    /* ========== SERVICES SECTION ========== */
-    #services {
-      background: var(--section-alt);
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 28px;
-    }
-
-    .service-card {
-      background: var(--white);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: transform 0.25s, box-shadow 0.25s;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .service-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 36px rgba(0,0,0,0.14);
-    }
-
-    .service-card-img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .service-card-body {
-      padding: 24px 20px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .service-card h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: var(--text-dark);
-      line-height: 1.4;
     }
 
     /* ========== CONTACT SECTION ========== */
     #contact {
-      background: var(--white);
+      background: var(--section-alt);
     }
 
     .contact-grid {
@@ -561,6 +646,7 @@
 
     @media (max-width: 768px) {
       .story-grid,
+      .relationships-grid,
       .contact-info,
       .footer-inner {
         grid-template-columns: 1fr;
@@ -609,10 +695,10 @@
     <div class="navbar-inner">
       <a href="#home" class="navbar-brand">לך בעקבות החלומות שלך</a>
       <ul class="navbar-nav" id="navMenu">
-        <li><a href="#home">ראשי</a></li>
-        <li><a href="#story">הסיפור שלי</a></li>
-        <li><a href="#services">ייעוץ / טיפול אישי</a></li>
-        <li><a href="./relationships-lab/">הרצאה על זוגיות</a></li>
+        <li><a href="#session">פגישה אישית</a></li>
+        <li><a href="#courses">קורסים וסדנאות</a></li>
+        <li><a href="#relationships">זוגיות</a></li>
+        <li><a href="#about">עליי</a></li>
         <li><a href="#contact">דברו איתי</a></li>
       </ul>
       <button type="button" class="burger" id="burger" onclick="toggleMenu()" aria-label="פתיחת תפריט" aria-controls="navMenu" aria-expanded="false">
@@ -628,26 +714,112 @@
     <div class="hero-photo"></div>
     <div class="hero-content">
       <h1>לך בעקבות החלומות שלך</h1>
-      <a href="#contact" class="btn-primary">ליצירת קשר</a>
-    </div>
-  </section>
-
-  <!-- RELATIONSHIPS SEMINAR -->
-  <section class="seminar-banner" aria-labelledby="seminar-title">
-    <div class="container seminar-banner-inner">
-      <div>
-        <p>מפגש עם קרן ואלכסיי</p>
-        <h2 id="seminar-title">איך להיות בזוגיות בלי לאבד את עצמי</h2>
-        <p>על קרבה, גבולות ובחירה בתוך הקשר.</p>
+      <p class="hero-lead">
+        אני אלכסיי, מהנדס תודעה.
+        אני מלווה אנשים בזיהוי אמונות מגבילות ודפוסים שחוזרים במצבי חיים, ובתהליך של שינוי בקצב שמתאים להם.
+      </p>
+      <div class="hero-doors">
+        <a href="#session" class="btn-primary">פגישה אישית</a>
+        <a href="#courses" class="btn-primary">קורסים וסדנאות</a>
+        <a href="#relationships" class="btn-primary">זוגיות עם קרן</a>
       </div>
-      <a href="./relationships-lab/" class="btn-primary">לפרטים על ההרצאה</a>
     </div>
   </section>
 
-  <!-- MY STORY -->
-  <section id="story">
+  <!-- PERSONAL SESSION -->
+  <section id="session">
     <div class="container">
-      <h2 class="section-title">הסיפור שלי</h2>
+      <h2 class="section-title">פגישה אישית</h2>
+      <div class="section-divider"></div>
+      <p class="section-lead">
+        מגיעים כשאותו קושי חוזר שוב ושוב, ומה שעשיתם עד עכשיו לא שינה את התמונה.
+      </p>
+      <div class="session-grid">
+
+        <div class="panel">
+          <h3>עם מה מגיעים</h3>
+          <ul>
+            <li>אותו תסריט חוזר בזוגיות, בכסף, במימוש עצמי או בבחירה.</li>
+            <li>חרדה או תחושה של תקיעות, בלי להבין מה מחזיק אותן.</li>
+            <li>חיילים משוחררים שמתקשים במעבר מהצבא לחיים האזרחיים.</li>
+            <li>נשים וגברים שאיבדו אמון בבני הזוג שלהם.</li>
+            <li>בעלי עסקים שמחפשים נישה חדשה או נתקעים בקושי ניהולי.</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3>איך עובדים</h3>
+          <ol>
+            <li>מתחילים מסיטואציה אמיתית. משהו שחוזר, או שלא נפתר.</li>
+            <li>בודקים איך התגובה שלכם בנויה, ויורדים לאמונת השורש שעליה התסריט עומד.</li>
+            <li>בהסכמתכם עובדים עם האמונה הזאת בשיטת Theta Healing, ובודקים מה השתנה.</li>
+          </ol>
+          <p class="panel-note">
+            הקצב נקבע לפי המוכנות שלכם.
+            אני לא מלמד איך לחיות ולא מבטיח נס. אני עוזר להסיר את מה שחוסם.
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3>פורמטים</h3>
+          <ul>
+            <li><b>פגישה בודדת</b> לייעוץ ולעבודה לפי הצורך.</li>
+            <li><b>שתי פגישות בחודש</b> למי שרוצה להתנסות בתהליך לפני שמחליטים להמשיך.</li>
+            <li><b>פגישה שבועית לאורך חודש</b> להתקדמות הדרגתית ויציבה.</li>
+            <li><b>שתי פגישות בשבוע לאורך חודש</b> לעבודה אינטנסיבית, בקצב שמתאים למוכנות האישית.</li>
+          </ul>
+        </div>
+
+      </div>
+      <div class="cta-row">
+        <a href="https://alexei.co.il/meet/" class="btn-primary">לקבוע פגישה</a>
+        <span class="cta-note">או להתקשר: <a href="tel:+972542334403"><bdi dir="ltr">054-233-4403</bdi></a></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES -->
+  <section id="courses">
+    <div class="container">
+      <h2 class="section-title">קורסים וסדנאות</h2>
+      <div class="section-divider"></div>
+      <div class="courses-box">
+        <p>קורסים וסדנאות חדשים נמצאים עכשיו בהכנה.</p>
+        <p>רוצים לשמוע ראשונים כשייפתח מועד? השאירו פרטים בטופס וסמנו "לשמוע על קורסים וסדנאות חדשים".</p>
+        <p>סדנאות בנושא זוגיות אני מנחה יחד עם קרן. <a href="#relationships">עליהן כאן למטה</a>.</p>
+        <div class="cta-row">
+          <a href="https://alexei.co.il/meet/" class="btn-primary">לשמוע ראשונים</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RELATIONSHIPS -->
+  <section id="relationships">
+    <div class="container relationships-grid">
+      <img src="images/keren-alexei.jpg" alt="קרן ואלכסיי" width="1250" height="758" loading="lazy">
+      <div class="relationships-text">
+        <p class="eyebrow">קרן ואלכסיי</p>
+        <h2>זוגיות כהרמוניה</h2>
+        <p>יחד עם שותפתי קרן אני מנחה סדנאות וקורסים בנושא זוגיות.</p>
+        <p>
+          קרן מביאה נקודת מבט על הקשר בין בני זוג, על צרכים ועל המרחב המשותף.
+          אני מביא גישה מערכתית לזיהוי דפוסי תגובה ואמונות חוסמות.
+        </p>
+        <p>המפגש האחרון שלנו: "איך להיות בזוגיות בלי לאבד את עצמי".</p>
+        <div class="link-row">
+          <a href="https://www.facebook.com/relations.lab" class="btn-primary" target="_blank" rel="noopener noreferrer">העמוד שלנו בפייסבוק</a>
+          <a href="https://alexei.co.il/g/" class="btn-secondary">קבוצת WhatsApp</a>
+          <a href="./relationships-lab/" class="btn-secondary">על המפגש</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title">עליי</h2>
       <div class="section-divider"></div>
       <div class="story-grid">
         <div class="story-image-wrap">
@@ -655,106 +827,19 @@
         </div>
         <div class="story-text">
           <h2>שלום, שמי אלכסיי ירילובץ</h2>
-          <p>אני מלווה אנשים במסע שלהם בחיים.</p>
+          <p>מהנדס תודעה, מומחה לאמונות חוסמות, Theta Healing Master.</p>
           <p>
-            ההתמחות שלי היא
-            <b>לזהות את מקור הקושי</b>
-            בסיטואציה שאדם חווה כרגע ולעזור לו להתמודד איתו.
+            25 שנים בתכנות ו-10 שנים בעולם האזוטרי נותנים לי מבט כפול:
+            לראות גם מבנה וגם עומק.
           </p>
-
           <p>
-            המטרה היא
-            <b>
-              לבנות בסיס לחיים
-            </b>
-            שמאפשר להתפתח בדרך מיטיבה, יעילה וכיפית.
+            אני לא מורה שמביא אמיתות חדשות.
+            התפקיד שלי הוא לעזור למצוא ולהסיר חסם, כדי שתהיה לכם שוב גישה לבחירה שלכם.
           </p>
-
           <p>
-            אני עובד עם חיילים משוחררים שמתקשים במעבר מהצבא לחיים האזרחיים.
+            <a href="https://www.thetahealing.com/instructor-150462-profile.html" target="_blank" rel="noopener noreferrer">פרופיל המדריך שלי באתר ThetaHealing</a>
           </p>
-
-          <p>
-            עם נשים וגברים שאיבדו אמון בבני הזוג שלהם.
-          </p>
-
-          <p>
-            עם בעלי עסקים שרוצים למצוא נישה חדשה או לפתור קושי ניהולי בעסק.
-          </p>
-
-          <p>
-            עם מבוגרים וילדים שמתמודדים עם קשיי קשב וריכוז.
-          </p>
-
-          <p>
-            ועוד.
-          </p>
-
-          <p>&nbsp;</p>
-
-          <p>מטפל בחרדות, לחץ ודיכאון.</p>
-
-          <p>
-            מקיים פגישות אישיות וקורסים קבוצתיים.
-          </p>
-
-          <p>
-            טלפון: <bdi dir="ltr">054-233-4403</bdi>
-          </p>
-
-
-          <div class="tags">
-            <span class="tag">חיילים משוחררים</span>
-            <span class="tag">זוגות</span>
-            <span class="tag">ADHD</span>
-            <span class="tag">חרדה ולחץ</span>
-            <span class="tag">בעלי עסקים</span>
-            <span class="tag">דיכאון</span>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SERVICES -->
-  <section id="services">
-    <div class="container">
-      <h2 class="section-title">ייעוץ / טיפול אישי</h2>
-      <div class="section-divider"></div>
-      <div class="services-grid">
-
-        <div class="service-card">
-          <img src="images/predlojenie-big.png" alt="פגישה בודדת" class="service-card-img">
-          <div class="service-card-body">
-            <h3>ייעוץ וטיפול אישי — פגישה בודדת</h3>
-            <p>פגישה אישית לייעוץ ולטיפול בהתאם לצורך.</p>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <img src="images/predlojenie-big.png" alt="מסלול היכרות" class="service-card-img">
-          <div class="service-card-body">
-            <h3>למי שרוצה להתנסות — שתי פגישות בחודש</h3>
-            <p>מסלול היכרות למי שרוצה להתנסות בתהליך לפני התחייבות להמשך.</p>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <img src="images/predlojenie-big.png" alt="התקדמות הדרגתית" class="service-card-img">
-          <div class="service-card-body">
-            <h3>להתקדמות הדרגתית — פגישה שבועית לאורך חודש</h3>
-            <p>תהליך עמוק ומתמשך לצמיחה הדרגתית ויציבה.</p>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <img src="images/predlojenie-big.png" alt="חבילת פריצת דרך" class="service-card-img">
-          <div class="service-card-body">
-            <h3>חבילת פריצת דרך — שתי פגישות בשבוע לאורך חודש</h3>
-            <p>שתי פגישות בשבוע, בקצב שמתאים למוכנות האישית.</p>
-          </div>
-        </div>
-
       </div>
     </div>
   </section>
@@ -780,6 +865,16 @@
           </div>
 
           <div class="contact-item">
+            <div class="contact-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>
+            </div>
+            <div class="contact-item-text">
+              <strong>WhatsApp</strong>
+              <a href="https://wa.me/972542334403" target="_blank" rel="noopener noreferrer">לכתוב לי בוואטסאפ</a>
+            </div>
+          </div>
+
+          <div class="contact-item">
             <div class="contact-icon">
               <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
             </div>
@@ -796,7 +891,7 @@
             </div>
             <div class="contact-item-text">
               <strong>Facebook</strong>
-              <a href="https://www.facebook.com/Alexei.Yarilovets.Wellness/" target="_blank" rel="noopener noreferrer">העמוד שלי בפייסבוק</a>
+              <a href="https://www.facebook.com/alexei.mindengineer" target="_blank" rel="noopener noreferrer">העמוד שלי בפייסבוק</a>
             </div>
           </div>
 
@@ -831,17 +926,17 @@
       <div class="footer-brand">
         <h2>לך בעקבות החלומות שלך</h2>
         <p>
-          אלכסיי ירילובץ — מאמן חיים ומטפל אישי בחיפה.<br>
+          אלכסיי ירילובץ — מהנדס תודעה, מומחה לאמונות חוסמות.<br>
           בית לחם 47, חיפה
         </p>
       </div>
       <ul class="footer-nav">
-        <li><a href="#home">ראשי</a></li>
-        <li><a href="#story">הסיפור שלי</a></li>
-        <li><a href="#services">ייעוץ / טיפול אישי</a></li>
-        <li><a href="./relationships-lab/">הרצאה על זוגיות</a></li>
+        <li><a href="#session">פגישה אישית</a></li>
+        <li><a href="#courses">קורסים וסדנאות</a></li>
+        <li><a href="#relationships">זוגיות</a></li>
+        <li><a href="#about">עליי</a></li>
         <li><a href="#contact">דברו איתי</a></li>
-        <li><a href="https://www.facebook.com/Alexei.Yarilovets.Wellness/" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+        <li><a href="https://www.facebook.com/alexei.mindengineer" target="_blank" rel="noopener noreferrer">Facebook</a></li>
       </ul>
     </div>
     <div class="footer-bottom">
@@ -885,7 +980,7 @@
       });
     }, { threshold: 0.12 });
 
-    document.querySelectorAll('.service-card, .contact-item, .story-text').forEach(el => {
+    document.querySelectorAll('.panel, .contact-item, .story-text').forEach(el => {
       el.style.opacity = '0';
       el.style.transform = 'translateY(24px)';
       el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
