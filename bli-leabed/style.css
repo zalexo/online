@@ -459,6 +459,7 @@ section {
 
 .portrait img {
   width: min(100%, 480px);
+  height: auto;
   aspect-ratio: auto;
   object-fit: contain;
   background: var(--paper-strong);
