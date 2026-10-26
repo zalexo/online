@@ -627,76 +627,63 @@ section {
   }
 }
 
-/* ---- סדנה: ארבע דרכים לאבד את עצמנו ---- */
+/* ---- страница семинара ---- */
+
+/* первый экран: название поменьше, под ним три строки по убыванию */
+.hero h1 {
+  font-size: clamp(30px, 3.4vw, 46px);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.hero__hook {
+  margin: 20px 0 0;
+  font: 700 clamp(24px, 2.5vw, 34px)/1.25 var(--display);
+  color: var(--copper-dark);
+  text-wrap: balance;
+}
+
+.hero__sub {
+  max-width: 640px;
+  margin: 14px 0 0;
+  font: 500 clamp(19px, 1.8vw, 24px)/1.4 var(--display);
+  color: var(--deep);
+  text-wrap: pretty;
+}
+
+.hero .hero__lead {
+  max-width: 620px;
+  margin: 16px 0 0;
+  font-size: clamp(16px, 1.3vw, 18px);
+  line-height: 1.65;
+  color: #47514b;
+}
+
+@media (max-width: 560px) {
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .hero__hook {
+    font-size: 24px;
+  }
+
+  .hero__sub {
+    font-size: 19px;
+  }
+
+  .hero .hero__lead {
+    font-size: 16.5px;
+  }
+}
+
+.section-head h2 {
+  text-wrap: balance;
+}
 
 .section-head p:not(.eyebrow) {
   margin: 16px 0 0;
   color: var(--muted);
-}
-
-.ways-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  border: 1px solid var(--line);
-  background: var(--paper-strong);
-}
-
-.way-card {
-  padding: 30px 28px 32px;
-  border-left: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-
-.way-card:nth-child(2n) {
-  border-left: 0;
-}
-
-.way-card:nth-last-child(-n + 2) {
-  border-bottom: 0;
-}
-
-.way-card__head {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.way-card__num {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--copper);
-  color: var(--paper-strong);
-  font: 600 18px var(--display);
-}
-
-.way-card h3 {
-  margin: 0;
-  font: 600 27px/1.2 var(--display);
-  color: var(--deep);
-}
-
-.way-card__scene {
-  margin-inline-start: auto;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--sage);
-}
-
-.way-card__quote {
-  margin: 18px 0 0;
-  font: 500 22px/1.35 var(--display);
-  color: var(--copper-dark);
-}
-
-.way-card p:not(.way-card__quote) {
-  margin: 10px 0 0;
-  color: var(--muted);
-  font-size: 17px;
-  line-height: 1.6;
 }
 
 /* подписи карточек здесь на иврите: моноширинный шрифт разбивает буквы */
@@ -706,26 +693,53 @@ section {
   font-weight: 700;
 }
 
-.note {
-  max-width: 780px;
-  margin: 34px auto 0;
-  text-align: center;
+/* «מה נגלה ונחווה במפגש»: две карточки и список «מה יצא לך מזה» */
+.discover-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.discover-item {
+  padding: 30px 28px 32px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+}
+
+.discover-item h3 {
+  margin: 0;
+  font: 600 25px/1.3 var(--display);
+  color: var(--deep);
+  text-wrap: balance;
+}
+
+.discover-item p {
+  margin: 14px 0 0;
   color: var(--muted);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.gains {
+  max-width: 780px;
+  margin: 56px auto 0;
+}
+
+.gains h3 {
+  margin: 0 0 20px;
+  font: 600 28px/1.25 var(--display);
+  color: var(--deep);
+  text-align: center;
+}
+
+.gains .boundary-list li {
+  color: var(--ink);
+  font-size: 18px;
 }
 
 @media (max-width: 900px) {
-  .ways-grid {
+  .discover-grid {
     grid-template-columns: 1fr;
-  }
-
-  .way-card,
-  .way-card:nth-child(2n),
-  .way-card:nth-last-child(-n + 2) {
-    border-left: 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .way-card:last-child {
-    border-bottom: 0;
   }
 }
