@@ -1,0 +1,509 @@
+/* Страницы ведущих: alexei.story, keren.story, alexei.skills, keren.skills.
+   Одна вёрстка на экран и на PDF: в @media print лист становится страницей A4.
+   Размеры внутри .sheet заданы в em, поэтому на печати достаточно сменить размер шрифта листа.
+   PDF собирается из этих страниц: doc/people-pdf.sh. */
+
+@page { size: A4 portrait; margin: 0; }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --ink: #2a2624;
+  --muted: #6b625c;
+  --teal: #0d2b31;
+  --teal-2: #1d4a52;
+  --sand: #d8b98c;
+  --terra: #b36b3d;
+  --terra-dark: #89512f;
+  --paper: #fbf8f3;
+  --card: #ffffff;
+  --line: #e8dfd2;
+  --wash: #f4ede3;
+  --on-teal: #f6f2ea;
+  --display: 'Rubik', 'Assistant', Arial, sans-serif;
+  --sans: 'Assistant', 'Arial Hebrew', Arial, sans-serif;
+}
+
+html {
+  background: #ede7dd;
+}
+
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.nw {
+  white-space: nowrap;
+}
+
+/* лист */
+
+.sheet {
+  display: flex;
+  flex-direction: column;
+  max-width: 820px;
+  margin: 0 auto;
+  background: var(--paper);
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+/* тёмная шапка */
+
+.band {
+  padding: 2em 2.2em;
+  background: var(--teal);
+  color: var(--on-teal);
+}
+
+.band--person {
+  display: grid;
+  grid-template-columns: 10.5em minmax(0, 1fr);
+  gap: 1.6em;
+  align-items: center;
+}
+
+.eyebrow {
+  font-size: .9em;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: var(--sand);
+}
+
+.band h1 {
+  margin-top: .2em;
+  font: 700 1.9em/1.2 var(--display);
+  text-wrap: balance;
+}
+
+.band--person h1 {
+  font-size: 2.2em;
+}
+
+.band .role {
+  margin-top: .35em;
+  font-size: 1.02em;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--sand);
+}
+
+.portrait {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: .55em;
+  background: var(--teal-2);
+}
+
+.portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+blockquote {
+  margin-top: .9em;
+  padding-top: .7em;
+  border-top: 2px solid var(--terra);
+  font: 500 1.08em/1.45 var(--display);
+}
+
+/* текст истории */
+
+.prose {
+  padding: 2em 2.2em 0;
+}
+
+.prose p + p,
+.prose ul + p {
+  margin-top: .75em;
+}
+
+.prose .q {
+  margin-top: 1.1em;
+  font: 600 1.1em/1.4 var(--display);
+  color: var(--teal-2);
+}
+
+.prose b {
+  color: var(--teal-2);
+}
+
+.prose ul {
+  list-style: none;
+  margin-top: .5em;
+}
+
+.prose li,
+.pillar li,
+.gives li {
+  position: relative;
+  padding-right: 1.1em;
+}
+
+.prose li + li {
+  margin-top: .25em;
+}
+
+.prose li::before,
+.pillar li::before {
+  content: "";
+  position: absolute;
+  top: .68em;
+  right: 0;
+  width: .45em;
+  height: .45em;
+  border-radius: 50%;
+  background: var(--terra);
+}
+
+/* квалификация */
+
+.person {
+  display: grid;
+  grid-template-columns: 11em minmax(0, 1fr);
+  gap: 1.6em;
+  align-items: start;
+  padding: 2em 2.2em 0;
+}
+
+.person .portrait {
+  background: var(--wash);
+}
+
+.person h2 {
+  font: 700 2em/1.15 var(--display);
+  color: var(--teal);
+}
+
+.person .role {
+  margin-top: .3em;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--terra-dark);
+  text-wrap: balance;
+}
+
+.rule {
+  width: 4em;
+  height: 2px;
+  margin: .8em 0;
+  background: var(--sand);
+}
+
+.basis {
+  padding: 1.4em 2.2em 0;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--teal-2);
+}
+
+.pillars {
+  display: grid;
+  gap: .8em;
+  padding: .8em 2.2em 0;
+}
+
+.pillar {
+  display: grid;
+  grid-template-columns: 2.1em minmax(0, 1fr);
+  gap: 0 .8em;
+  padding: .85em 1.1em .95em;
+  border: 1px solid var(--line);
+  border-radius: .7em;
+  background: var(--card);
+}
+
+.num {
+  grid-row: span 2;
+  width: 2.1em;
+  height: 2.1em;
+  border-radius: 50%;
+  background: var(--teal);
+  color: var(--sand);
+  font: 700 1em/2.1em var(--display);
+  text-align: center;
+}
+
+.pillar h3 {
+  padding-top: .25em;
+  font: 600 1.1em/1.3 var(--display);
+  color: var(--teal);
+}
+
+.pillar ul {
+  list-style: none;
+  margin-top: .3em;
+}
+
+.pillar li {
+  margin-top: .3em;
+  line-height: 1.48;
+}
+
+.pillar b {
+  color: var(--teal-2);
+}
+
+/* общий кадр: держим верх снимка, снизу остаётся затылок из зала */
+
+.scene {
+  margin: 2em 2.2em 0;
+}
+
+.scene img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2.45;
+  object-fit: cover;
+  object-position: 50% 0;
+  border-radius: .6em;
+}
+
+.scene figcaption {
+  margin-top: .45em;
+  font-size: .88em;
+  color: var(--muted);
+}
+
+.sheet__foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .2em 1.5em;
+  margin: 2em 2.2em 0;
+  padding: .8em 0 1.4em;
+  border-top: 1px solid var(--line);
+  font-size: .88em;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.sheet__foot .motto {
+  color: var(--terra-dark);
+}
+
+.sheet__foot a {
+  color: inherit;
+  text-decoration: none;
+  unicode-bidi: isolate;
+}
+
+/* куда идти дальше: только на экране */
+
+.more {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 1.4em 40px 2.4em;
+  font-size: 17px;
+}
+
+.more ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6em;
+  list-style: none;
+}
+
+.more a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: .4em 1em;
+  border: 1px solid var(--teal-2);
+  border-radius: 8px;
+  color: var(--teal);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.more a:hover {
+  background: var(--teal);
+  color: var(--on-teal);
+}
+
+@media (max-width: 640px) {
+  .sheet {
+    font-size: 17px;
+  }
+
+  .band,
+  .prose,
+  .person,
+  .basis,
+  .pillars {
+    padding-inline: 16px;
+  }
+
+  .scene,
+  .sheet__foot {
+    margin-inline: 16px;
+  }
+
+  .band--person {
+    grid-template-columns: 7em minmax(0, 1fr);
+    gap: 1em;
+  }
+
+  .band--person h1 {
+    font-size: 1.6em;
+  }
+
+  .band--person blockquote {
+    grid-column: 1 / -1;
+    margin-top: 0;
+  }
+
+  .band--person .band__text {
+    display: contents;
+  }
+
+  .band--person .band__who {
+    align-self: center;
+  }
+
+  .person {
+    grid-template-columns: 1fr;
+  }
+
+  .person .portrait {
+    width: min(220px, 70%);
+  }
+
+  .pillar {
+    padding-inline: .8em;
+  }
+
+  .more {
+    padding-inline: 16px;
+  }
+}
+
+@media print {
+  html {
+    background: none;
+  }
+
+  .more {
+    display: none;
+  }
+
+  .sheet {
+    width: 210mm;
+    max-width: none;
+    height: 297mm;
+    margin: 0;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  .band {
+    padding: 8mm 14mm;
+  }
+
+  .band--person {
+    grid-template-columns: 34mm minmax(0, 1fr);
+    gap: 7mm;
+  }
+
+  .prose {
+    padding: 6mm 14mm 0;
+    column-count: 2;
+    column-gap: 8mm;
+  }
+
+  .prose .q {
+    break-after: avoid;
+  }
+
+  .prose ul {
+    break-inside: avoid;
+  }
+
+  .person {
+    grid-template-columns: 42mm minmax(0, 1fr);
+    gap: 7mm;
+    padding: 6mm 14mm 0;
+  }
+
+  .basis {
+    padding: 4mm 14mm 0;
+  }
+
+  .pillars {
+    gap: 2.4mm;
+    padding: 2.4mm 14mm 0;
+  }
+
+  .pillar {
+    padding: 2.4mm 4mm 2.8mm;
+  }
+
+  .scene {
+    margin: 5mm 14mm 0;
+  }
+
+  .sheet__foot {
+    margin: auto 14mm 0;
+    padding: 3mm 0 6mm;
+  }
+
+  a[href] {
+    text-decoration: none;
+  }
+
+  /* длинная история: чуть плотнее, чтобы кадр остался на одном листе с текстом */
+  .sheet--dense {
+    font-size: 10.8pt;
+  }
+
+  .sheet--dense .band {
+    padding-block: 6mm;
+  }
+
+  .sheet--dense .scene img {
+    aspect-ratio: 2.55;
+  }
+
+  /* короткая история: крупнее шрифт вместо пустого низа листа */
+  .sheet--roomy {
+    font-size: 13pt;
+  }
+
+  /* квалификация плотнее истории: кадр и портрет меньше, чтобы всё осталось на одном листе */
+  .sheet--skills {
+    font-size: 10.7pt;
+  }
+
+  .sheet--skills .band {
+    padding: 6mm 14mm;
+  }
+
+  .sheet--skills .person {
+    grid-template-columns: 34mm minmax(0, 1fr);
+    padding-top: 5mm;
+  }
+
+  .sheet--skills .scene {
+    margin-top: 3.5mm;
+  }
+
+  .sheet--skills .scene img {
+    aspect-ratio: 3.5;
+    object-position: 50% 12%;
+  }
+}
