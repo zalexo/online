@@ -185,7 +185,7 @@ blockquote {
   background: var(--wash);
 }
 
-.person h2 {
+.person h1 {
   font: 700 2em/1.15 var(--display);
   color: var(--teal);
 }
@@ -489,13 +489,9 @@ blockquote {
     font-size: 10.7pt;
   }
 
-  .sheet--skills .band {
-    padding: 6mm 14mm;
-  }
-
   .sheet--skills .person {
     grid-template-columns: 34mm minmax(0, 1fr);
-    padding-top: 5mm;
+    padding-top: 10mm;
   }
 
   .sheet--skills .scene {
@@ -503,7 +499,6 @@ blockquote {
   }
 
   .sheet--skills .scene img {
-    aspect-ratio: 3.5;
-    object-position: 50% 12%;
+    aspect-ratio: 2.7;
   }
 }
