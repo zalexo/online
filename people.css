@@ -259,6 +259,11 @@ blockquote {
   color: var(--teal-2);
 }
 
+.pillar a {
+  color: var(--teal-2);
+  text-decoration: underline;
+}
+
 /* общий кадр: держим верх снимка, снизу остаётся затылок из зала */
 
 .scene {
@@ -460,10 +465,6 @@ blockquote {
   .sheet__foot {
     margin: auto 14mm 0;
     padding: 3mm 0 6mm;
-  }
-
-  a[href] {
-    text-decoration: none;
   }
 
   /* длинная история: чуть плотнее, чтобы кадр остался на одном листе с текстом */
