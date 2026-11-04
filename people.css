@@ -502,4 +502,13 @@ blockquote {
   .sheet--skills .scene img {
     aspect-ratio: 2.7;
   }
+
+  /* квалификация на пункт длиннее (Керен): меньше отступ сверху и кадр ниже, чтобы лист остался один */
+  .sheet--long .person {
+    padding-top: 6mm;
+  }
+
+  .sheet--long .scene img {
+    aspect-ratio: 3.2;
+  }
 }
