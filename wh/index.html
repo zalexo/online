@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="../favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WindowHarbor | Display-Aware Window Geometry for macOS</title>
+  <meta
+    name="description"
+    content="A lightweight macOS 14+ menu-bar utility that remembers and restores ordinary floating and maximized window frames per physical display arrangement using public Accessibility APIs."
+  >
+  <link rel="canonical" href="https://www.mind-tech.info/wh/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="WindowHarbor">
+  <meta property="og:url" content="https://www.mind-tech.info/wh/">
+  <meta property="og:title" content="WindowHarbor | Display-Aware Window Geometry for macOS">
+  <meta
+    property="og:description"
+    content="Lightweight macOS 14+ menu-bar utility that remembers and restores ordinary window geometry per physical display arrangement. Public Accessibility APIs, 100% local storage."
+  >
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="WindowHarbor | Display-Aware Window Geometry for macOS">
+  <meta
+    name="twitter:description"
+    content="Lightweight macOS 14+ menu-bar utility that remembers and restores ordinary window geometry per physical display arrangement."
+  >
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "WindowHarbor",
+      "operatingSystem": "macOS 14+",
+      "applicationCategory": "UtilitiesApplication",
+      "url": "https://www.mind-tech.info/wh/",
+      "codeRepository": "https://github.com/zalexo/WindowHarbor",
+      "downloadUrl": "https://github.com/zalexo/WindowHarbor/releases",
+      "description": "A lightweight macOS 14+ menu-bar utility that remembers and restores ordinary window geometry per physical display arrangement using public Accessibility APIs."
+    }
+  </script>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a href="#top" class="brand" aria-label="WindowHarbor Home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="1.75" y="2.25" width="7.5" height="5.5" rx="1" />
+            <rect x="6.75" y="8.25" width="7.5" height="5.5" rx="1" />
+            <path d="M11.25 2.25h3v3.5h-3z" />
+          </svg>
+        </span>
+        <span>WindowHarbor</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#invariants">Architecture</a></li>
+        <li><a href="#scope">Scope &amp; Non-Goals</a></li>
+        <li><a href="#install">Install</a></li>
+        <li>
+          <a
+            href="https://github.com/zalexo/WindowHarbor"
+            class="nav-gh"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+            <span>GitHub</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow-badge">macOS 14+ Menu-Bar Utility</span>
+          <h1>Window geometry that remembers your displays.</h1>
+          <p class="hero-subtext">
+            A resident macOS menu-bar utility that learns and restores floating and maximized window frames per physical monitor setup.
+          </p>
+          <div class="hero-ctas">
+            <a
+              href="https://github.com/zalexo/WindowHarbor/releases"
+              class="btn btn-primary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>Download Release</span>
+            </a>
+            <a
+              href="https://github.com/zalexo/WindowHarbor"
+              class="btn btn-secondary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>View on GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="schematic-card" aria-label="WindowHarbor display profile and menu bar schematic">
+          <div class="schematic-topbar">
+            <div class="window-dots" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+            <span>Environment Key: 2 Active Displays (Points)</span>
+          </div>
+          <div class="schematic-body">
+            <div class="topology-diagram">
+              <div class="display-box">
+                <div class="display-box-header">
+                  <span>Display UUID A (Primary)</span>
+                  <span>0,0 · 2560x1440 pt</span>
+                </div>
+                <div class="window-frames-mock">
+                  <div class="wf-item">
+                    <strong>Floating</strong>
+                    <span>Normalized to visibleFrame</span>
+                  </div>
+                  <div class="wf-item">
+                    <strong>Floating</strong>
+                    <span>PID + launchDate + AX</span>
+                  </div>
+                </div>
+              </div>
+              <div class="display-box">
+                <div class="display-box-header">
+                  <span>Display UUID B (Built-in)</span>
+                  <span>-1512,312 · 1512x982 pt</span>
+                </div>
+                <div class="window-frames-mock">
+                  <div class="wf-item" style="grid-column: span 2;">
+                    <strong>Maximized (visibleFrame)</strong>
+                    <span>Restored with 4 pt readback tolerance</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="menu-mock" role="presentation">
+              <div class="menu-row muted">WindowHarbor</div>
+              <div class="menu-row muted">Monitoring · 2 displays · 8 windows</div>
+              <div class="menu-row muted">2 active displays</div>
+              <div class="menu-sep"></div>
+              <div class="menu-row active">Restore This Setup Now</div>
+              <div class="menu-row">Undo Last Restore</div>
+              <div class="menu-row">Save Current Positions</div>
+              <div class="menu-row">Pause Automatic Mode</div>
+              <div class="menu-sep"></div>
+              <div class="menu-row">Launch at Login</div>
+              <div class="menu-row">Open Local Profiles Folder</div>
+              <div class="menu-row">Archive Diagnostic Logs...</div>
+              <div class="menu-sep"></div>
+              <div class="menu-row">Quit WindowHarbor</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Transition-safe layout memory</h2>
+          <p>
+            When you unplug or reconnect a monitor, macOS immediately relocates open windows before displays finish settling. WindowHarbor freezes learning on the first display callback so system-induced window scrambling never overwrites your saved profile.
+          </p>
+        </div>
+
+        <div class="pipeline-track reveal" aria-label="Display transition state machine">
+          <div class="pipeline-step">
+            <span class="pipeline-state">1. Observing</span>
+            <p>Debounced capture (0.6s) after AX move/resize events and a 20s visibleFrame reconcile.</p>
+          </div>
+          <div class="pipeline-step">
+            <span class="pipeline-state">2. Frozen</span>
+            <p>Display callback advances a thread-safe epoch and closes the learning gate immediately.</p>
+          </div>
+          <div class="pipeline-step">
+            <span class="pipeline-state">3. Sampling</span>
+            <p>Waits for 3 consecutive identical usable screen snapshots (1s apart, max 12 attempts).</p>
+          </div>
+          <div class="pipeline-step">
+            <span class="pipeline-state">4. Restoring</span>
+            <p>Applies saved floating or maximized frames (up to 2 writes with immediate 4 pt readback).</p>
+          </div>
+          <div class="pipeline-step">
+            <span class="pipeline-state">5. Verifying</span>
+            <p>Delayed 1s readback checks for post-restore drift and quarantines rejected windows.</p>
+          </div>
+          <div class="pipeline-step">
+            <span class="pipeline-state">6. Cooldown</span>
+            <p>Holds a 5s post-transition cooldown before reopening automatic layout learning.</p>
+          </div>
+        </div>
+
+        <div class="mechanics-split reveal">
+          <div class="mechanic-pane">
+            <h3>Exact display environment keys</h3>
+            <p>
+              Each profile is keyed by the sorted display UUIDs and rounded point frames (origin, width, height) of all active non-mirroring screens. Window placements are stored normalized to each display's <code>visibleFrame</code> (accounting for Dock and menu bar) and clamped on restore.
+            </p>
+            <dl class="kv-grid">
+              <div class="kv-item">
+                <dt>Coordinate Space</dt>
+                <dd>Top-left primary (points)</dd>
+              </div>
+              <div class="kv-item">
+                <dt>Geometry Modes</dt>
+                <dd>floating, maximized</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="mechanic-pane">
+            <h3>Live session window registry</h3>
+            <p>
+              PIDs, window titles, and <code>CGWindowID</code> are not durable identities. WindowHarbor maintains an in-memory registry binding <code>(PID, process launchDate, CFEqual AXUIElement)</code> to a unique session UUID, matching only unambiguous live elements.
+            </p>
+            <dl class="kv-grid">
+              <div class="kv-item">
+                <dt>Readback Tolerance</dt>
+                <dd>4.0 points per edge</dd>
+              </div>
+              <div class="kv-item">
+                <dt>Quarantine Scope</dt>
+                <dd>Per environment key + UUID</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENGINEERING & PRIVACY INVARIANTS -->
+    <section class="section section-alt" id="invariants">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Engineering and privacy invariants</h2>
+          <p>
+            Built as a resident <code>LSUIElement</code> accessory app in pure Swift and AppKit with zero third-party package dependencies.
+          </p>
+        </div>
+
+        <div class="bento-grid reveal">
+          <article class="bento-cell bento-span-7 tinted">
+            <div>
+              <div class="tag-row" style="margin-bottom: 14px;">
+                <span class="badge badge-blue">No Private WindowServer APIs</span>
+                <span class="badge badge-green">SIP Intact</span>
+              </div>
+              <h3>Zero private WindowServer calls or code injection</h3>
+              <p>
+                WindowHarbor uses public macOS Accessibility (<code>AXUIElement</code>) for geometry, <code>AXFullScreen</code> only as a read-only attribute hint, <code>NSScreen</code>, Core Graphics display reconfiguration callbacks, and <code>NSWorkspace</code> notifications. It never calls private SkyLight/CGS symbols, never injects into other processes, never alters System Integrity Protection, and only registers a Login Item when explicitly toggled in the menu.
+              </p>
+            </div>
+            <div class="queue-diagram">
+              <div class="queue-lane">
+                <span>Main Thread (AppKit)</span>
+                <span>AppKit menu, NSScreen snapshots, timers &amp; AXObserver run-loop sources (zero AX IPC)</span>
+              </div>
+              <div class="queue-lane">
+                <span>app.windowharbor.accessibility</span>
+                <span>Serial AX IPC queue · 0.25s per-element messaging timeout</span>
+              </div>
+              <div class="queue-lane">
+                <span>app.windowharbor.profile</span>
+                <span>Serial background queue · atomic JSON store, .backup, trace.log</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="bento-cell bento-span-5 dark-code">
+            <div>
+              <div class="tag-row" style="margin-bottom: 14px;">
+                <span class="badge badge-green">100% Local Storage</span>
+              </div>
+              <h3>Strict privacy by omission</h3>
+              <p>
+                WindowHarbor never reads, logs, or persists window titles, document URLs, window contents, or screenshots. There is zero telemetry and zero network code.
+              </p>
+            </div>
+            <pre class="code-snippet"><code>~/Library/Application Support/WindowHarbor/
+├── profiles.json         # mode 0600 (atomic write)
+├── profiles.json.backup  # previous known-good state
+├── trace.log             # 2 MB ring log (no titles/URLs)
+└── topology-log.jsonl    # optional display event log</code></pre>
+          </article>
+
+          <article class="bento-cell bento-span-5">
+            <div>
+              <div class="tag-row" style="margin-bottom: 14px;">
+                <span class="badge badge-amber">Data Integrity</span>
+              </div>
+              <h3>Non-destructive profile persistence</h3>
+              <p>
+                Before writing a new layout, the existing database is copied to <code>profiles.json.backup</code> and the update is committed atomically inside a <code>0700</code> directory. If reading <code>profiles.json</code> fails on launch, WindowHarbor surfaces the error in the menu bar and blocks all writes rather than overwriting your file with an empty database.
+              </p>
+            </div>
+          </article>
+
+          <article class="bento-cell bento-span-7">
+            <div>
+              <div class="tag-row" style="margin-bottom: 14px;">
+                <span class="badge badge-blue">Resident-Safe Recovery</span>
+              </div>
+              <h3>Pending Space restore, delayed verification, and single-step Undo</h3>
+              <p>
+                Windows on inactive Mission Control Spaces that are invisible during a monitor settle remain marked as pending for that display setup and are restored when you switch to their Space. A 1-second delayed readback quarantines windows that drift after animation so failed restores are not learned as new positions. Any automatic or manual restore can be reverted with <strong>Undo Last Restore</strong> without touching <code>profiles.json</code>.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CURRENT SCOPE & NON-GOALS -->
+    <section class="section" id="scope">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Current scope and explicit non-goals</h2>
+          <p>
+            WindowHarbor is an active engineering prototype. We document exact boundaries between what is implemented and tested in code today versus open macOS platform limitations.
+          </p>
+        </div>
+
+        <div class="scope-ledger reveal">
+          <div class="scope-column">
+            <div class="scope-column-header">
+              <h3>Implemented in current build</h3>
+              <span class="badge badge-green">Shipped in Code</span>
+            </div>
+            <div class="scope-items">
+              <div class="scope-item">
+                <h4>Ordinary floating and maximized windows</h4>
+                <p>
+                  Learns and restores standard Accessibility windows for <code>.regular</code> macOS applications. Maximized means filling the display's <code>visibleFrame</code>, not toggling internal AppKit zoom state.
+                </p>
+              </div>
+              <div class="scope-item">
+                <h4>Transition freeze and quarantine</h4>
+                <p>
+                  Blocks learning during display reconfiguration, sleep/wake, and cooldown. Quarantines windows that reject a target frame until you choose <strong>Save Current Positions</strong>.
+                </p>
+              </div>
+              <div class="scope-item">
+                <h4>Single-step Undo and diagnostic archives</h4>
+                <p>
+                  Reverts the last restore in the current epoch from memory, and packages privacy-safe diagnostic logs (<code>trace.log</code>, <code>topology-log.jsonl</code>, summary) into a local zip archive.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="scope-column">
+            <div class="scope-column-header">
+              <h3>Not claimed as solved</h3>
+              <span class="badge badge-red">Explicit Non-Goals / Open</span>
+            </div>
+            <div class="scope-items">
+              <div class="scope-item">
+                <h4>Native macOS fullscreen Spaces</h4>
+                <p>
+                  <code>AXFullScreen</code> is read only as a non-destructive hint so fullscreen windows are skipped during geometry restore. WindowHarbor does not exit fullscreen or move fullscreen Spaces across displays.
+                </p>
+              </div>
+              <div class="scope-item">
+                <h4>Moving windows across Mission Control Spaces</h4>
+                <p>
+                  Public macOS APIs do not move windows between Desktop Spaces. WindowHarbor does not reassign windows to different Spaces or manage Split View and Stage Manager layouts.
+                </p>
+              </div>
+              <div class="scope-item">
+                <h4>Cross-relaunch window matching and display aliases</h4>
+                <p>
+                  Window identity is bound to the live process session (<code>sessionID</code>). Restarting an app or restarting WindowHarbor requires saving positions for the new session rather than guessing by window title or index. Display UUID changes across different dock ports are not auto-merged.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSTALLATION & QUICK START -->
+    <section class="section section-alt" id="install">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Installation and quick start</h2>
+          <p>
+            Requires macOS 14.0 (Sonoma) or newer. Choose between downloading the prebuilt release bundle or compiling from source with Swift Package Manager.
+          </p>
+        </div>
+
+        <div class="install-grid reveal">
+          <div class="install-card">
+            <div>
+              <div class="tag-row" style="margin-bottom: 12px;">
+                <span class="badge badge-blue">Option A · Prebuilt App</span>
+              </div>
+              <h3>Download from GitHub Releases</h3>
+              <p style="margin-bottom: 16px;">
+                Fastest way to run WindowHarbor without installing Xcode or command-line build tools.
+              </p>
+              <ol class="step-list">
+                <li>
+                  <strong>1. Download and move to Applications:</strong> Grab <code>WindowHarbor-macOS.zip</code> from <a href="https://github.com/zalexo/WindowHarbor/releases" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">GitHub Releases</a>, extract <code>WindowHarbor.app</code>, and drag it into <code>/Applications</code>.
+                </li>
+                <li>
+                  <strong>2. Allow in System Settings:</strong> Try to open <code>WindowHarbor.app</code>. Because builds use ad-hoc signing without Apple Developer ID notarization, macOS Gatekeeper will pause the first launch. Open <strong>System Settings &rarr; Privacy &amp; Security</strong>, scroll down to Security, and click <strong>Open Anyway</strong>.
+                </li>
+                <li>
+                  <strong>3. Grant Accessibility permission:</strong> Click the WindowHarbor icon in your menu bar (Cmd-drag icons if hidden behind a MacBook notch) and select <strong>Grant Accessibility Access...</strong>
+                </li>
+              </ol>
+            </div>
+            <div style="padding-top: 8px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+              <a
+                href="https://github.com/zalexo/WindowHarbor/releases"
+                class="btn btn-primary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>Open GitHub Releases</span>
+              </a>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">
+                CLI alternative: <code>xattr -dr com.apple.quarantine /Applications/WindowHarbor.app</code>
+              </span>
+            </div>
+          </div>
+
+          <div class="install-card">
+            <div>
+              <div class="tag-row" style="margin-bottom: 12px;">
+                <span class="badge badge-green">Option B · Build from Source</span>
+              </div>
+              <h3>Compile with Swift Package Manager</h3>
+              <p style="margin-bottom: 16px;">
+                Clone the repository, run the Swift Testing suite, and package a local release <code>.app</code> bundle with ad-hoc code signing.
+              </p>
+              <div class="terminal-box">
+                <div class="terminal-header">
+                  <span>zsh · macOS 14+ / Swift 6 toolchain</span>
+                  <button type="button" class="copy-btn" data-copy="git clone https://github.com/zalexo/WindowHarbor.git&#10;cd WindowHarbor&#10;./scripts/test.sh&#10;./scripts/build-app.sh&#10;open dist/WindowHarbor.app">Copy</button>
+                </div>
+                <pre><code>git clone https://github.com/zalexo/WindowHarbor.git
+cd WindowHarbor
+./scripts/test.sh
+./scripts/build-app.sh
+open dist/WindowHarbor.app</code></pre>
+              </div>
+            </div>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">
+              Tip: Set <code>SIGNING_IDENTITY="Developer ID Application: ..."</code> when running <code>./scripts/build-app.sh</code> if you have a local certificate and want a persistent TCC Accessibility identity across rebuilds.
+            </p>
+          </div>
+        </div>
+
+        <div class="cli-strip reveal">
+          <div class="cli-flag">
+            <code>WindowHarbor --diagnose</code>
+            <p>
+              Read-only smoke check: prints version, active logical display count, and Accessibility trust status, then exits without registering observers or writing files.
+            </p>
+          </div>
+          <div class="cli-flag">
+            <code>WindowHarbor --record-topology</code>
+            <p>
+              Runs a standalone display reconfiguration recorder that appends anonymized display geometry events to <code>topology-log.jsonl</code> without moving windows.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>WindowHarbor</strong> · Native macOS 14+ window geometry utility (<code>app.windowharbor.mac</code>)
+      </div>
+      <ul class="footer-links">
+        <li>
+          <a href="https://github.com/zalexo/WindowHarbor" target="_blank" rel="noopener noreferrer">
+            GitHub Repository
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/zalexo/WindowHarbor/releases" target="_blank" rel="noopener noreferrer">
+            Releases &amp; Downloads
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/zalexo/WindowHarbor/blob/main/docs/wiki/architecture.md" target="_blank" rel="noopener noreferrer">
+            Architecture Wiki
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/zalexo/WindowHarbor/blob/main/docs/wiki/gaps.md" target="_blank" rel="noopener noreferrer">
+            Known Gaps
+          </a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    // Copy button feedback
+    document.querySelectorAll('.copy-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const text = btn.getAttribute('data-copy');
+        if (!text || !navigator.clipboard) return;
+        navigator.clipboard.writeText(text).then(() => {
+          const original = btn.textContent;
+          btn.textContent = 'Copied';
+          setTimeout(() => { btn.textContent = original; }, 1600);
+        });
+      });
+    });
+
+    // Subtle IntersectionObserver reveal (no scroll event listener)
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    } else {
+      document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
+    }
+  </script>
+</body>
+</html>
