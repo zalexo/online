@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="108" height="108" viewBox="0 0 108 108">
+  <title>Drive Deck</title>
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="108" y2="108">
+      <stop offset="0" stop-color="#9AD6FF"/>
+      <stop offset="1" stop-color="#2F78BE"/>
+    </linearGradient>
+    <linearGradient id="rim" gradientUnits="userSpaceOnUse" x1="0" y1="22" x2="0" y2="86">
+      <stop offset="0" stop-color="#7A828E"/>
+      <stop offset="0.5" stop-color="#3B4048"/>
+      <stop offset="1" stop-color="#1C1F24"/>
+    </linearGradient>
+    <linearGradient id="pad" gradientUnits="userSpaceOnUse" x1="0" y1="43" x2="0" y2="69">
+      <stop offset="0" stop-color="#5A616B"/>
+      <stop offset="1" stop-color="#2B2F35"/>
+    </linearGradient>
+    <radialGradient id="badge" gradientUnits="userSpaceOnUse" cx="52" cy="53" r="9">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#D6E9F7"/>
+    </radialGradient>
+  </defs>
+  <rect width="108" height="108" rx="24" fill="url(#bg)"/>
+  <circle cx="54" cy="56.5" r="26" fill="none" stroke="#000" stroke-opacity="0.28" stroke-width="9"/>
+  <path d="M28 52 C37 49.5 44 47 54 47 C64 47 71 49.5 80 52 L80.8 61.5 C72.5 61.5 66.5 64 62.5 70.5 L61 79.8 L47 79.8 L45.5 70.5 C41.5 64 35.5 61.5 27.2 61.5 Z" fill="#202328"/>
+  <path d="M28 52 C37 49.5 44 47 54 47 C64 47 71 49.5 80 52" fill="none" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="1"/>
+  <circle cx="54" cy="54" r="26" fill="none" stroke="url(#rim)" stroke-width="9"/>
+  <circle cx="54" cy="54" r="21.5" fill="none" stroke="#000" stroke-opacity="0.35" stroke-width="1"/>
+  <path d="M33 35.2 A28.5 28.5 0 0 1 75 35.2" fill="none" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M40 50 C40 45 46 43 54 43 C62 43 68 45 68 50 L68 60 C68 66 61 69 54 69 C47 69 40 66 40 60 Z" fill="url(#pad)"/>
+  <path d="M41.5 49.5 C42 46 47 44.3 54 44.3 C61 44.3 66 46 66.5 49.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="1"/>
+  <circle cx="54" cy="55" r="8" fill="url(#badge)"/>
+  <path d="M51.6 51.4 L58 55 L51.6 58.6 Z" fill="#2F78BE" stroke="#2F78BE" stroke-width="1.6" stroke-linejoin="round"/>
+</svg>

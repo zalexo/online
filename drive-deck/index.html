@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drive Deck | Four big buttons for your music in Android Auto</title>
+  <meta
+    name="description"
+    content="Drive Deck is an open-source Android Auto music player with four large buttons. It plays MP3 and FLAC files from a folder on your phone, or controls YouTube Music."
+  >
+  <link rel="icon" type="image/svg+xml" href="./icon.svg">
+  <link rel="canonical" href="https://www.mind-tech.info/drive-deck/">
+  <meta name="theme-color" content="#f6f9fc" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111418" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="Drive Deck">
+  <meta property="og:url" content="https://www.mind-tech.info/drive-deck/">
+  <meta property="og:title" content="Drive Deck | Four big buttons for your music in Android Auto">
+  <meta
+    property="og:description"
+    content="An open-source Android Auto music player with four large buttons, made to be pressed without looking."
+  >
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Drive Deck | Four big buttons for your music in Android Auto">
+  <meta
+    name="twitter:description"
+    content="An open-source Android Auto music player with four large buttons, made to be pressed without looking."
+  >
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Drive Deck",
+      "operatingSystem": "Android 8.0+",
+      "applicationCategory": "MultimediaApplication",
+      "url": "https://www.mind-tech.info/drive-deck/",
+      "license": "https://opensource.org/licenses/MIT",
+      "sameAs": "https://github.com/zalexo/media-app",
+      "description": "An Android Auto music player with four large buttons. It plays MP3 and FLAC files from a folder on the phone, or controls the YouTube Music app."
+    }
+  </script>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <a class="skip-link" href="#top">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a href="#top" class="brand" aria-label="Drive Deck, back to top">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="2.4" />
+            <path d="M4.2 11.2c2.6-.8 5-1.2 7.8-1.2s5.2.4 7.8 1.2" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+            <path d="M10.6 13.2v4.6M13.4 13.2v4.6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M10.7 9.6l3.3 1.9-3.3 1.9z" fill="#ffffff" />
+          </svg>
+        </span>
+        <span>Drive Deck</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#modes">Two modes</a></li>
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#scope">Today and limits</a></li>
+        <li><a href="#install">Try it</a></li>
+        <li>
+          <a href="https://github.com/zalexo/media-app" class="nav-gh" target="_blank" rel="noopener noreferrer">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+            <span>View on GitHub</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow-badge">Android Auto music player - Open source (MIT)</span>
+          <h1>Four big buttons. Eyes on the road.</h1>
+          <p class="hero-subtext">
+            Drive Deck plays MP3 and FLAC files from a folder on your phone, or controls YouTube Music.
+          </p>
+          <div class="hero-ctas">
+            <a href="https://github.com/zalexo/media-app#build-and-try" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+              Build from Source
+            </a>
+            <a href="https://github.com/zalexo/media-app" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+              View on GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- CAR-SCREEN ILLUSTRATION -->
+        <figure class="car-figure" aria-labelledby="car-note">
+          <div class="car" id="car" data-tone="amber">
+            <div class="car-screen">
+              <div class="car-app">
+                <div class="car-head">
+                  <span class="car-mode" id="car-mode">MY FILES</span>
+                  <div class="car-head-actions">
+                    <button type="button" class="car-chip" id="car-switch" aria-label="Switch to YouTube Music">YOUTUBE MUSIC</button>
+                    <button type="button" class="car-chip car-chip-icon" id="car-liked" aria-label="Liked songs">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </button>
+                  </div>
+                </div>
+
+                <button type="button" class="car-row" id="car-track" aria-label="Song name: tap to like">
+                  <span class="car-row-text">
+                    <span class="car-title" id="car-title">Coast Road</span>
+                    <span class="car-sub" id="car-sub">Blues - Track 5 of 23</span>
+                  </span>
+                </button>
+
+                <button type="button" class="car-row car-source" id="car-source">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                  <span>Favorites</span>
+                  <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                </button>
+
+                <div class="car-tiles" role="group" aria-label="Tiles">
+                  <button type="button" class="tile" data-tile="previous" aria-label="Previous">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h2.9v18H3zM21 3L7.3 12 21 21z"/></svg>
+                  </button>
+                  <button type="button" class="tile tile-primary is-pressed" data-tile="play" aria-label="Play/Pause" aria-pressed="true">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5v14l8-7zM13 5h3v14h-3zM18 5h3v14h-3z"/></svg>
+                  </button>
+                  <button type="button" class="tile" data-tile="next" aria-label="Next">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.1 3H21v18h-2.9zM3 3l13.7 9L3 21z"/></svg>
+                  </button>
+                  <button type="button" class="tile" data-tile="library" id="tile-library" aria-label="Folder">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h8.4l2 2.6H22V20H2z"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="car-nav" aria-hidden="true">Navigation app</div>
+            </div>
+          </div>
+
+          <div class="car-controls">
+            <div class="tone-switch" role="group" aria-label="Tone of the car screen">
+              <span class="tone-label">Tone</span>
+              <button type="button" class="tone-btn" data-tone="amber" aria-pressed="true">Amber</button>
+              <button type="button" class="tone-btn" data-tone="glacier" aria-pressed="false">Glacier</button>
+              <button type="button" class="tone-btn" data-tone="moss" aria-pressed="false">Moss</button>
+            </div>
+            <p class="car-caption" id="car-caption" aria-live="polite">
+              Playing Coast Road from the Blues folder. Tap a tile or the song name.
+            </p>
+          </div>
+          <figcaption class="car-note" id="car-note">
+            Illustration. Android Auto draws the real screen; tile size and fonts depend on the car.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>One screen, made for a glance</h2>
+          <p>
+            Drive Deck does not draw the car screen itself: it hands Android Auto the content, and Android Auto draws it.
+            Drive Deck keeps that content short: what plays, where it comes from, and four big buttons.
+          </p>
+        </div>
+
+        <div class="feature-track reveal">
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M1.4 7.5h4.4v9H1.4zM7 7.5h4.4v9H7zM12.6 7.5h4.4v9h-4.4zM18.2 7.5h4.4v9h-4.4z"/></svg>
+            </span>
+            <h3>Four large tiles</h3>
+            <p>
+              Previous, Play/Pause, Next and Folder, as large as Android Auto allows with four in a row.
+              The tiles carry no text, so there is nothing to read. Play/Pause looks pressed in while music plays.
+            </p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1014 17V7h4V3h-6z"/></svg>
+            </span>
+            <h3>The track row</h3>
+            <p>
+              The song name, and under it the folder or playlist with the place in the queue: "Blues - Track 5 of 23".
+              Tap the name to like the song; tap again to take the like back.
+            </p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            </span>
+            <h3>Favorites in one tap</h3>
+            <p>
+              The row under the song leads to the playing folder or playlist. Star favorites on the phone and it leads to them:
+              one favorite starts with a single tap, several open a short list.
+            </p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </span>
+            <h3>Liked songs</h3>
+            <p>
+              A liked song shows a heart before its name. The heart in the header opens the list of liked songs
+              and plays it from the song you tap.
+            </p>
+          </article>
+        </div>
+
+        <div class="detail-split reveal">
+          <div class="detail-pane">
+            <h3>Your music folder, read where it is</h3>
+            <p>
+              Pick one folder on the phone once. Drive Deck plays the MP3 and FLAC files in it and in its subfolders,
+              straight from where they are. It does not copy or upload your music.
+            </p>
+            <dl class="kv-grid">
+              <div class="kv-item">
+                <dt>File types</dt>
+                <dd>MP3 and FLAC</dd>
+              </div>
+              <div class="kv-item">
+                <dt>Music source</dt>
+                <dd>One folder and its subfolders</dd>
+              </div>
+            </dl>
+          </div>
+          <div class="detail-pane">
+            <h3>The phone sets things up, the car plays</h3>
+            <p>
+              On the phone you pick the music folder, browse folders and playlists, and star your favorites.
+              Playback itself is controlled from the car.
+            </p>
+            <dl class="kv-grid">
+              <div class="kv-item">
+                <dt>Favorites</dt>
+                <dd>Up to six folders or playlists</dd>
+              </div>
+              <div class="kv-item">
+                <dt>Phone</dt>
+                <dd>Android 8.0 or later, with Android Auto</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TWO MODES -->
+    <section class="section section-alt" id="modes">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Two modes, the same four buttons</h2>
+          <p>
+            Switch between them from the header of the car screen. Exactly one mode is active at a time, and My files is the default.
+          </p>
+        </div>
+
+        <div class="mode-table-wrap reveal">
+          <table class="mode-table">
+            <thead>
+              <tr>
+                <td></td>
+                <th scope="col">My files <span class="mode-default">Default</span></th>
+                <th scope="col">YouTube Music</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Who plays the sound</th>
+                <td data-label="My files">Drive Deck's own player.</td>
+                <td data-label="YouTube Music">The YouTube Music app on the phone. Drive Deck works as its remote.</td>
+              </tr>
+              <tr>
+                <th scope="row">Where the music comes from</th>
+                <td data-label="My files">MP3 and FLAC files in the folder you picked.</td>
+                <td data-label="YouTube Music">Playlists you add on the phone: in YouTube Music, tap Share on a playlist and pick Drive Deck.</td>
+              </tr>
+              <tr>
+                <th scope="row">The Folder tile opens</th>
+                <td data-label="My files">Your folders and tracks.</td>
+                <td data-label="YouTube Music">The playlists you added.</td>
+              </tr>
+              <tr>
+                <th scope="row">A tap on the song name</th>
+                <td data-label="My files">Likes the song in Drive Deck.</td>
+                <td data-label="YouTube Music">Likes the song in YouTube Music too. The heart marks the songs you picked in the car, not every song liked in YouTube Music.</td>
+              </tr>
+              <tr>
+                <th scope="row">What it needs</th>
+                <td data-label="My files">A music folder, chosen once on the phone.</td>
+                <td data-label="YouTube Music">YouTube Music installed, and notification access, which Android grants on its settings page.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIVACY -->
+    <section class="section" id="privacy">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Drive Deck stays on the phone</h2>
+          <p>
+            Drive Deck has no server, no account and no analytics. It does not even ask Android for internet access.
+          </p>
+        </div>
+
+        <div class="bento-grid reveal">
+          <article class="bento-cell bento-span-7 tinted">
+            <div>
+              <h3>The car shows the screen. The phone does the rest.</h3>
+              <p>
+                Your music folder, Drive Deck and the YouTube Music app are all on the phone. Android Auto sends the screen to the car
+                over USB or wirelessly, and passes your taps back. The car never reads your files.
+              </p>
+            </div>
+            <svg class="diagram" viewBox="0 0 480 250" role="img" aria-labelledby="dg-title dg-desc">
+              <title id="dg-title">Where Drive Deck runs</title>
+              <desc id="dg-desc">The phone holds Drive Deck, the music folder and YouTube Music. Drive Deck reads the folder in place and sends commands to YouTube Music. Android Auto carries the screen to the car.</desc>
+              <defs>
+                <marker id="dg-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path class="dg-arrow" d="M0 0L10 5L0 10z" />
+                </marker>
+              </defs>
+              <rect class="dg-frame" x="2" y="2" width="270" height="246" rx="20" />
+              <text class="dg-label" x="22" y="31">PHONE</text>
+              <rect class="dg-main" x="20" y="44" width="234" height="48" rx="10" />
+              <text class="dg-text" x="137" y="73" text-anchor="middle">Drive Deck</text>
+              <path class="dg-line" d="M75 92V146" marker-end="url(#dg-head)" />
+              <path class="dg-line" d="M199 92V146" marker-end="url(#dg-head)" />
+              <text class="dg-sub" x="83" y="124">reads in place</text>
+              <text class="dg-sub" x="207" y="124">commands</text>
+              <rect class="dg-box" x="20" y="150" width="110" height="48" rx="10" />
+              <text class="dg-text" x="75" y="179" text-anchor="middle">Music folder</text>
+              <text class="dg-sub" x="75" y="220" text-anchor="middle">MP3, FLAC</text>
+              <rect class="dg-box" x="144" y="150" width="110" height="48" rx="10" />
+              <text class="dg-text" x="199" y="179" text-anchor="middle">YouTube Music</text>
+              <text class="dg-sub" x="199" y="220" text-anchor="middle">a separate app</text>
+              <path class="dg-line" d="M276 125H362" marker-start="url(#dg-head)" marker-end="url(#dg-head)" />
+              <text class="dg-sub" x="319" y="114" text-anchor="middle">Android Auto</text>
+              <rect class="dg-car" x="366" y="72" width="110" height="106" rx="14" />
+              <text class="dg-text-on-dark" x="421" y="122" text-anchor="middle">Car screen</text>
+              <text class="dg-sub-on-dark" x="421" y="142" text-anchor="middle">shows and taps</text>
+            </svg>
+          </article>
+
+          <article class="bento-cell bento-span-5 dark-code">
+            <div>
+              <h3>Four permissions, none of them internet</h3>
+              <p>This is the whole list the app declares in its manifest.</p>
+            </div>
+            <pre class="code-snippet"><code><span class="c"># uses-permission, AndroidManifest.xml</span>
+<span class="ok">androidx.car.app.MEDIA_TEMPLATES</span>
+<span class="c">  car media screens</span>
+android.permission:
+  <span class="ok">FOREGROUND_SERVICE</span>
+  <span class="ok">FOREGROUND_SERVICE_MEDIA_PLAYBACK</span>
+<span class="c">    playback in the background</span>
+  <span class="ok">POST_NOTIFICATIONS</span>
+<span class="c">    the media notification</span>
+
+<span class="c"># not declared:</span>
+  INTERNET
+  READ_EXTERNAL_STORAGE
+  READ_MEDIA_AUDIO
+  MANAGE_EXTERNAL_STORAGE</code></pre>
+          </article>
+
+          <article class="bento-cell bento-span-5">
+            <div>
+              <h3>One folder, nothing else</h3>
+              <p>
+                Android's folder picker gives Drive Deck read access to the one folder you choose, not to your whole storage.
+                Pick a folder on the phone itself: a cloud storage app behind the picker could still go online to fetch files.
+              </p>
+            </div>
+          </article>
+
+          <article class="bento-cell bento-span-7">
+            <div>
+              <h3>YouTube Music stays YouTube Music</h3>
+              <p>
+                In YouTube Music mode, Drive Deck is a remote. It reads what YouTube Music is playing and sends it play, pause,
+                previous, next and like. It cannot see your library, and it downloads nothing. To read the player,
+                it needs notification access, which you grant on Android's settings page.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- TODAY AND LIMITS -->
+    <section class="section section-alt" id="scope">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>What works today, and what Android Auto decides</h2>
+          <p>
+            Drive Deck is an early-stage project. It is tested on the Desktop Head Unit (DHU), the Android Auto emulator
+            for a computer, and in one car.
+          </p>
+        </div>
+
+        <div class="scope-ledger reveal">
+          <div class="scope-column">
+            <div class="scope-column-header">
+              <h3>Works today</h3>
+              <span class="badge badge-green">Built</span>
+            </div>
+            <div class="scope-items">
+              <div class="scope-item">
+                <h4>Your files and YouTube Music on one screen</h4>
+                <p>The same four tiles play your MP3 and FLAC files or control YouTube Music. The header switches between the two.</p>
+              </div>
+              <div class="scope-item">
+                <h4>Favorites</h4>
+                <p>Up to six folders or playlists, starred on the phone. With one favorite, a single tap in the car starts it.</p>
+              </div>
+              <div class="scope-item">
+                <h4>Liked songs</h4>
+                <p>Tap the song name to like it, tap again to take the like back. The heart in the header plays the liked list.</p>
+              </div>
+              <div class="scope-item">
+                <h4>One-tap like in YouTube Music mode <span class="badge badge-amber">Phone check open</span></h4>
+                <p>
+                  A tap puts the song on the trip's list and likes it in YouTube Music, even if it was liked there before.
+                  Unit tests cover it; the check with YouTube Music on a phone is still to do.
+                </p>
+              </div>
+            </div>
+            <p class="scope-footnote">
+              Known problems and planned fixes are in the
+              <a href="https://github.com/zalexo/media-app/blob/main/doc/open-issues.md" target="_blank" rel="noopener noreferrer">open issues register</a>.
+            </p>
+          </div>
+
+          <div class="scope-column">
+            <div class="scope-column-header">
+              <h3>Android Auto decides</h3>
+              <span class="badge badge-blue">Host limits</span>
+            </div>
+            <div class="scope-items">
+              <div class="scope-item">
+                <h4>Tile size and font</h4>
+                <p>Android Auto sets how large the tiles are and which font the text uses. The text cannot be made larger.</p>
+              </div>
+              <div class="scope-item">
+                <h4>A shared screen</h4>
+                <p>On a wide car screen, Android Auto keeps a navigation panel next to the app. Only navigation apps open full screen.</p>
+              </div>
+              <div class="scope-item">
+                <h4>No moving text</h4>
+                <p>A long song name is cut with an ellipsis. Android Auto draws the text and does not scroll it.</p>
+              </div>
+              <div class="scope-item">
+                <h4>Google Play only, in a real car</h4>
+                <p>A real car lists only apps installed from Google Play. Drive Deck is there through internal testing only, with no public store page.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRY IT -->
+    <section class="section" id="install">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Try it on your computer</h2>
+          <p>
+            Android Auto shows a build you install yourself only on the DHU. That is the way to try Drive Deck today.
+          </p>
+        </div>
+
+        <div class="install-grid reveal">
+          <div class="install-card">
+            <div>
+              <h3>Before you start</h3>
+              <ol class="step-list">
+                <li>A phone with <strong>Android 8.0 or later</strong> and Android Auto.</li>
+                <li>To build: <strong>Android Studio</strong> with its bundled JDK, and the Android SDK for API level 36.</li>
+                <li>The <strong>DHU</strong> on your computer, with "Unknown sources" turned on in Android Auto's developer settings.</li>
+                <li>In a car, Android Auto lists only apps from Google Play, and Drive Deck is in Google Play internal testing only for now.</li>
+              </ol>
+            </div>
+            <p class="install-foot">
+              Step by step:
+              <a class="text-link" href="https://github.com/zalexo/media-app/blob/main/doc/testing-on-dhu.md" target="_blank" rel="noopener noreferrer">Testing on the DHU</a>.
+            </p>
+          </div>
+
+          <div class="install-card">
+            <div>
+              <h3>Build from source</h3>
+              <p>Clone the repository and install the debug build on your phone.</p>
+              <div class="terminal-box">
+                <div class="terminal-header">
+                  <span>shell</span>
+                  <button type="button" class="copy-btn" data-copy="git clone https://github.com/zalexo/media-app.git&#10;cd media-app&#10;./gradlew installDebug">Copy</button>
+                </div>
+                <pre><code><span class="prompt">$ </span>git clone https://github.com/zalexo/media-app.git
+<span class="prompt">$ </span>cd media-app
+<span class="prompt">$ </span>./gradlew installDebug</code></pre>
+              </div>
+            </div>
+            <p class="install-foot">
+              The debug build installs as <strong>Drive Deck (dev)</strong>, so it can sit next to a build from Google Play.
+            </p>
+          </div>
+        </div>
+
+        <div class="strip reveal">
+          <div>
+            <h3>Contribute</h3>
+            <p>
+              Suggestions, bug reports and pull requests are welcome. Read
+              <a href="https://github.com/zalexo/media-app/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">CONTRIBUTING.md</a>
+              first; the
+              <a href="https://github.com/zalexo/media-app/blob/main/doc/open-issues.md" target="_blank" rel="noopener noreferrer">open issues</a>
+              list the known work.
+            </p>
+          </div>
+          <div>
+            <h3>Support</h3>
+            <p>
+              Drive Deck is free to use under MIT. Donations are optional, through
+              <a href="https://github.com/sponsors/zalexo" target="_blank" rel="noopener noreferrer">GitHub Sponsors</a> or
+              <a href="https://buymeacoffee.com/alexeyarilovets" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a>,
+              and do not promise features, deadlines or support.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-top">
+        <div><strong>Drive Deck</strong> - MIT license</div>
+        <ul class="footer-links">
+          <li><a href="https://github.com/zalexo/media-app" target="_blank" rel="noopener noreferrer">Repository</a></li>
+          <li><a href="https://github.com/zalexo/media-app/blob/main/doc/architecture/high-level-design.md" target="_blank" rel="noopener noreferrer">High-level design</a></li>
+          <li><a href="https://github.com/zalexo/media-app/blob/main/doc/architecture/architectural-design.md" target="_blank" rel="noopener noreferrer">Architectural design</a></li>
+          <li><a href="https://github.com/zalexo/media-app/blob/main/doc/adr/README.md" target="_blank" rel="noopener noreferrer">Design decisions</a></li>
+          <li><a href="https://github.com/zalexo/media-app/blob/main/doc/open-issues.md" target="_blank" rel="noopener noreferrer">Open issues</a></li>
+          <li><a href="https://github.com/zalexo/media-app/blob/main/doc/donations.md" target="_blank" rel="noopener noreferrer">Donations</a></li>
+        </ul>
+      </div>
+      <p class="footer-legal">
+        Android Auto and YouTube Music are trademarks of Google LLC. Drive Deck is an independent project and is not
+        affiliated with or endorsed by Google.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const car = document.getElementById('car');
+      if (!car) return;
+
+      const MODES = {
+        files: {
+          title: 'MY FILES',
+          other: 'YOUTUBE MUSIC',
+          otherName: 'YouTube Music',
+          source: 'Blues',
+          total: 23,
+          songs: ['Slow Rain', 'Grey Morning', 'Late Bus Home', 'Two Lanes', 'Coast Road', 'Porch Light', 'Low Sun', 'Long Way Round']
+        },
+        ytm: {
+          title: 'YOUTUBE MUSIC',
+          other: 'MY FILES',
+          otherName: 'My files',
+          source: 'Road trip',
+          total: 25,
+          songs: ['Open Window', 'North Exit', 'Long Straight', 'Station Coffee', 'Night Lights', 'Back Roads', 'Last Ferry', 'Highway Hum']
+        }
+      };
+      const TONES = { amber: 'Amber', glacier: 'Glacier', moss: 'Moss' };
+
+      const state = {
+        mode: 'files',
+        place: { files: 5, ytm: 3 },
+        playing: true,
+        liked: { files: new Set(), ytm: new Set() }
+      };
+
+      const el = {
+        mode: document.getElementById('car-mode'),
+        switchBtn: document.getElementById('car-switch'),
+        likedBtn: document.getElementById('car-liked'),
+        track: document.getElementById('car-track'),
+        title: document.getElementById('car-title'),
+        sub: document.getElementById('car-sub'),
+        source: document.getElementById('car-source'),
+        library: document.getElementById('tile-library'),
+        play: car.querySelector('[data-tile="play"]'),
+        caption: document.getElementById('car-caption')
+      };
+
+      function song() {
+        const m = MODES[state.mode];
+        return m.songs[(state.place[state.mode] - 1) % m.songs.length];
+      }
+
+      function render() {
+        const m = MODES[state.mode];
+        const name = song();
+        const liked = state.liked[state.mode].has(name);
+        el.mode.textContent = m.title;
+        el.switchBtn.textContent = m.other;
+        el.switchBtn.setAttribute('aria-label', 'Switch to ' + m.otherName);
+        el.title.textContent = (liked ? '♥ ' : '') + name;
+        el.sub.textContent = m.source + ' - Track ' + state.place[state.mode] + ' of ' + m.total;
+        el.play.classList.toggle('is-pressed', state.playing);
+        el.play.setAttribute('aria-pressed', String(state.playing));
+      }
+
+      function say(text) {
+        el.caption.textContent = text;
+      }
+
+      function tap(tile) {
+        tile.classList.add('is-tapped');
+        setTimeout(() => tile.classList.remove('is-tapped'), 160);
+      }
+
+      function step(delta) {
+        const total = MODES[state.mode].total;
+        state.place[state.mode] = ((state.place[state.mode] - 1 + delta + total) % total) + 1;
+      }
+
+      car.querySelectorAll('.tile').forEach((tile) => {
+        tile.addEventListener('click', () => {
+          const id = tile.getAttribute('data-tile');
+          if (id === 'previous') {
+            tap(tile);
+            step(-1);
+            say('Previous song: ' + song() + '.');
+          } else if (id === 'next') {
+            tap(tile);
+            step(1);
+            say('Next song: ' + song() + '.');
+          } else if (id === 'play') {
+            state.playing = !state.playing;
+            say(state.playing ? 'Playing. The Play/Pause tile stays pressed in while music plays.' : 'Paused.');
+          } else if (id === 'library') {
+            tap(tile);
+            say(state.mode === 'files'
+              ? 'Folder opens the folders and tracks of your music folder.'
+              : 'In this mode, Folder opens the YouTube Music playlists you added on the phone.');
+          }
+          render();
+        });
+      });
+
+      el.track.addEventListener('click', () => {
+        const name = song();
+        const list = state.liked[state.mode];
+        const ytm = state.mode === 'ytm';
+        if (list.has(name)) {
+          list.delete(name);
+          say(ytm ? name + ' is off the trip’s list. The car takes back the like in YouTube Music only if the car put it.' : 'Like taken back from ' + name + '.');
+        } else {
+          list.add(name);
+          say(ytm ? name + ' is liked in YouTube Music and on the trip’s list.' : name + ' is liked. Tap the name again to take the like back.');
+        }
+        render();
+      });
+
+      el.likedBtn.addEventListener('click', () => {
+        const n = state.liked[state.mode].size;
+        say(n === 0
+          ? 'Liked songs: none yet. Tap the song name to like it.'
+          : 'Liked songs: ' + n + ' so far. A tap on one plays the list from that song.');
+      });
+
+      el.switchBtn.addEventListener('click', () => {
+        state.mode = state.mode === 'files' ? 'ytm' : 'files';
+        say(state.mode === 'ytm'
+          ? 'YouTube Music mode: the same tiles control the YouTube Music app. Folder now opens your playlists.'
+          : 'My files mode: Drive Deck plays the files in your music folder. Folder opens your folders.');
+        render();
+      });
+
+      el.source.addEventListener('click', () => {
+        say('Favorites: with one starred on the phone, a tap starts it; with several, the car shows a short list.');
+      });
+
+      document.querySelectorAll('.tone-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const tone = btn.getAttribute('data-tone');
+          car.setAttribute('data-tone', tone);
+          document.querySelectorAll('.tone-btn').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+          say('Tone: ' + TONES[tone] + '. The app has three tones, each with a day and a night look.');
+        });
+      });
+
+      render();
+    })();
+
+    document.querySelectorAll('.copy-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const text = btn.getAttribute('data-copy');
+        if (!text || !navigator.clipboard) return;
+        navigator.clipboard.writeText(text).then(() => {
+          const original = btn.textContent;
+          btn.textContent = 'Copied';
+          setTimeout(() => { btn.textContent = original; }, 1600);
+        });
+      });
+    });
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach((node) => observer.observe(node));
+    } else {
+      document.querySelectorAll('.reveal').forEach((node) => node.classList.add('is-visible'));
+    }
+  </script>
+</body>
+</html>
