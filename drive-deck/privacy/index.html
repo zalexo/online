@@ -63,7 +63,7 @@
         on your phone, what it keeps, and what it shares. The short answer: it collects nothing about you and
         sends nothing anywhere.
       </p>
-      <p class="policy-date">Effective date: 13 November 2026</p>
+      <p class="policy-date">Effective date: 14 November 2026</p>
 
       <section>
         <h2>In short</h2>
@@ -105,7 +105,14 @@
           <li><strong>Show its screen in Android Auto</strong> (<code>androidx.car.app.MEDIA_TEMPLATES</code>).</li>
           <li><strong>Keep playing in the background</strong> (<code>FOREGROUND_SERVICE</code> and <code>FOREGROUND_SERVICE_MEDIA_PLAYBACK</code>).</li>
           <li><strong>Show the playback notification</strong> (<code>POST_NOTIFICATIONS</code>).</li>
+          <li><strong>Keep the phone awake while it plays</strong> (<code>WAKE_LOCK</code>).</li>
+          <li><strong>See whether the phone has a network connection</strong> (<code>ACCESS_NETWORK_STATE</code>). This tells the app only whether the phone is connected, and how; it does not let the app go online.</li>
         </ul>
+        <p>
+          The last two come with Google's media library, which the app uses to play music. Android libraries also add
+          one internal permission (<code>DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION</code>) that only stops other apps
+          from sending messages to Drive Deck; you never see it, and it gives the app no access to anything.
+        </p>
         <p>
           It has no access to the internet, your location, contacts, camera, microphone, photos or other files.
         </p>
