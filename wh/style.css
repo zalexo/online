@@ -928,8 +928,28 @@ kbd {
 }
 
 @media (max-width: 640px) {
+  .nav-inner {
+    gap: 12px;
+  }
+
+  .brand {
+    min-width: 0;
+  }
+
+  .nav-links {
+    flex-shrink: 0;
+  }
+
   .nav-links li:not(:last-child) {
     display: none;
+  }
+
+  .nav-links .nav-gh {
+    padding: 7px 11px;
+  }
+
+  .hero-ctas .btn {
+    flex: 1 1 auto;
   }
 
   .hero {
@@ -957,4 +977,29 @@ kbd {
   .kv-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Phones: shorten the header link so it never runs past the right edge. */
+@media (max-width: 480px) {
+  .nav-gh-prefix {
+    display: none;
+  }
+}
+
+/* Let text/code panels shrink inside grid tracks at narrow widths. */
+.bento-cell,
+.install-card,
+.install-card > div,
+.queue-diagram {
+  min-width: 0;
+}
+
+.queue-lane {
+  min-width: 0;
+  flex-wrap: wrap;
+  overflow-wrap: anywhere;
+}
+
+.scope-column-header {
+  flex-wrap: wrap;
 }

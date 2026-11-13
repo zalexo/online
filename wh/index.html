@@ -1,31 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="../favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
-  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WindowHarbor | Multi-Monitor &amp; Fullscreen Space Memory for macOS</title>
+  <title>WindowHarbor | A Local Window Layout Prototype for macOS</title>
   <meta
     name="description"
-    content="Native macOS 14+ menu-bar utility that remembers your windows and Fullscreen Spaces across monitor setups, survives app restarts, and restores layouts without stealing focus."
+    content="A local Swift and AppKit prototype for saved window geometry. Fullscreen, Spaces and relaunch matching remain experimental."
   >
-  <link rel="canonical" href="https://www.mind-tech.info/wh/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
   <meta property="og:site_name" content="WindowHarbor">
-  <meta property="og:url" content="https://www.mind-tech.info/wh/">
-  <meta property="og:title" content="WindowHarbor | Multi-Monitor &amp; Fullscreen Space Memory for macOS">
+  <meta property="og:url" content="https://github.com/zalexo/WindowHarbor">
+  <meta property="og:title" content="WindowHarbor | A Local Window Layout Prototype for macOS">
   <meta
     property="og:description"
-    content="Plug in your dock and every window and Fullscreen Space docks right back where it belongs. Zero private WindowServer APIs, 100% local."
+    content="Explore a local window layout prototype with documented limits, isolated tests and no application telemetry."
   >
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="WindowHarbor | Multi-Monitor &amp; Fullscreen Space Memory for macOS">
+  <meta name="twitter:title" content="WindowHarbor | A Local Window Layout Prototype for macOS">
   <meta
     name="twitter:description"
-    content="Native macOS 14+ menu-bar utility for multi-monitor window and Fullscreen Space restoration."
+    content="Local window geometry profiles for macOS. Source prototype; real-world compatibility is not yet accepted."
   >
   <script type="application/ld+json">
     {
@@ -34,10 +30,9 @@
       "name": "WindowHarbor",
       "operatingSystem": "macOS 14+",
       "applicationCategory": "UtilitiesApplication",
-      "url": "https://www.mind-tech.info/wh/",
+      "url": "https://github.com/zalexo/WindowHarbor",
       "codeRepository": "https://github.com/zalexo/WindowHarbor",
-      "downloadUrl": "https://github.com/zalexo/WindowHarbor/releases",
-      "description": "A native macOS 14+ menu-bar utility that remembers and restores floating, maximized, and native Fullscreen Space windows per physical monitor setup using public APIs."
+      "description": "A Swift and AppKit source prototype for local window layout profiles, with experimental fullscreen and conservative relaunch matching."
     }
   </script>
   <link rel="stylesheet" href="./style.css">
@@ -59,7 +54,7 @@
       <ul class="nav-links">
         <li><a href="#how-it-works">How It Works</a></li>
         <li><a href="#invariants">Architecture</a></li>
-        <li><a href="#scope">What Ships</a></li>
+        <li><a href="#scope">Scope</a></li>
         <li><a href="#install">Install</a></li>
         <li>
           <a
@@ -68,10 +63,10 @@
             target="_blank"
             rel="noopener noreferrer"
           >
-            <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-              <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/>
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M6 3H3v10h10v-3M9 3h4v4M13 3 7 9"/>
             </svg>
-            <span>View on GitHub</span>
+            <span><span class="nav-gh-prefix">View on </span>GitHub</span>
           </a>
         </li>
       </ul>
@@ -83,19 +78,17 @@
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <span class="eyebrow-badge">Native macOS 14+ Menu-Bar Utility</span>
-          <h1>Stop playing window Tetris after every cable plug.</h1>
+          <span class="eyebrow-badge">macOS Prototype - Source Available</span>
+          <h1>A harbor for your window layouts.</h1>
           <p class="hero-subtext">
-            WindowHarbor remembers floating, maximized, and Fullscreen Space windows across monitor setups and docks them home automatically.
+            A local macOS prototype for saved window geometry. Fullscreen, Spaces and relaunch matching remain experimental.
           </p>
           <div class="hero-ctas">
             <a
-              href="https://github.com/zalexo/WindowHarbor/releases"
+              href="#install"
               class="btn btn-primary"
-              target="_blank"
-              rel="noopener noreferrer"
             >
-              <span>Download Release</span>
+              <span>Build from Source</span>
             </a>
             <a
               href="https://github.com/zalexo/WindowHarbor"
@@ -109,13 +102,13 @@
         </div>
 
         <!-- INTERACTIVE HOTPLUG SIMULATOR -->
-        <div class="sim-card" aria-label="Interactive 3-display hotplug simulator">
+        <div class="sim-card" aria-label="Illustration of display arrangements, not a verified restore demonstration">
           <div class="sim-topbar">
-            <span class="sim-status-pill" id="sim-status-label">3 Active Displays: Docked</span>
+            <span class="sim-status-pill" id="sim-status-label">Illustration: 3 Displays</span>
             <div class="sim-controls" role="group" aria-label="Simulate monitor events">
               <button type="button" class="sim-btn is-active" data-sim="docked">1. Docked (3 Displays)</button>
               <button type="button" class="sim-btn" data-sim="unplugged">2. Unplug Dock</button>
-              <button type="button" class="sim-btn" data-sim="replugged">3. Replug &amp; Restore</button>
+              <button type="button" class="sim-btn" data-sim="replugged">3. Replug Layout</button>
             </div>
           </div>
 
@@ -128,11 +121,11 @@
                 </div>
                 <div class="sim-win-slot" id="slot-left">
                   <div class="sim-win span-2" id="win-idea">
-                    <strong>IntelliJ IDEA</strong>
-                    <span>Native Fullscreen Space</span>
+                    <strong>Example editor</strong>
+                    <span>Fullscreen example</span>
                   </div>
                   <div class="sim-win span-2" id="win-cursor">
-                    <strong>Cursor</strong>
+                    <strong>Example terminal</strong>
                     <span>Maximized (visibleFrame)</span>
                   </div>
                 </div>
@@ -145,16 +138,16 @@
                 </div>
                 <div class="sim-win-slot" id="slot-right">
                   <div class="sim-win" id="win-xcode">
-                    <strong>Xcode</strong>
+                    <strong>Example IDE</strong>
                     <span>Floating (0.59w)</span>
                   </div>
                   <div class="sim-win" id="win-tabby">
-                    <strong>Tabby</strong>
+                    <strong>Example tools</strong>
                     <span>Floating (0.64w)</span>
                   </div>
                   <div class="sim-win span-2" id="win-chrome">
-                    <strong>Chrome</strong>
-                    <span>Native Fullscreen Space</span>
+                    <strong>Example browser</strong>
+                    <span>Fullscreen example</span>
                   </div>
                 </div>
               </div>
@@ -166,7 +159,7 @@
                 </div>
                 <div class="sim-win-slot" id="slot-laptop">
                   <div class="sim-win span-2" id="win-claude">
-                    <strong>Claude Desktop</strong>
+                    <strong>Example notes</strong>
                     <span id="win-claude-note">Docked on Built-in</span>
                   </div>
                 </div>
@@ -190,8 +183,8 @@
                 <div class="menu-row">Archive Diagnostic Logs...</div>
                 <div class="menu-sep"></div>
                 <div class="menu-row">✓ Accessibility Access Granted</div>
-                <div class="menu-row">✓ Extended Spaces Logging</div>
-                <div class="menu-row">✓ Launch at Login</div>
+                <div class="menu-row">Local profiles, no telemetry</div>
+                <div class="menu-row">Launch at Login: user choice</div>
                 <div class="menu-sep"></div>
                 <div class="menu-row">About WindowHarbor...</div>
                 <div class="menu-row">Quit WindowHarbor</div>
@@ -200,7 +193,7 @@
           </div>
 
           <div class="sim-caption" id="sim-caption-text">
-            Click "2. Unplug Dock" above to see how WindowHarbor protects your 3-display profile during cable unplugs.
+            Interactive illustration only. Click the controls to explore arrangements; no real windows are observed or moved.
           </div>
         </div>
       </div>
@@ -210,53 +203,53 @@
     <section class="section" id="how-it-works">
       <div class="container">
         <div class="section-header reveal">
-          <h2>How WindowHarbor outsmarts macOS display amnesia</h2>
+          <h2>How the prototype handles a display change</h2>
           <p>
-            When you yank a Thunderbolt cable, macOS dumps every window and Fullscreen Space onto your laptop screen. When you plug back in, macOS leaves Fullscreen Spaces stranded on the laptop. WindowHarbor fixes this without freezing your Mac or stealing focus.
+            A reported cable reconnect problem motivated this project. The code learns local layouts and attempts restoration; real hotplug, fullscreen Space identity and focus preservation remain unverified.
           </p>
         </div>
 
         <div class="pipeline-track reveal" aria-label="Display transition pipeline">
           <div class="pipeline-step">
-            <span class="pipeline-state">Instant Freeze</span>
-            <p>The first hardware display callback advances a lock-free epoch and locks the learning gate so laptop-collapse frames never overwrite your 3-display profile.</p>
+            <span class="pipeline-state">Transition Gate</span>
+            <p>A display callback advances a lock-protected epoch. Capture admission blocks learning during transitions and self-generated restore operations; isolated tests check profile preservation.</p>
           </div>
           <div class="pipeline-step">
-            <span class="pipeline-state">Passive Space Radar</span>
-            <p>Reads macOS's public <code>com.apple.spaces.plist</code> in under 1 ms to see which monitor owns every Fullscreen Space across your entire system without switching Spaces.</p>
+            <span class="pipeline-state">Live AX Registry</span>
+            <p>The runtime uses live Accessibility elements and cached handles. A separate read-only Spaces summary shows fullscreen and display records, which may overlap AX or be stale. It is not a complete inventory of windows on unseen Spaces.</p>
           </div>
           <div class="pipeline-step">
             <span class="pipeline-state">Cross-Relaunch Rebind</span>
-            <p>Rebooted your Mac or restarted IntelliJ? Two-stage matching rebinds saved placements to fresh windows by unique accessibility ID, mode, and normalized geometry.</p>
+            <p>Existing-window matching can use a unique boot, process-launch and system-window reference. Fallback requires a meaningful accessibility ID, compatible mode and agreeing geometry. Ambiguous candidates are withheld; durable identity is not guaranteed.</p>
           </div>
           <div class="pipeline-step">
             <span class="pipeline-state">Lazy Space Catch-Up</span>
-            <p>Never hijacks your screen with forced app-switching loops. Visible windows restore immediately; hidden Spaces restore in 0.35s the moment you click or swipe into them.</p>
+            <p>Pending windows are reconsidered after user Space or application changes. The configured 0.35s delay is not a measured response guarantee, and inaccessible windows may remain pending.</p>
           </div>
         </div>
 
         <div class="mechanics-split reveal">
           <div class="mechanic-pane">
-            <h3>Fullscreen Space relocation &amp; Space-Safe Maximize</h3>
+            <h3>Experimental fullscreen conversion</h3>
             <p>
-              When a native Fullscreen Space gets stranded on your built-in display after cable replug, WindowHarbor exits fullscreen on the active Space, moves the window to its saved external monitor, and re-enters fullscreen (or converts it into a fast, Space-safe maximized window with zero animation lag).
+              The Engine can request exit, move and re-entry, or leave a window maximized. A final mode/display readback is required before success. This path can run automatically; same-Space continuity, Split View and focus are not verified.
             </p>
             <dl class="kv-grid">
               <div class="kv-item">
-                <dt>Supported Modes</dt>
+                <dt>Implemented Modes</dt>
                 <dd>floating, maximized, nativeFullScreen</dd>
               </div>
               <div class="kv-item">
                 <dt>Space Catch-Up Delay</dt>
-                <dd>0.35s on Space click or swipe</dd>
+                <dd>0.35s configured, not measured latency</dd>
               </div>
             </dl>
           </div>
 
           <div class="mechanic-pane">
-            <h3>Two-stage persistent window matching</h3>
+            <h3>Conservative window matching</h3>
             <p>
-              Within a live session, windows match by exact <code>(PID, launchDate, AXUIElement)</code>. Across app or Mac restarts, WindowHarbor deduplicates stale entries and rebinds saved placements to live windows using strict mode guards so a popup window can never steal a Fullscreen Space slot.
+              The live registry uses process launch identity and AX element equality. Across relaunch, all matching signals must agree. Equal geometry, recency or enumeration order alone never select an identity.
             </p>
             <dl class="kv-grid">
               <div class="kv-item">
@@ -277,9 +270,9 @@
     <section class="section section-alt" id="invariants">
       <div class="container">
         <div class="section-header reveal">
-          <h2>Built like a system daemon, polite like a guest</h2>
+          <h2>Three queues, one local app</h2>
           <p>
-            Pure Swift and AppKit. Zero third-party dependencies, zero private WindowServer hacks, and strict three-queue isolation so a slow disk write or hung app never stutters your cursor.
+            Swift and AppKit, without third-party packages or private WindowServer APIs. Serial AX and file queues separate window IPC from storage; end-to-end latency is not measured.
           </p>
         </div>
 
@@ -290,9 +283,9 @@
                 <span class="badge badge-blue">Three-Queue Isolation</span>
                 <span class="badge badge-green">SIP Intact</span>
               </div>
-              <h3>Never blocks your main thread or hangs WindowServer</h3>
+              <h3>Window IPC and disk work have separate queues</h3>
               <p>
-                Accessibility IPC is synchronous cross-process messaging: running it on the main thread or on a concurrent queue freezes both the utility and the target app. WindowHarbor isolates all AX calls onto a single serial queue with a hard <code>0.25s</code> timeout per element, while keeping JSON writes and zip archiving on a separate background queue.
+                AX IPC runs on one serial queue with a <code>0.25s</code> timeout per message. Profile IO, trace delivery and ZIP creation use the existing serial file queue. A per-message timeout is not a total scan budget or a responsiveness guarantee.
               </p>
             </div>
             <div class="queue-diagram">
@@ -314,16 +307,16 @@
           <article class="bento-cell bento-span-5 dark-code">
             <div>
               <div class="tag-row" style="margin-bottom: 14px;">
-                <span class="badge badge-green">100% Local &amp; Title-Blind</span>
+                <span class="badge badge-green">Local Data, Explicit Privacy</span>
               </div>
-              <h3>Strict privacy by construction</h3>
+              <h3>Local diagnostics contain identifiers</h3>
               <p>
-                WindowHarbor never reads, logs, or saves window titles, document URLs, browser tabs, or screenshots. Even when inspecting <code>com.apple.spaces.plist</code>, window title fields are ignored.
+                The AX adapter does not request title/document attributes or screenshots. Profiles retain opaque AXIdentifier values. Diagnostic ZIPs retain app/display identifiers, are not anonymous and are never uploaded automatically.
               </p>
             </div>
             <pre class="code-snippet"><code>~/Library/Application Support/WindowHarbor/
 ├── profiles.json         # mode 0600 (atomic write)
-├── profiles.json.backup  # previous known-good state
+├── profiles.json.backup  # previous file
 ├── trace.log             # 2 MB ring log (no titles/URLs)
 └── WindowHarbor-diagnostics-*.zip</code></pre>
           </article>
@@ -331,11 +324,11 @@
           <article class="bento-cell bento-span-5">
             <div>
               <div class="tag-row" style="margin-bottom: 14px;">
-                <span class="badge badge-amber">Bulletproof Storage</span>
+                <span class="badge badge-amber">Protected Local Storage</span>
               </div>
               <h3>Atomic backups &amp; one-click diagnostics</h3>
               <p>
-                Every profile update backs up the previous file to <code>profiles.json.backup</code> inside a <code>0700</code> folder before atomic replacement. Need to debug a tricky dock transition? Click <strong>Archive Diagnostic Logs...</strong> to bundle anonymized trace logs and install the bundled macOS Spaces logging profile right from the menu.
+                Save backs up the previous profile before atomic replacement. Read failure blocks learning; explicit recovery validates the backup and preserves the original. Diagnostic ZIPs explain their contents. A system logging profile is neither required nor bundled.
               </p>
             </div>
           </article>
@@ -347,7 +340,7 @@
               </div>
               <h3>Calm startup adoption, delayed verification, and Undo</h3>
               <p>
-                Launching WindowHarbor adopts your current screen setup in place without rearranging a single window. After any monitor hotplug restore, a 1-second verification pass quarantines windows that resisted resizing so bad frames never pollute your profile, and <strong>Undo Last Restore</strong> reverts the last pass in one click.
+                The first trusted settle adopts the current setup without restoring. Ordinary geometry gets delayed verification; <strong>Undo Last Geometry Restore</strong> restores windowed frames and holds them from automatic learning. Fullscreen and Space Undo are unsupported.
               </p>
             </div>
           </article>
@@ -359,35 +352,35 @@
     <section class="section" id="scope">
       <div class="container">
         <div class="section-header reveal">
-          <h2>What ships today vs. macOS platform boundaries</h2>
+          <h2>Implemented code and unverified behavior</h2>
           <p>
-            We test every core state machine with 58 automated Swift Testing unit tests and document the exact line between shipped capabilities and public macOS limits.
+            Core and isolated Engine tests cover selected safety paths. They do not establish real AX, display or application compatibility. See the repository verification journal for dated results.
           </p>
         </div>
 
         <div class="scope-ledger reveal">
           <div class="scope-column">
             <div class="scope-column-header">
-              <h3>Shipped &amp; verified in current release</h3>
-              <span class="badge badge-green">58/58 Tests Passing</span>
+              <h3>Implemented in the source prototype</h3>
+              <span class="badge badge-green">Isolated Checks</span>
             </div>
             <div class="scope-items">
               <div class="scope-item">
-                <h4>Floating, Maximized, and Native Fullscreen Space memory</h4>
+                <h4>Local geometry profiles</h4>
                 <p>
-                  Learns all three window modes per multi-monitor arrangement. Passively tracks Fullscreen Spaces across all monitors via <code>com.apple.spaces.plist</code> and retains live <code>AXUIElement</code> handles across Desktop Spaces.
+                  Stores eligible window placements for exact display environments. Accessible cached handles can remain usable across Space changes. No complete Space inventory is implemented.
                 </p>
               </div>
               <div class="scope-item">
-                <h4>Cross-relaunch window rebinding &amp; duplicate cleanup</h4>
+                <h4>Relaunch matching with explicit refusal</h4>
                 <p>
-                  Automatically deduplicates stale session entries on load and rebinds saved placements to newly launched app windows by unique <code>AXIdentifier</code>, strict mode compatibility, and normalized frame similarity.
+                  The live registry can recover an existing window using a scoped reference and unambiguous public metadata. Fallback requires unique meaningful <code>AXIdentifier</code>, compatible mode and agreeing geometry. Uncertain matches are skipped; older unknown layouts need explicit Save once.
                 </p>
               </div>
               <div class="scope-item">
-                <h4>Lazy on-demand Space restoration &amp; Fullscreen relocation</h4>
+                <h4>Pending restore and fullscreen readback</h4>
                 <p>
-                  Restores visible windows immediately on monitor reconnect and catches hidden Spaces within <code>0.35s</code> when you click or swipe into them, relocating stranded Fullscreen Spaces to their target external monitor.
+                  Reachable saved windows can be restored; unavailable ones remain pending. Experimental fullscreen success requires mode/display readback and does not prove movement of the same Space.
                 </p>
               </div>
             </div>
@@ -395,20 +388,20 @@
 
           <div class="scope-column">
             <div class="scope-column-header">
-              <h3>Honest macOS public-API limits</h3>
-              <span class="badge badge-amber">By Design</span>
+              <h3>Unverified or unsupported</h3>
+              <span class="badge badge-amber">Acceptance Pending</span>
             </div>
             <div class="scope-items">
               <div class="scope-item">
-                <h4>No background fullscreen exit on hidden Spaces</h4>
+                <h4>Fullscreen, Split View and focus</h4>
                 <p>
-                  macOS <code>Dock</code> ignores fullscreen exit requests unless that Fullscreen Space is currently visible on screen. WindowHarbor relocates a stranded Fullscreen Space when it is visible on a display, never by blindly cycling focus across all apps.
+                  The automatic experimental exit/move/re-entry branch may change focus and Space state. Same-Space continuity, Split View preservation and real application compatibility are not accepted.
                 </p>
               </div>
               <div class="scope-item">
-                <h4>Identical untitled multi-window heuristics</h4>
+                <h4>Ambiguous windows and missing discovery</h4>
                 <p>
-                  Because WindowHarbor never reads private window titles or document URLs, two identically sized windows of the same app with generic accessibility IDs are matched by geometry and recency rather than document title.
+                  Generic accessibility IDs or equal geometry do not establish identity. Ambiguous relaunch matches and inaccessible unseen windows are skipped, with existing placements preserved.
                 </p>
               </div>
               <div class="scope-item">
@@ -427,9 +420,9 @@
     <section class="section section-alt" id="install">
       <div class="container">
         <div class="section-header reveal">
-          <h2>Install in 60 seconds</h2>
+          <h2>Build and evaluate deliberately</h2>
           <p>
-            Requires macOS 14.0 (Sonoma) or newer. Download the prebuilt app bundle or build from source with Swift Package Manager.
+            The manifest declares macOS 14+ and Swift tools 6.0+. This is a source prototype; the full OS, Intel, display and application acceptance matrix remains incomplete.
           </p>
         </div>
 
@@ -437,35 +430,33 @@
           <div class="install-card">
             <div>
               <div class="tag-row" style="margin-bottom: 12px;">
-                <span class="badge badge-blue">Option A: Prebuilt App</span>
+                <span class="badge badge-blue">Before You Run</span>
               </div>
-              <h3>Download WindowHarbor-macOS.zip</h3>
+              <h3>A prototype, not a signed public release</h3>
               <p style="margin-bottom: 16px;">
-                Ready-to-run release bundle with the embedded macOS Extended Spaces Logging profile.
+                Local and CI builds use ad-hoc signing for development. Developer ID, notarization and installation on another Mac are not accepted release evidence.
               </p>
               <ol class="step-list">
                 <li>
-                  <strong>1. Move to Applications:</strong> Download <code>WindowHarbor-macOS.zip</code> from <a href="https://github.com/zalexo/WindowHarbor/releases" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">GitHub Releases</a>, unzip, and drag <code>WindowHarbor.app</code> into <code>/Applications</code>.
+                  <strong>1. Review the limits:</strong> Read the architecture and verification journal before running the prototype on windows you care about.
                 </li>
                 <li>
-                  <strong>2. Allow first launch:</strong> Open <strong>System Settings &rarr; Privacy &amp; Security</strong> and click <strong>Open Anyway</strong> (or strip quarantine via <code>xattr -dr com.apple.quarantine /Applications/WindowHarbor.app</code>).
+                  <strong>2. Build locally:</strong> Run the repository test and build scripts. The app bundle is created for the build architecture with a development signature.
                 </li>
                 <li>
-                  <strong>3. Grant Accessibility &amp; Logging Profile:</strong> On launch, WindowHarbor prompts for Accessibility access and opens <strong>System Settings &rarr; Device Management</strong> if the Extended Spaces Logging profile is not yet installed.
+                  <strong>3. Choose when to run:</strong> Launching the app may request Accessibility. Later restores can move windows and change fullscreen. No system logging profile is needed.
                 </li>
               </ol>
             </div>
             <div style="padding-top: 12px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
               <a
-                href="https://github.com/zalexo/WindowHarbor/releases"
+                href="#install"
                 class="btn btn-primary"
-                target="_blank"
-                rel="noopener noreferrer"
               >
-                <span>Download Release</span>
+                <span>Build from Source</span>
               </a>
               <span style="font-size: 0.8rem; color: var(--text-muted);">
-                Tray icon turns from ⚠️ to <code>rectangle.3.group</code> automatically.
+                Source prototype. Manual acceptance is incomplete.
               </span>
             </div>
           </div>
@@ -473,26 +464,25 @@
           <div class="install-card">
             <div>
               <div class="tag-row" style="margin-bottom: 12px;">
-                <span class="badge badge-green">Option B: Build from Source</span>
+                <span class="badge badge-green">Local Development</span>
               </div>
               <h3>Compile with Swift Package Manager</h3>
               <p style="margin-bottom: 16px;">
-                Clone the repository, run all 58 Swift Testing unit tests, and build a local release <code>.app</code> bundle and <code>.zip</code> archive.
+                Clone the repository, run the isolated test suite, and build a development <code>.app</code> and architecture-labelled ZIP. Launch is a separate, deliberate step.
               </p>
               <div class="terminal-box">
                 <div class="terminal-header">
                   <span>zsh: macOS 14+ / Swift 6 toolchain</span>
-                  <button type="button" class="copy-btn" data-copy="git clone https://github.com/zalexo/WindowHarbor.git&#10;cd WindowHarbor&#10;./scripts/test.sh&#10;./scripts/build-app.sh&#10;open dist/WindowHarbor.app">Copy</button>
+                  <button type="button" class="copy-btn" data-copy="git clone https://github.com/zalexo/WindowHarbor.git&#10;cd WindowHarbor&#10;./scripts/test.sh&#10;./scripts/build-app.sh">Copy</button>
                 </div>
                 <pre><code>git clone https://github.com/zalexo/WindowHarbor.git
 cd WindowHarbor
 ./scripts/test.sh
-./scripts/build-app.sh
-open dist/WindowHarbor.app</code></pre>
+./scripts/build-app.sh</code></pre>
               </div>
             </div>
             <p style="font-size: 0.82rem; color: var(--text-muted);">
-              Tip: Pass <code>SIGNING_IDENTITY="Developer ID Application: ..."</code> to <code>./scripts/build-app.sh</code> to keep a stable TCC Accessibility signature across local rebuilds.
+              Run <code>open dist/WindowHarbor.app</code> only when you are ready to grant Accessibility and evaluate window movement. Local signing does not establish public release readiness.
             </p>
           </div>
         </div>
@@ -501,13 +491,13 @@ open dist/WindowHarbor.app</code></pre>
           <div class="cli-flag">
             <code>WindowHarbor --diagnose</code>
             <p>
-              Read-only smoke check: prints version, active logical display count, Accessibility trust status, and Extended Spaces Logging profile status without moving windows.
+              Read-only smoke check: prints version, active logical display count and AX trust, then exits before Engine creation. It does not verify restoration.
             </p>
           </div>
           <div class="cli-flag">
             <code>WindowHarbor --record-topology</code>
             <p>
-              Standalone display reconfiguration recorder that appends anonymized display geometry events to <code>topology-log.jsonl</code> for hotplug analysis.
+              Writes public display metadata to two JSONL files capped at 2 MiB each. Identifiers remain; this is not anonymization, a Space inventory or a restore test.
             </p>
           </div>
         </div>
@@ -518,7 +508,7 @@ open dist/WindowHarbor.app</code></pre>
   <footer class="site-footer">
     <div class="container footer-inner">
       <div>
-        <strong>WindowHarbor</strong> - Native macOS 14+ multi-monitor window &amp; Space manager (<code>app.windowharbor.mac</code>)
+        <strong>WindowHarbor</strong> - Local macOS window layout source prototype (<code>app.windowharbor.mac</code>)
       </div>
       <ul class="footer-links">
         <li>
@@ -527,8 +517,8 @@ open dist/WindowHarbor.app</code></pre>
           </a>
         </li>
         <li>
-          <a href="https://github.com/zalexo/WindowHarbor/releases" target="_blank" rel="noopener noreferrer">
-            Releases
+          <a href="https://github.com/zalexo/WindowHarbor/blob/main/docs/verification.md" target="_blank" rel="noopener noreferrer">
+            Verification
           </a>
         </li>
         <li>
@@ -583,7 +573,7 @@ open dist/WindowHarbor.app</code></pre>
           menuStatus.textContent = 'Waiting for displays to settle...';
           menuCount.textContent = '1 active display';
           claudeNote.textContent = 'All 6 windows collapsed onto Built-in';
-          caption.textContent = 'Dock unplugged: macOS collapses everything onto the laptop, but WindowHarbor freezes learning so your 3-display profile stays untouched.';
+          caption.textContent = 'Illustration: a collapsed arrangement. Actual macOS hotplug behavior varies; this demo does not observe or control real windows.';
         } else if (state === 'replugged') {
           monLeft.classList.remove('is-offline');
           monRight.classList.remove('is-offline');
@@ -594,11 +584,11 @@ open dist/WindowHarbor.app</code></pre>
           slotRight.appendChild(winChrome);
           slotLaptop.appendChild(winClaude);
           [winIdea, winCursor, winXcode, winTabby, winChrome].forEach((w) => w.classList.remove('is-scrambled'));
-          statusLabel.textContent = 'Restored 6 Windows Across 3 Displays';
-          menuStatus.textContent = 'Restored 6 · skipped 0 · failed 0';
+          statusLabel.textContent = 'Illustration: 3-Display Layout';
+          menuStatus.textContent = 'Illustration only, not a restore result';
           menuCount.textContent = '3 active displays';
           claudeNote.textContent = 'Docked on Built-in';
-          caption.textContent = 'Dock reconnected: after 3 stable 1s display samples, floating, maximized, and Fullscreen Space windows dock right back to their monitors.';
+          caption.textContent = 'Illustration: a desired arrangement. This is not evidence of verified fullscreen, Space continuity or real hotplug restoration.';
         } else {
           monLeft.classList.remove('is-offline');
           monRight.classList.remove('is-offline');
@@ -609,11 +599,11 @@ open dist/WindowHarbor.app</code></pre>
           slotRight.appendChild(winChrome);
           slotLaptop.appendChild(winClaude);
           [winIdea, winCursor, winXcode, winTabby, winChrome].forEach((w) => w.classList.remove('is-scrambled'));
-          statusLabel.textContent = '3 Active Displays: Docked';
+          statusLabel.textContent = 'Illustration: 3 Displays';
           menuStatus.textContent = 'Monitoring: 3 displays · 6 windows';
           menuCount.textContent = '3 active displays';
           claudeNote.textContent = 'Docked on Built-in';
-          caption.textContent = 'Click "2. Unplug Dock" above to see how WindowHarbor protects your 3-display profile during cable unplugs.';
+          caption.textContent = 'Interactive illustration only. Click the controls to explore arrangements; no real windows are observed or moved.';
         }
       }
 
