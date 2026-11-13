@@ -1697,13 +1697,22 @@ button {
   box-shadow: var(--top-light), var(--smoke-lifted);
 }
 
-/* Headline in two parts (SD-002): what it is, then, smaller and in the accent color, what it is good at. */
-.hero h1 .h1-second {
+/* Headline in two parts (SD-002): first, in the accent color, what it is good at; then, smaller, what it is. */
+.hero h1 .h1-accent,
+.hero h1 .h1-main {
   display: block;
-  margin-top: 6px;
-  font-size: 0.74em;
-  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+.hero h1 .h1-accent {
   color: var(--accent);
+}
+
+/* 0.6 keeps "Android Auto music player" on one line down to 320 px and about as wide as the blue line. */
+.hero h1 .h1-main {
+  margin-top: 6px;
+  font-size: 0.6em;
+  letter-spacing: -0.025em;
 }
 
 /* On a phone the two hero buttons are one width, one under the other (SD-003). */
