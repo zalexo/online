@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+  <channel>
+    <title>WindowHarbor updates for Apple Silicon</title>
+    <link>https://www.mind-tech.info/wh/</link>
+    <description>WindowHarbor updates for macOS on Apple Silicon.</description>
+    <language>en</language>
+    <!-- No updates published yet. Add items only for verified release archives. -->
+  </channel>
+</rss>
