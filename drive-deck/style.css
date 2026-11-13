@@ -233,10 +233,10 @@ button {
 
 /* Hero */
 .hero {
-  min-height: calc(100dvh - 64px);
+  /* Not a full-height screen: the story ("Why it exists") starts right under it, on the first screen. */
   display: flex;
   align-items: center;
-  padding: 44px 0 64px;
+  padding: 48px 0 40px;
   border-bottom: 1px solid var(--border);
   background:
     radial-gradient(circle at 80% 24%, color-mix(in srgb, var(--sky) 22%, transparent), transparent 46%),
@@ -245,7 +245,8 @@ button {
 
 .hero-grid {
   display: grid;
-  grid-template-columns: 1fr 1.12fr;
+  /* The car screen is wide and low, as in the car, so it gets the wider column. */
+  grid-template-columns: 1fr 1.35fr;
   gap: 48px;
   align-items: center;
 }
@@ -266,12 +267,13 @@ button {
 }
 
 .hero h1 {
-  font-size: clamp(2.4rem, 4.6vw, 3.7rem);
-  line-height: 1.04;
+  /* A plain sentence, longer than a slogan: a little smaller, so it stays at three lines on a laptop. */
+  font-size: clamp(2.2rem, 3.9vw, 3.15rem);
+  line-height: 1.06;
   letter-spacing: -0.035em;
   font-weight: 800;
   margin-bottom: 18px;
-  max-width: 13ch;
+  max-width: 17ch;
 }
 
 .hero-subtext {
@@ -365,9 +367,9 @@ button {
 }
 
 .car-screen {
-  aspect-ratio: 16 / 9;
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
+  /* As in the test car: the app takes about two thirds of the width, the navigation app the rest. */
+  grid-template-columns: 2fr 1fr;
   gap: 6px;
   padding: 6px;
   border-radius: 12px;
@@ -376,10 +378,14 @@ button {
 }
 
 .car-app {
+  /* The app window in the test car is 862 x 536 points (doc/testing-on-dhu.md); sizes inside follow its width. */
+  container-type: inline-size;
+  aspect-ratio: 862 / 536;
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 10px 12px 14px;
+  /* Percent padding follows the panel's own width (cqi here would read the page, not the panel). */
+  padding: 2.4% 2.6% 3%;
   border-radius: 8px;
   background: var(--car-bg);
   color: var(--car-text);
@@ -392,11 +398,10 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  min-height: 32px;
 }
 
 .car-mode {
-  font-size: 0.8rem;
+  font-size: max(11px, 3.4cqi);
   font-weight: 700;
   letter-spacing: 0.06em;
   white-space: nowrap;
@@ -412,13 +417,13 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 28px;
-  padding: 4px 11px;
+  min-height: max(22px, 6cqi);
+  padding: 0 max(7px, 2.2cqi);
   border: 0;
   border-radius: 9999px;
   background: var(--car-surface);
   color: var(--car-text);
-  font-size: 0.66rem;
+  font-size: max(8.5px, 2.3cqi);
   font-weight: 700;
   letter-spacing: 0.05em;
   white-space: nowrap;
@@ -430,22 +435,10 @@ button {
   background: color-mix(in srgb, var(--car-surface) 80%, var(--car-text));
 }
 
-.car-chip-icon {
-  width: 28px;
-  padding: 0;
-}
-
-.car-chip-icon svg {
-  width: 15px;
-  height: 15px;
-  fill: currentColor;
-}
-
 .car-row {
   display: flex;
   align-items: center;
   gap: 10px;
-  width: 100%;
   border: 0;
   border-radius: 6px;
   background: transparent;
@@ -453,7 +446,8 @@ button {
   text-align: left;
   cursor: pointer;
   padding: 4px 6px;
-  margin-inline: -6px;
+  /* In the car the rows and tiles stand in from the panel's edges; the header does not. */
+  margin-inline: calc(9cqi - 6px);
   transition: background-color 0.2s ease;
 }
 
@@ -467,7 +461,7 @@ button {
 }
 
 .car-title {
-  font-size: 0.98rem;
+  font-size: max(11px, 3.4cqi);
   font-weight: 600;
   line-height: 1.3;
   white-space: nowrap;
@@ -476,7 +470,7 @@ button {
 }
 
 .car-sub {
-  font-size: 0.74rem;
+  font-size: max(9.5px, 2.7cqi);
   line-height: 1.35;
   opacity: 0.74;
   white-space: nowrap;
@@ -488,7 +482,7 @@ button {
   border-top: 1px solid color-mix(in srgb, var(--car-text) 14%, transparent);
   border-radius: 0 0 6px 6px;
   padding-top: 7px;
-  font-size: 0.82rem;
+  font-size: max(10.5px, 3.1cqi);
   font-weight: 500;
 }
 
@@ -510,9 +504,9 @@ button {
 .car-tiles {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-top: auto;
-  padding-bottom: 6px;
+  gap: 2.2cqi;
+  margin: auto 9cqi 0;
+  padding-bottom: 1cqi;
 }
 
 .tile {
@@ -520,9 +514,9 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 148 / 140;
+  aspect-ratio: 6 / 5;
   border: 0;
-  border-radius: 14px;
+  border-radius: max(8px, 2.4cqi);
   color: var(--car-text);
   background: linear-gradient(
     180deg,
@@ -633,12 +627,68 @@ button {
   color: var(--accent-fg);
 }
 
+/* What the last tap did: a callout right under the car screen, pointing up at it. */
 .car-caption {
-  flex: 1 1 260px;
-  min-height: 2.9em;
-  font-size: 0.9rem;
+  /* Fixed to the longest message (measured 2026-11-13: two lines from tablet width up, three on a
+     phone, four at 320 px), so a shorter or longer message never moves the page below. */
+  --caption-lines: 2;
+  position: relative;
+  box-sizing: border-box;
+  height: calc(var(--caption-lines) * 1.45em + 20px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  padding: 10px 14px;
+  border-radius: var(--radius-card);
+  background: var(--badge-blue-bg);
+  color: var(--badge-blue-text);
+  font-size: 1rem;
+  font-weight: 500;
   line-height: 1.45;
-  color: var(--text-secondary);
+}
+
+.car-caption::before {
+  /* The tail points up at the middle of the app panel (two thirds of the screen width are the app). */
+  content: "";
+  position: absolute;
+  top: -11px;
+  left: calc(33.3% - 11px);
+  border: 11px solid transparent;
+  border-top: 0;
+  border-bottom-color: var(--badge-blue-bg);
+  /* A thin grey outline, so the light tail reads on a light page. */
+  filter: drop-shadow(0 -1px 0 var(--tail-edge, rgba(40, 50, 65, 0.16)));
+}
+
+@media (prefers-color-scheme: dark) {
+  .car-caption::before {
+    --tail-edge: rgba(0, 0, 0, 0.5);
+  }
+}
+
+.car-caption-icon {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+@media (max-width: 640px) {
+  .car-caption::before {
+    left: calc(50% - 11px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .car-caption.is-new {
+    animation: caption-flash 0.9s ease-out;
+  }
+
+  @keyframes caption-flash {
+    0% { background: color-mix(in srgb, var(--accent) 26%, var(--badge-blue-bg)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+    100% { background: var(--badge-blue-bg); box-shadow: 0 0 0 0 transparent; }
+  }
 }
 
 .car-note {
@@ -774,67 +824,84 @@ button {
   color: var(--text);
 }
 
-/* Two modes: comparison table */
-.mode-table-wrap {
+/* Two modes: two cards side by side (SD-008) */
+#modes .section-header,
+#privacy .section-header {
+  max-width: 820px;
+}
+
+#modes .section-header p,
+#privacy .section-header p {
+  font-size: 1.14rem;
+  line-height: 1.55;
+}
+
+.mode-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.mode-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow-subtle);
-  overflow: hidden;
+  padding: 26px 28px;
+  min-width: 0;
 }
 
-.mode-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-  font-size: 0.95rem;
+.mode-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
-.mode-table th,
-.mode-table td {
-  padding: 18px 24px;
-  text-align: left;
-  vertical-align: top;
-  border-bottom: 1px solid var(--border);
+.mode-card-head .feature-icon {
+  margin-bottom: 0;
 }
 
-.mode-table tbody tr:last-child th,
-.mode-table tbody tr:last-child td {
-  border-bottom: 0;
+.mode-card-head h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
 }
 
-.mode-table thead th,
-.mode-table thead td {
-  background: var(--bg-subtle);
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
-.mode-table thead tr > :first-child {
-  width: 22%;
-}
-
-.mode-table thead .mode-default {
-  display: inline-block;
-  margin-left: 8px;
-  padding: 2px 9px;
+.mode-default {
+  padding: 2px 10px;
   border-radius: 9999px;
   background: var(--badge-green-bg);
   color: var(--badge-green-text);
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   font-weight: 600;
-  vertical-align: 2px;
 }
 
-.mode-table tbody th {
+.mode-row {
+  padding: 14px 0;
+  border-top: 1px solid var(--border);
+}
+
+.mode-row dt {
+  margin-bottom: 4px;
+  font-size: 0.86rem;
   font-weight: 600;
+  color: var(--text-muted);
+}
+
+.mode-row dd {
+  font-size: 1.02rem;
+  line-height: 1.5;
   color: var(--text);
-  font-size: 0.9rem;
 }
 
-.mode-table td {
-  color: var(--text-secondary);
+@media (max-width: 760px) {
+  .mode-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .mode-card {
+    padding: 22px;
+  }
 }
 
 /* Privacy: bento grid */
@@ -869,16 +936,6 @@ button {
   background: var(--surface-tint);
 }
 
-.bento-cell.dark-code {
-  background: var(--surface-code);
-  color: #e8ecf2;
-  border-color: #262c36;
-}
-
-.bento-cell.dark-code p {
-  color: #a7b1bd;
-}
-
 .bento-cell h3 {
   font-size: 1.2rem;
   font-weight: 700;
@@ -891,23 +948,61 @@ button {
   font-size: 0.95rem;
 }
 
-.code-snippet {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-sm);
-  padding: 14px;
-  font-size: 0.76rem;
-  line-height: 1.65;
-  color: #d6deeb;
-  overflow-x: auto;
+/* Privacy: the permissions in plain words, exact names small under each line (SD-009). */
+.perm-groups h4 {
+  margin: 4px 0 8px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text-muted);
 }
 
-.code-snippet .c {
-  color: #8a96a6;
+.perm-groups h4 + .perm-list {
+  margin-bottom: 14px;
 }
 
-.code-snippet .ok {
-  color: #9ccdf8;
+.perm-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.perm-list li {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 10px;
+  align-items: start;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.perm-list svg {
+  width: 26px;
+  height: 26px;
+  padding: 4px;
+  border-radius: 8px;
+  fill: currentColor;
+}
+
+.perm-yes svg {
+  background: var(--badge-green-bg);
+  color: var(--badge-green-text);
+}
+
+.perm-no svg {
+  background: var(--badge-red-bg);
+  color: var(--badge-red-text);
+}
+
+.perm-list code {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
 }
 
 .diagram {
@@ -983,89 +1078,107 @@ button {
   fill: var(--accent);
 }
 
-/* Today and limits: ledger */
-.scope-ledger {
-  display: grid;
-  grid-template-columns: 1.25fr 0.75fr;
-  gap: 24px;
+/* What you get: a plain list of everything the app has (SD-010) */
+#scope .section-header {
+  max-width: 820px;
 }
 
-.scope-column {
+#scope .section-header p {
+  font-size: 1.14rem;
+  line-height: 1.55;
+}
+
+.have-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.have-list li {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 18px 20px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
-  padding: 32px;
-  box-shadow: var(--shadow-subtle);
 }
 
-.scope-column-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px 12px;
-  padding-bottom: 18px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--border);
+.have-list svg {
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  border-radius: 9px;
+  background: var(--badge-green-bg);
+  color: var(--badge-green-text);
+  fill: currentColor;
 }
 
-.scope-column-header h3 {
-  font-size: 1.18rem;
+.have-list strong {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 1.05rem;
   font-weight: 700;
-}
-
-.scope-items {
-  display: grid;
-  gap: 20px;
-}
-
-.scope-item h4 {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px 10px;
-  font-size: 0.98rem;
-  font-weight: 700;
-  margin-bottom: 4px;
   color: var(--text);
 }
 
-.scope-item p {
-  font-size: 0.91rem;
+.have-list span {
+  font-size: 0.98rem;
+  line-height: 1.45;
   color: var(--text-secondary);
 }
 
-.scope-footnote {
+.have-footnote {
   margin-top: 22px;
-  padding-top: 18px;
-  border-top: 1px solid var(--border);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
 }
 
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 10px;
-  border-radius: 9999px;
-  font-size: 0.74rem;
-  font-weight: 600;
-  white-space: nowrap;
+@media (max-width: 980px) {
+  .have-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.badge-green {
-  background: var(--badge-green-bg);
-  color: var(--badge-green-text);
+@media (max-width: 640px) {
+  .have-list {
+    grid-template-columns: 1fr;
+  }
 }
 
-.badge-blue {
-  background: var(--badge-blue-bg);
-  color: var(--badge-blue-text);
+/* Try it: driver ways first, then the developer way (SD-011) */
+#install .section-header {
+  max-width: 820px;
 }
 
-.badge-amber {
-  background: var(--badge-amber-bg);
-  color: var(--badge-amber-text);
+#install .section-header p {
+  font-size: 1.14rem;
+  line-height: 1.55;
+}
+
+.install-group {
+  margin: 8px 0 14px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.install-grid + .install-group {
+  margin-top: 36px;
+}
+
+#install .install-card > div > p {
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.install-foot .btn {
+  text-decoration: none;
 }
 
 /* Try it */
@@ -1206,18 +1319,31 @@ button {
 }
 
 .footer-top {
+  /* Three columns kept together in the middle: the name, then the two link groups (SD-012). */
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 16px 24px;
+  gap: 20px 56px;
+}
+
+/* Footer links in two groups: for people who use it, and for developers (SD-012). */
+.footer-groups {
+  display: contents;
+}
+
+.footer-group h3 {
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
 }
 
 .footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 20px;
+  display: grid;
+  gap: 6px;
   list-style: none;
+  padding: 0;
 }
 
 .footer-links a:hover {
@@ -1227,9 +1353,10 @@ button {
 }
 
 .footer-legal {
+  /* One line as wide as the page allows; it wraps only at the page edge. */
+  text-align: center;
   font-size: 0.8rem;
   color: var(--text-muted);
-  max-width: 80ch;
 }
 
 /* Scroll reveal */
@@ -1266,7 +1393,6 @@ button {
 
   .hero-grid,
   .detail-split,
-  .scope-ledger,
   .install-grid,
   .strip {
     grid-template-columns: 1fr;
@@ -1325,57 +1451,291 @@ button {
   }
 
   .bento-cell,
-  .scope-column,
   .install-card,
   .detail-pane {
     padding: 22px;
   }
 
-  .mode-table thead {
-    display: none;
+}
+
+/* Two hero paragraphs (what it is, then the problem it solves) read as one block. */
+.hero-subtext:not(:last-of-type) {
+  margin-bottom: 12px;
+}
+
+.section-header p + p {
+  margin-top: 12px;
+}
+
+/* Car header as in the app since 2026-11-13: the app icon and "Drive Deck", then "LIKED" and the mode switch. */
+.car-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.car-app-icon {
+  flex: none;
+  width: max(14px, 3.6cqi);
+  height: max(14px, 3.6cqi);
+  border-radius: 4px;
+}
+
+.car-brand .car-mode {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.01em;
+}
+
+.car-chip-liked {
+  gap: 4px;
+}
+
+.car-chip-liked svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}
+
+@media (max-width: 640px) {
+  .car-chip {
+    padding: 4px 8px;
+    letter-spacing: 0.03em;
   }
 
-  .mode-table,
-  .mode-table tbody,
-  .mode-table tr,
-  .mode-table th,
-  .mode-table td {
-    display: block;
+  .car-head-actions {
+    gap: 4px;
+  }
+}
+
+/* The car screen is interactive: say so above it, and let Play/Pause pulse until the first tap. */
+.car-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: start;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: var(--badge-blue-bg);
+  color: var(--badge-blue-text);
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.car-hint svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .car.is-untouched .tile-primary::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    border: 2px solid var(--car-accent);
+    animation: tile-hint 1.8s ease-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes tile-hint {
+    0% { opacity: 0.9; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.18); }
+  }
+}
+
+@media (max-width: 640px) {
+  .car-hint {
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* The story starts close under the first screen, so its title shows without scrolling on a laptop. */
+#why {
+  padding-top: 44px;
+}
+
+/* The story reads like the hero subtext: the same size and spacing, in a wider column (SD-006). */
+#why .section-header {
+  max-width: 820px;
+  margin-bottom: 0;
+}
+
+#why .section-header p {
+  font-size: 1.14rem;
+  line-height: 1.55;
+}
+
+#why .section-header p + p {
+  margin-top: 14px;
+}
+
+/* One quiet line of facts under the hero buttons (it replaced the pill above the headline on 2026-11-13). */
+.hero-facts {
+  margin-top: 16px;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 520px) {
+  .car-caption {
+    --caption-lines: 3;
+  }
+}
+
+@media (max-width: 360px) {
+  .car-caption {
+    --caption-lines: 4;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Depth (SD-005): a "smoke" shadow. Six very faint shadows of growing size lie on top of
+   each other, so the shadow has no visible edge but the part still floats. Headings get the
+   same smoke as text-shadow. Buttons keep a key edge under them and press down.
+   ------------------------------------------------------------------ */
+:root {
+  --top-light: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --edge-accent: #3a7cbd;
+  --edge-neutral: #e1e6ec;
+  --smoke:
+    0 1px 1px rgba(40, 50, 65, 0.025),
+    0 2px 2px rgba(40, 50, 65, 0.025),
+    0 4px 4px rgba(40, 50, 65, 0.03),
+    0 8px 8px rgba(40, 50, 65, 0.035),
+    0 16px 16px rgba(40, 50, 65, 0.04),
+    0 32px 32px rgba(40, 50, 65, 0.045);
+  --smoke-lifted:
+    0 1px 1px rgba(40, 50, 65, 0.035),
+    0 2px 2px rgba(40, 50, 65, 0.035),
+    0 4px 4px rgba(40, 50, 65, 0.045),
+    0 8px 8px rgba(40, 50, 65, 0.05),
+    0 16px 16px rgba(40, 50, 65, 0.06),
+    0 32px 32px rgba(40, 50, 65, 0.07);
+  --smoke-accent:
+    0 1px 1px rgba(47, 120, 190, 0.06),
+    0 2px 2px rgba(47, 120, 190, 0.06),
+    0 4px 4px rgba(47, 120, 190, 0.06),
+    0 8px 8px rgba(47, 120, 190, 0.06),
+    0 16px 16px rgba(47, 120, 190, 0.06),
+    0 32px 32px rgba(47, 120, 190, 0.06);
+  --smoke-text:
+    0 1px 1px rgba(40, 50, 65, 0.05),
+    0 2px 2px rgba(40, 50, 65, 0.05),
+    0 4px 4px rgba(40, 50, 65, 0.05),
+    0 8px 8px rgba(40, 50, 65, 0.05),
+    0 16px 16px rgba(40, 50, 65, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --top-light: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    --edge-accent: #3a80c4;
+    --edge-neutral: #0c0f13;
+    --smoke:
+      0 1px 1px rgba(0, 0, 0, 0.08),
+      0 2px 2px rgba(0, 0, 0, 0.08),
+      0 4px 4px rgba(0, 0, 0, 0.09),
+      0 8px 8px rgba(0, 0, 0, 0.1),
+      0 16px 16px rgba(0, 0, 0, 0.11),
+      0 32px 32px rgba(0, 0, 0, 0.12);
+    --smoke-lifted:
+      0 1px 1px rgba(0, 0, 0, 0.1),
+      0 2px 2px rgba(0, 0, 0, 0.1),
+      0 4px 4px rgba(0, 0, 0, 0.12),
+      0 8px 8px rgba(0, 0, 0, 0.13),
+      0 16px 16px rgba(0, 0, 0, 0.15),
+      0 32px 32px rgba(0, 0, 0, 0.17);
+    --smoke-accent: var(--smoke);
+    --smoke-text:
+      0 1px 1px rgba(0, 0, 0, 0.2),
+      0 2px 2px rgba(0, 0, 0, 0.2),
+      0 4px 4px rgba(0, 0, 0, 0.2),
+      0 8px 8px rgba(0, 0, 0, 0.2),
+      0 16px 16px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.hero h1,
+.section-header h2 {
+  text-shadow: var(--smoke-text);
+}
+
+.btn {
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.btn-primary,
+.btn-primary:hover {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent) 80%, #ffffff) 0%,
+    var(--accent) 55%,
+    color-mix(in srgb, var(--accent) 86%, #000000) 100%
+  );
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 3px 0 var(--edge-accent), var(--smoke-accent);
+}
+
+.btn-secondary {
+  background: linear-gradient(180deg, var(--surface) 0%, var(--bg-subtle) 100%);
+  box-shadow: var(--top-light), 0 3px 0 var(--edge-neutral), var(--smoke);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary:active,
+.btn-secondary:active {
+  transform: translateY(3px);
+}
+
+.btn-primary:active {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 0 0 var(--edge-accent), 0 2px 4px rgba(47, 120, 190, 0.08);
+}
+
+.btn-secondary:active {
+  box-shadow: inset 0 2px 4px rgba(40, 50, 65, 0.08), 0 0 0 var(--edge-neutral), 0 2px 4px rgba(40, 50, 65, 0.04);
+}
+
+.nav-links .nav-gh {
+  background: linear-gradient(180deg, var(--surface) 0%, var(--bg-subtle) 100%);
+  box-shadow: var(--top-light), 0 2px 0 var(--edge-neutral), var(--smoke);
+}
+
+.feature-card,
+.bento-cell,
+.install-card,
+.have-list li,
+.mode-card,
+.car-hint,
+.tone-switch,
+.car-caption {
+  box-shadow: var(--top-light), var(--smoke);
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--top-light), var(--smoke-lifted);
+}
+
+/* Headline in two parts (SD-002): what it is, then, smaller and in the accent color, what it is good at. */
+.hero h1 .h1-second {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.74em;
+  letter-spacing: -0.025em;
+  color: var(--accent);
+}
+
+/* On a phone the two hero buttons are one width, one under the other (SD-003). */
+@media (max-width: 640px) {
+  .hero-ctas .btn {
     width: 100%;
-  }
-
-  .mode-table tbody tr {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .mode-table tbody tr:last-child {
-    border-bottom: 0;
-  }
-
-  .mode-table th,
-  .mode-table td {
-    padding: 0;
-    border: 0;
-  }
-
-  .mode-table tbody th {
-    margin-bottom: 8px;
-  }
-
-  .mode-table td {
-    font-size: 0.9rem;
-  }
-
-  .mode-table td + td {
-    margin-top: 8px;
-  }
-
-  .mode-table td::before {
-    content: attr(data-label);
-    display: block;
-    font-size: 0.74rem;
-    font-weight: 600;
-    color: var(--text-muted);
   }
 }
