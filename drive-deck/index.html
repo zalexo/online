@@ -80,26 +80,13 @@
     <!-- HERO -->
     <section class="hero">
       <div class="container hero-grid">
-        <div>
-          <h1><span class="h1-accent">An easy-to-use</span> <span class="h1-main">Android Auto music player</span></h1>
-          <p class="hero-subtext">
-            Drive Deck plays the music files on your phone, or works as a remote for YouTube Music.
-            It runs on your Android phone and shows up on the car's screen through Android Auto.
-          </p>
-          <p class="hero-subtext">
-            Large controls and a clear, simple screen: you hit what you mean without aiming,
-            and you never need to reach for the phone.
-          </p>
-          <div class="hero-ctas">
-            <a href="#install" class="btn btn-primary">
-              How to try it
-            </a>
-            <a href="https://github.com/zalexo/media-app" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
-              View on GitHub
-            </a>
-          </div>
-          <p class="hero-facts">Free and open source (MIT). No account, no analytics, no internet access.</p>
-        </div>
+        <!-- One order for every screen (SD-014): headline, the pain, the car screen, then the buttons.
+             On a wide screen the car screen stands in the right column. -->
+        <h1><span class="h1-accent">An easy-to-use</span> <span class="h1-main">Android Auto music player</span></h1>
+        <p class="hero-subtext hero-pain">
+          Large controls and a clear, simple screen: you hit what you mean without aiming,
+          and you never need to reach for the phone.
+        </p>
 
         <!-- CAR-SCREEN ILLUSTRATION -->
         <figure class="car-figure" aria-labelledby="car-note">
@@ -132,8 +119,8 @@
                 </button>
 
                 <button type="button" class="car-row car-source" id="car-source">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  <span>Favorites</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v3.74A4.5 4.5 0 0 0 11.5 3 4.5 4.5 0 0 0 9 11.24zm9.84 4.63l-4.54-2.26a1.4 1.4 0 0 0-.54-.11H13v-6a1.5 1.5 0 0 0-3 0v10.74l-3.43-.72c-.4-.06-.79.07-1.03.3l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27a1.5 1.5 0 0 0-.89-1.58z"/></svg>
+                  <span id="car-source-name">Blues</span>
                   <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
                 </button>
 
@@ -150,6 +137,18 @@
                   <button type="button" class="tile" data-tile="library" id="tile-library" aria-label="Folder">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h8.4l2 2.6H22V20H2z"/></svg>
                   </button>
+                </div>
+
+                <!-- The list screens Folder and LIKED open: drawn by JavaScript over the home screen. -->
+                <div class="car-list" id="car-list" hidden>
+                  <div class="car-list-head">
+                    <button type="button" class="car-back" id="car-list-back" aria-label="Back">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20z"/></svg>
+                    </button>
+                    <span class="car-list-title" id="car-list-title"></span>
+                    <div class="car-head-actions" id="car-list-actions"></div>
+                  </div>
+                  <div class="car-list-body" id="car-list-body"></div>
                 </div>
               </div>
               <div class="car-nav" aria-hidden="true">Navigation app</div>
@@ -172,6 +171,20 @@
             Illustration. Button size and fonts depend on your car.
           </figcaption>
         </figure>
+
+        <div class="hero-ctas">
+          <a href="#install" class="btn btn-primary">
+            How to try it
+          </a>
+          <a href="https://github.com/zalexo/media-app" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+            View on GitHub
+          </a>
+        </div>
+        <p class="hero-subtext hero-what">
+          Drive Deck plays the music files on your phone, or works as a remote for YouTube Music.
+          It runs on your Android phone and shows up on the car's screen through Android Auto.
+        </p>
+        <p class="hero-facts">Free and open source (MIT). No account, no analytics, no internet access.</p>
       </div>
     </section>
 
@@ -671,30 +684,42 @@
       const car = document.getElementById('car');
       if (!car) return;
 
+      // Invented names only (no real artists or songs). Blues and Road trip are starred on the phone.
+      const FOLDERS = {
+        'Blues': ['Slow Rain', 'Grey Morning', 'Late Bus Home', 'Two Lanes', 'Coast Road', 'Porch Light', 'Low Sun', 'Long Way Round', 'Dust and Chrome', 'Rail Yard', 'Blue Hour', 'Last Exit Home'],
+        'Late night': ['Neon Diner', 'Quiet Streets', 'Half Past Two', 'Streetlamp Waltz', 'Empty Road', 'Night Shift'],
+        'Sunday drive': ['Open Fields', 'Picnic Table', 'Windmill Lane', 'Golden Grass', 'Slow Bridge']
+      };
+      const PLAYLISTS = {
+        'Road trip': ['Open Window', 'North Exit', 'Long Straight', 'Station Coffee', 'Night Lights', 'Back Roads', 'Last Ferry', 'Highway Hum'],
+        'Morning commute': ['Coffee Steam', 'First Light', 'Green Wave', 'Lane Change', 'On Time'],
+        'Rainy day': ['Wipers', 'Grey Skies', 'Puddle Jump', 'Warm Inside']
+      };
+      // Starred on the phone; with two or more, the source row opens the short list (design, section 5).
+      const FAVORITES = { files: ['Blues', 'Late night'], ytm: ['Road trip', 'Rainy day'] };
+      const STARRED = {};
+      FAVORITES.files.concat(FAVORITES.ytm).forEach((name) => { STARRED[name] = true; });
       const MODES = {
-        files: {
-          other: 'YOUTUBE MUSIC',
-          otherName: 'YouTube Music',
-          source: 'Blues',
-          total: 23,
-          songs: ['Slow Rain', 'Grey Morning', 'Late Bus Home', 'Two Lanes', 'Coast Road', 'Porch Light', 'Low Sun', 'Long Way Round']
-        },
-        ytm: {
-          other: 'MY FILES',
-          otherName: 'My files',
-          source: 'Road trip',
-          total: 25,
-          songs: ['Open Window', 'North Exit', 'Long Straight', 'Station Coffee', 'Night Lights', 'Back Roads', 'Last Ferry', 'Highway Hum']
-        }
+        files: { other: 'YOUTUBE MUSIC', otherName: 'YouTube Music' },
+        ytm: { other: 'MY FILES', otherName: 'My files' }
       };
       const TONES = { amber: 'Amber', glacier: 'Glacier', moss: 'Moss' };
+      const ICONS = {
+        folder: '<path d="M2 4h8.4l2 2.6H22V20H2z"/>',
+        star: '<path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>',
+        playlist: '<path d="M3 6h12v2H3zm0 4h12v2H3zm0 4h8v2H3zm14-8v8.2A3 3 0 1 0 19 17V8h3V6z"/>'
+      };
 
       const state = {
         mode: 'files',
-        place: { files: 5, ytm: 3 },
         playing: true,
-        liked: { files: new Set(), ytm: new Set() }
+        // What plays in each mode: a folder or playlist, or the liked songs, and the place in it.
+        files: { from: 'Blues', liked: null, place: 5 },
+        ytm: { from: 'Road trip', liked: null, place: 3 },
+        // My files keeps the order of the likes; YouTube Music puts a new like on top.
+        liked: { files: [], ytm: [] }
       };
+      let screens = []; // the list screens open over the home screen, the top one last
 
       const el = {
         switchBtn: document.getElementById('car-switch'),
@@ -703,28 +728,40 @@
         title: document.getElementById('car-title'),
         sub: document.getElementById('car-sub'),
         source: document.getElementById('car-source'),
-        library: document.getElementById('tile-library'),
+        sourceName: document.getElementById('car-source-name'),
         play: car.querySelector('[data-tile="play"]'),
         caption: document.getElementById('car-caption'),
-        captionText: document.getElementById('car-caption-text')
+        captionText: document.getElementById('car-caption-text'),
+        list: document.getElementById('car-list'),
+        listBack: document.getElementById('car-list-back'),
+        listTitle: document.getElementById('car-list-title'),
+        listActions: document.getElementById('car-list-actions'),
+        listBody: document.getElementById('car-list-body')
       };
 
-      function song() {
-        const m = MODES[state.mode];
-        return m.songs[(state.place[state.mode] - 1) % m.songs.length];
+      function now() { return state[state.mode]; }
+
+      function queue() {
+        const s = now();
+        if (s.liked) return s.liked;
+        return state.mode === 'files' ? FOLDERS[s.from] : PLAYLISTS[s.from];
       }
+
+      function song() { return queue()[now().place - 1]; }
 
       function render() {
         const m = MODES[state.mode];
+        const s = now();
         const name = song();
-        const liked = state.liked[state.mode].has(name);
+        const liked = state.liked[state.mode].includes(name);
+        const from = s.liked ? 'Liked songs' : s.from;
         el.switchBtn.textContent = m.other;
         el.switchBtn.setAttribute('aria-label', 'Switch to ' + m.otherName);
         el.title.textContent = (liked ? '♥ ' : '') + name;
         // YouTube Music tells other apps no place in the playlist, so the car shows only its name there.
-        el.sub.textContent = state.mode === 'files'
-          ? m.source + ' - Track ' + state.place[state.mode] + ' of ' + m.total
-          : m.source;
+        el.sub.textContent = state.mode === 'files' ? from + ' - Track ' + s.place + ' of ' + queue().length : from;
+        // As sourceRowTitle in the app: the playing folder or playlist if it is a favorite, else "Favorites".
+        el.sourceName.textContent = !s.liked && STARRED[s.from] ? s.from : 'Favorites';
         el.play.classList.toggle('is-pressed', state.playing);
         el.play.setAttribute('aria-pressed', String(state.playing));
       }
@@ -743,9 +780,161 @@
       }
 
       function step(delta) {
-        const total = MODES[state.mode].total;
-        state.place[state.mode] = ((state.place[state.mode] - 1 + delta + total) % total) + 1;
+        const s = now();
+        const total = queue().length;
+        s.place = ((s.place - 1 + delta + total) % total) + 1;
       }
+
+      function playFrom(from, liked, place) {
+        const s = now();
+        s.from = from;
+        s.liked = liked;
+        s.place = place;
+        state.playing = true;
+        closeScreens();
+        render();
+      }
+
+      // ---- List screens: as in the app, a header with Back, the title and buttons, then rows ----
+
+      function chip(label, onClick) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'car-chip';
+        b.textContent = label;
+        b.addEventListener('click', onClick);
+        return b;
+      }
+
+      function row(title, onClick, icon, browsable, detail) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'car-list-row';
+        if (icon) b.insertAdjacentHTML('beforeend', '<svg class="icon-' + icon + '" viewBox="0 0 24 24" aria-hidden="true">' + ICONS[icon] + '</svg>');
+        const t = document.createElement('span');
+        t.className = 'car-list-row-text';
+        t.textContent = title;
+        if (detail) {
+          const d = document.createElement('small');
+          d.textContent = detail;
+          t.appendChild(d);
+        }
+        b.appendChild(t);
+        if (browsable) b.insertAdjacentHTML('beforeend', '<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>');
+        b.addEventListener('click', onClick);
+        return b;
+      }
+
+      function message(text) {
+        const p = document.createElement('p');
+        p.className = 'car-list-message';
+        p.textContent = text;
+        return p;
+      }
+
+      function open(screen) { screens.push(screen); show(); }
+      function back() { screens.pop(); show(); }
+      function closeScreens() { screens = []; show(); }
+
+      function show() {
+        const top = screens[screens.length - 1];
+        el.list.hidden = !top;
+        if (!top) return;
+        el.listActions.replaceChildren();
+        el.listBody.replaceChildren();
+        el.listBody.scrollTop = 0;
+        const cancel = chip('Cancel', () => { closeScreens(); say('Cancel goes back to the main screen. The music plays on.'); });
+        const liked = state.liked[state.mode];
+        const ytm = state.mode === 'ytm';
+
+        if (top === 'favorites') {
+          el.listTitle.textContent = 'Favorites';
+          el.listActions.append(cancel);
+          // A favorite folder shows where it is (the path from the root without its own name); a playlist does not.
+          FAVORITES[state.mode].forEach((name) => el.listBody.append(row(name, () => {
+            if (ytm) {
+              const same = !now().liked && now().from === name;
+              playFrom(name, null, same ? now().place : 1);
+              say(same ? 'YouTube Music goes on with ' + name + ' where it stopped.' : 'YouTube Music plays ' + name + ' from the top.');
+            } else {
+              playFrom(name, null, 1);
+              say('Playing the ' + name + ' folder from its first song.');
+            }
+          }, 'star', false, ytm ? null : 'Music')));
+          el.listBody.append(row(ytm ? 'All playlists…' : 'All folders…', () => {
+            if (ytm) {
+              open('playlists');
+              say('All your YouTube Music playlists. A tap starts one.');
+            } else {
+              screens.push('folders', 'folder:' + now().from);
+              show();
+              say('The folder you play from. Back shows all folders.');
+            }
+          }, ytm ? 'playlist' : 'folder', true));
+        } else if (top === 'folders') {
+          el.listTitle.textContent = 'Music';
+          el.listActions.append(cancel);
+          Object.keys(FOLDERS).forEach((name) => el.listBody.append(row(name, () => {
+            open('folder:' + name);
+            say('The ' + name + ' folder. A tap on a song plays the folder from it.');
+          }, STARRED[name] ? 'star' : 'folder', true)));
+        } else if (top.startsWith('folder:')) {
+          const name = top.slice(7);
+          el.listTitle.textContent = name;
+          el.listActions.append(cancel);
+          FOLDERS[name].forEach((title, i) => el.listBody.append(row(title, () => {
+            playFrom(name, null, i + 1);
+            say('Playing ' + title + ' from the ' + name + ' folder.');
+          })));
+        } else if (top === 'playlists') {
+          el.listTitle.textContent = 'Playlists';
+          el.listActions.append(chip('Add on phone', () => say('On the phone: open a playlist, tap Share and pick Drive Deck. This works only while parked.')), cancel);
+          Object.keys(PLAYLISTS).forEach((name) => el.listBody.append(row(name, () => {
+            const same = !now().liked && now().from === name;
+            playFrom(name, null, same ? now().place : 1);
+            say(same ? 'YouTube Music goes on with ' + name + ' where it stopped.' : 'YouTube Music plays ' + name + ' from the top.');
+          }, STARRED[name] ? 'star' : 'playlist')));
+        } else if (top === 'liked') {
+          el.listTitle.textContent = 'Liked songs';
+          if (liked.length) el.listActions.append(chip('Clear', () => { open('clear'); say('Clear asks first, so a missed tap cannot lose the list.'); }));
+          el.listActions.append(cancel);
+          if (!liked.length) el.listBody.append(message('Tap a song’s name on the main screen to add it here'));
+          liked.forEach((title, i) => el.listBody.append(row(title, () => {
+            playFrom(now().from, liked.slice(), i + 1);
+            say(ytm ? 'YouTube Music plays your liked songs, starting with ' + title + '.' : 'Playing your liked songs, starting with ' + title + '.');
+          })));
+        } else if (top === 'clear') {
+          // In the app this is a separate question screen with Back only in its header.
+          el.listTitle.textContent = '';
+          const n = liked.length;
+          const q = ytm
+            ? 'Clear ' + n + (n === 1 ? ' song from this list? The like stays' : ' songs from this list? The likes stay') + ' in YouTube Music.'
+            : 'Clear ' + n + (n === 1 ? ' song?' : ' songs?');
+          const box = document.createElement('div');
+          box.className = 'car-list-question';
+          const buttons = document.createElement('div');
+          buttons.append(
+            chip('Clear', () => {
+              liked.length = 0;
+              closeScreens();
+              render();
+              say(ytm ? 'The list is empty. The likes stay in YouTube Music.' : 'The list of liked songs is empty.');
+            }),
+            chip('Keep', () => { back(); say('Kept. The liked songs are still there.'); })
+          );
+          box.append(message(q), buttons);
+          el.listBody.append(box);
+        }
+      }
+
+      el.listBack.addEventListener('click', () => {
+        back();
+        if (!screens.length) say('Back to the main screen.');
+        else if (screens[screens.length - 1] === 'folders') say('All folders in your music folder. Starred ones have a star.');
+        else say('Back to the list.');
+      });
+
+      // ---- Home screen ----
 
       car.querySelectorAll('.tile').forEach((tile) => {
         tile.addEventListener('click', () => {
@@ -763,9 +952,15 @@
             say(state.playing ? 'Playing. The Play/Pause tile stays pressed in while music plays.' : 'Paused.');
           } else if (id === 'library') {
             tap(tile);
-            say(state.mode === 'files'
-              ? 'Folder opens the folders and tracks of your music folder.'
-              : 'In this mode, Folder opens the YouTube Music playlists you added on the phone.');
+            if (state.mode === 'files') {
+              // As in the app: all folders, and on top of them the folder last played from.
+              screens = ['folders', 'folder:' + now().from];
+              show();
+              say('Folder opens the folder you play from. Back shows all folders.');
+            } else {
+              open('playlists');
+              say('Your YouTube Music playlists. A tap starts one.');
+            }
           }
           render();
         });
@@ -775,21 +970,23 @@
         const name = song();
         const list = state.liked[state.mode];
         const ytm = state.mode === 'ytm';
-        if (list.has(name)) {
-          list.delete(name);
+        const at = list.indexOf(name);
+        if (at >= 0) {
+          list.splice(at, 1);
           say(ytm ? name + ' is off the trip’s list. The car takes back the like in YouTube Music only if the car put it.' : 'Like taken back from ' + name + '.');
         } else {
-          list.add(name);
+          if (ytm) list.unshift(name); else list.push(name);
           say(ytm ? name + ' is liked in YouTube Music and on the trip’s list.' : name + ' is liked. Tap the name again to take the like back.');
         }
         render();
       });
 
       el.likedBtn.addEventListener('click', () => {
-        const n = state.liked[state.mode].size;
+        open('liked');
+        const n = state.liked[state.mode].length;
         say(n === 0
-          ? 'Liked songs: none yet. Tap the song name to like it.'
-          : 'Liked songs: ' + n + ' so far. A tap on one plays the list from that song.');
+          ? 'Liked songs: none yet. Tap the song name on the main screen to like it.'
+          : 'Your liked songs. A tap on one plays the list from that song.');
       });
 
       el.switchBtn.addEventListener('click', () => {
@@ -801,7 +998,8 @@
       });
 
       el.source.addEventListener('click', () => {
-        say('Favorites: with one starred on the phone, a tap starts it; with several, the car shows a short list.');
+        open('favorites');
+        say('Your favorites, starred on the phone. With only one, this row starts it at once.');
       });
 
       // The hint pulse on Play/Pause stops after the first tap anywhere on the screen.

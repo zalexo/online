@@ -243,12 +243,46 @@ button {
     radial-gradient(circle at 10% 88%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 40%);
 }
 
+/* One order for every screen (SD-014): headline, pain, car screen, buttons, what it is, facts.
+   Narrow screens read it top to bottom; a wide one puts the car screen in the right column and
+   centers the text beside it. */
 .hero-grid {
   display: grid;
-  /* The car screen is wide and low, as in the car, so it gets the wider column. */
-  grid-template-columns: 1fr 1.35fr;
-  gap: 48px;
-  align-items: center;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+.hero-grid > .car-figure {
+  margin: 8px 0 32px;
+}
+
+@media (min-width: 981px) {
+  .hero-grid {
+    /* The car screen is wide and low, as in the car, so it gets the wider column. */
+    grid-template-columns: 1fr 1.35fr;
+    grid-template-rows: 1fr repeat(5, auto) 1fr;
+    grid-template-areas:
+      ".     figure"
+      "title figure"
+      "pain  figure"
+      "ctas  figure"
+      "what  figure"
+      "facts figure"
+      ".     figure";
+    column-gap: 48px;
+  }
+
+  .hero-grid > h1 { grid-area: title; }
+  .hero-grid > .hero-pain { grid-area: pain; }
+  .hero-grid > .hero-ctas { grid-area: ctas; }
+  .hero-grid > .hero-what { grid-area: what; }
+  .hero-grid > .hero-facts { grid-area: facts; }
+
+  .hero-grid > .car-figure {
+    grid-area: figure;
+    align-self: center;
+    margin: 0;
+  }
 }
 
 .eyebrow-badge {
@@ -344,6 +378,7 @@ button {
   --car-text: #f8f4ef;
   --car-accent: #d2824a;
   --car-on-accent: #1a120b;
+  --car-yellow: #fdd835;
   background: linear-gradient(180deg, #1d2025, #0c0d10);
   border-radius: 22px;
   padding: 12px;
@@ -490,7 +525,8 @@ button {
   width: 16px;
   height: 16px;
   flex: none;
-  fill: var(--car-accent);
+  /* The finger and the star are yellow in the app (CarIcons), in every tone. */
+  fill: var(--car-yellow);
 }
 
 .car-source .chev {
@@ -566,6 +602,181 @@ button {
     inset 0 14px 14px -8px rgba(0, 0, 0, 0.55);
 }
 
+/* The list screens Folder and LIKED open (ADR-014, ADR-015 in the app): over the home screen, same window. */
+.car-app {
+  position: relative;
+}
+
+.car-list {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4cqi;
+  padding: 2.4% 2.6% 2%;
+  border-radius: 8px;
+  background: var(--car-bg);
+  color: var(--car-text);
+}
+
+.car-list[hidden] {
+  display: none;
+}
+
+.car-list-head {
+  display: flex;
+  align-items: center;
+  gap: 2cqi;
+}
+
+.car-back {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: max(24px, 6.6cqi);
+  height: max(24px, 6.6cqi);
+  border: 0;
+  border-radius: 50%;
+  background: var(--car-surface);
+  color: var(--car-text);
+  cursor: pointer;
+}
+
+.car-back svg {
+  width: 58%;
+  height: 58%;
+  fill: currentColor;
+}
+
+.car-list-title {
+  flex: 1;
+  min-width: 0;
+  font-size: max(11px, 3.4cqi);
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.car-list-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  /* Rows stand in from the panel's edges, as on the home screen. */
+  margin-inline: calc(9cqi - 6px);
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--car-text) 30%, transparent) transparent;
+}
+
+.car-list-row {
+  display: flex;
+  align-items: center;
+  gap: 2.4cqi;
+  width: 100%;
+  min-height: max(30px, 10.4cqi);
+  padding: 0 1.6cqi;
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--car-text) 12%, transparent);
+  background: transparent;
+  color: var(--car-text);
+  font: inherit;
+  font-size: max(10.5px, 3.1cqi);
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.car-list-row:first-child {
+  border-top: 0;
+}
+
+.car-list-row:hover {
+  background: color-mix(in srgb, var(--car-surface) 70%, transparent);
+}
+
+.car-list-row-text {
+  display: grid;
+  min-width: 0;
+}
+
+.car-list-row-text,
+.car-list-row-text small {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.car-list-row-text small {
+  font-size: max(9.5px, 2.7cqi);
+  font-weight: 400;
+  opacity: 0.74;
+}
+
+/* Folder and playlist icons take the host's own tint; the star is yellow, as in the app (CarIcons). */
+.car-list-row svg {
+  flex: none;
+  width: max(14px, 3.8cqi);
+  height: max(14px, 3.8cqi);
+  fill: color-mix(in srgb, var(--car-text) 82%, transparent);
+}
+
+.car-list-row svg.icon-star {
+  fill: var(--car-yellow);
+}
+
+.car-list-row .chev {
+  margin-left: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  opacity: 0.6;
+}
+
+.car-list-message {
+  margin: auto;
+  padding: 3cqi;
+  font-size: max(10.5px, 3.1cqi);
+  line-height: 1.4;
+  text-align: center;
+  opacity: 0.82;
+}
+
+.car-list-question {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.car-list-question .car-list-message {
+  margin: 0;
+  font-size: max(11px, 3.4cqi);
+  font-weight: 600;
+  opacity: 1;
+}
+
+.car-list-question div {
+  display: flex;
+  gap: 3cqi;
+}
+
+.car-list-question .car-chip {
+  min-width: 18cqi;
+  min-height: max(26px, 7.4cqi);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .car-list:not([hidden]) {
+    animation: car-list-in 0.18s ease-out;
+  }
+
+  @keyframes car-list-in {
+    from { opacity: 0; transform: translateY(2%); }
+  }
+}
+
 .car-nav {
   position: relative;
   display: flex;
@@ -585,7 +796,8 @@ button {
 .car-controls {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* The tone switch stands in the middle under the car screen on every screen (SD-014). */
+  justify-content: center;
   flex-wrap: wrap;
   gap: 10px 16px;
 }
@@ -694,6 +906,7 @@ button {
 .car-note {
   font-size: 0.8rem;
   color: var(--text-muted);
+  text-align: center;
 }
 
 /* Sections */
@@ -1386,13 +1599,18 @@ button {
 }
 
 @media (max-width: 640px) {
+  /* A phone shows the page without the top bar: the headline is the first thing (SD-014). */
+  .site-header {
+    display: none;
+  }
+
+  html {
+    scroll-padding-top: 16px;
+  }
+
   .hero {
     min-height: auto;
     padding: 32px 0 48px;
-  }
-
-  .hero-grid {
-    gap: 36px;
   }
 
   .car {
@@ -1431,9 +1649,9 @@ button {
 
 }
 
-/* Two hero paragraphs (what it is, then the problem it solves) read as one block. */
-.hero-subtext:not(:last-of-type) {
-  margin-bottom: 12px;
+/* What it is: under the buttons, after the visitor has seen the car screen (SD-014). */
+.hero-subtext.hero-what {
+  margin: 24px 0 0;
 }
 
 .section-header p + p {
