@@ -707,7 +707,8 @@ button {
 }
 
 .section-header {
-  max-width: 64ch;
+  /* Section intros run across the full page width (Alexei, 2026-11-13: narrow ones looked cramped). */
+  max-width: none;
   margin-bottom: 44px;
 }
 
@@ -721,7 +722,8 @@ button {
 
 .section-header p {
   color: var(--text-secondary);
-  font-size: 1.04rem;
+  font-size: 1.14rem;
+  line-height: 1.55;
 }
 
 /* How it works: four cards, then the deep dive */
@@ -825,17 +827,6 @@ button {
 }
 
 /* Two modes: two cards side by side (SD-008) */
-#modes .section-header,
-#privacy .section-header {
-  max-width: 820px;
-}
-
-#modes .section-header p,
-#privacy .section-header p {
-  font-size: 1.14rem;
-  line-height: 1.55;
-}
-
 .mode-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1079,15 +1070,6 @@ button {
 }
 
 /* What you get: a plain list of everything the app has (SD-010) */
-#scope .section-header {
-  max-width: 820px;
-}
-
-#scope .section-header p {
-  font-size: 1.14rem;
-  line-height: 1.55;
-}
-
 .have-list {
   list-style: none;
   margin: 0;
@@ -1151,15 +1133,6 @@ button {
 }
 
 /* Try it: driver ways first, then the developer way (SD-011) */
-#install .section-header {
-  max-width: 820px;
-}
-
-#install .section-header p {
-  font-size: 1.14rem;
-  line-height: 1.55;
-}
-
 .install-group {
   margin: 8px 0 14px;
   font-size: 1.15rem;
@@ -1559,9 +1532,9 @@ button {
   padding-top: 44px;
 }
 
-/* The story reads like the hero subtext: the same size and spacing, in a wider column (SD-006). */
+/* The story reads like the hero subtext: the same size and spacing, across the full page width (SD-006). */
 #why .section-header {
-  max-width: 820px;
+  max-width: none;
   margin-bottom: 0;
 }
 
