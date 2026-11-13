@@ -182,16 +182,51 @@ button {
   white-space: nowrap;
 }
 
+/* The app's steering wheel without its blue square, standing on the page in soft smoke (SD-015). */
 .brand-mark {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--sky), #2f78be);
-  color: #1c1f24;
-  box-shadow: var(--shadow-subtle);
+  width: 34px;
+  height: 34px;
+}
+
+.brand-mark svg {
+  width: 100%;
+  height: 100%;
+  filter:
+    drop-shadow(0 1px 1px rgba(40, 50, 65, 0.16))
+    drop-shadow(0 2px 2px rgba(40, 50, 65, 0.1))
+    drop-shadow(0 4px 4px rgba(40, 50, 65, 0.08))
+    drop-shadow(0 8px 8px rgba(40, 50, 65, 0.06));
+}
+
+/* The name: raised a little, with a light top edge and the same soft smoke under it. */
+.brand-name {
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  text-shadow:
+    0 -1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 1px rgba(40, 50, 65, 0.18),
+    0 2px 2px rgba(40, 50, 65, 0.1),
+    0 4px 4px rgba(40, 50, 65, 0.08),
+    0 8px 8px rgba(40, 50, 65, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  .brand-mark svg {
+    filter:
+      drop-shadow(0 0 1px rgba(255, 255, 255, 0.28))
+      drop-shadow(0 2px 2px rgba(0, 0, 0, 0.4))
+      drop-shadow(0 6px 8px rgba(0, 0, 0, 0.35));
+  }
+
+  .brand-name {
+    text-shadow:
+      0 1px 1px rgba(0, 0, 0, 0.45),
+      0 2px 2px rgba(0, 0, 0, 0.3),
+      0 4px 4px rgba(0, 0, 0, 0.25),
+      0 8px 8px rgba(0, 0, 0, 0.2);
+  }
 }
 
 .nav-links {
@@ -325,14 +360,17 @@ button {
   align-items: center;
 }
 
+/* Buttons share the look of the header's "View on GitHub" (SD-003): an icon, a light top edge,
+   a 2 px key edge and soft smoke; a little larger than it, so a finger hits them on a phone. */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 12px 22px;
+  gap: 7px;
+  min-height: 44px;
+  padding: 9px 18px;
   border-radius: var(--radius-sm);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
   white-space: nowrap;
   transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.12s ease;
@@ -343,10 +381,14 @@ button {
   transform: scale(0.98);
 }
 
+.btn svg {
+  flex: none;
+}
+
 .btn-primary {
   background: var(--accent);
   color: var(--accent-fg);
-  border: 1px solid var(--accent);
+  border: 1px solid var(--edge-accent);
   box-shadow: 0 8px 22px color-mix(in srgb, var(--accent) 26%, transparent);
 }
 
@@ -1588,6 +1630,12 @@ button {
     max-width: 16ch;
   }
 
+  /* In one column the hero text runs the full width, as the section intros do (Alexei, 2026-11-13:
+     on a tablet the 40ch column left the right half empty). */
+  .hero-subtext {
+    max-width: none;
+  }
+
   .feature-track {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1860,34 +1908,39 @@ button {
   transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.12s ease, box-shadow 0.12s ease;
 }
 
+/* The blue key is as soft as the light one: an almost flat gradient, a border in its own tone and a
+   key edge only a little darker (Alexei, 2026-11-13: the stronger one looked rough). */
 .btn-primary,
 .btn-primary:hover {
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--accent) 80%, #ffffff) 0%,
-    var(--accent) 55%,
-    color-mix(in srgb, var(--accent) 86%, #000000) 100%
+    color-mix(in srgb, var(--accent) 90%, #ffffff) 0%,
+    var(--accent) 100%
   );
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 3px 0 var(--edge-accent), var(--smoke-accent);
+  border-color: color-mix(in srgb, var(--accent) 92%, #000000);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 2px 0 color-mix(in srgb, var(--accent) 84%, #000000),
+    var(--smoke-accent);
+}
+
+/* As the header button: on hover the blue one gets a little lighter, the light one takes the accent. */
+.btn-primary:hover {
+  filter: brightness(1.06);
 }
 
 .btn-secondary {
   background: linear-gradient(180deg, var(--surface) 0%, var(--bg-subtle) 100%);
-  box-shadow: var(--top-light), 0 3px 0 var(--edge-neutral), var(--smoke);
-}
-
-.btn-primary:hover,
-.btn-secondary:hover {
-  transform: translateY(-1px);
+  box-shadow: var(--top-light), 0 2px 0 var(--edge-neutral), var(--smoke);
 }
 
 .btn-primary:active,
 .btn-secondary:active {
-  transform: translateY(3px);
+  transform: translateY(2px);
 }
 
 .btn-primary:active {
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 0 0 var(--edge-accent), 0 2px 4px rgba(47, 120, 190, 0.08);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 0 transparent, 0 2px 4px rgba(47, 120, 190, 0.08);
 }
 
 .btn-secondary:active {
