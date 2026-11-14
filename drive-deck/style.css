@@ -1194,7 +1194,7 @@ button {
   font-size: 0.95rem;
 }
 
-/* Privacy: the permissions in plain words, exact names small under each line (SD-009). */
+/* Privacy: what the app does and never does, in plain words; exact names live in the Privacy Policy (SD-017). */
 .perm-groups h4 {
   margin: 4px 0 8px;
   font-size: 0.86rem;
@@ -1242,13 +1242,9 @@ button {
   color: var(--badge-red-text);
 }
 
-.perm-list code {
-  display: block;
-  margin-top: 2px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  overflow-wrap: anywhere;
+.bento-cell .perm-more {
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .diagram {
